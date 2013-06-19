@@ -1,33 +1,30 @@
-package dominioProblema;
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Murilo
- */
 public class Slot {
-    
-    private Carta carta;
-    private boolean slotSelecionado;
 
-    public Carta getCarta() {
-        return carta;
-    }
+	protected Carta carta;
+	protected boolean slotSelecionado;
 
-    public void setCarta(Carta carta) {
-        this.carta = carta;
-    }
+	public Carta getCarta() {
+		return this.carta;
+	}
 
-    public boolean isSlotSelecionado() {
-        return slotSelecionado;
-    }
+	/**
+	 * 
+	 * @param carta
+	 */
+	public void setCarta(Carta carta) {
+		this.carta = carta;
+	}
 
-    public void setSlotSelecionado(boolean slotSelecionado) {
-        this.slotSelecionado = slotSelecionado;
-    }
-    
+	public boolean isSlotSelecionado() {
+		return this.slotSelecionado;
+	}
+
+	/**
+	 * 
+	 * @param slot
+	 */
+	public void setSlotSelecionado(Slot slot) {
+		throw new UnsupportedOperationException();
+	}
+
 }

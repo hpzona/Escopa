@@ -1,99 +1,113 @@
-package dominioProblema;
-
-import java.util.ArrayList;
-import java.util.List;
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Murilo
- */
 public class Mesa {
-    
-    private List<Slot> slots;
-    private List<Carta> baralho;
-    private List<Carta> mortoLocal;
-    private List<Carta> mortoRemoto;
-    private Jogador jogadorLocal;
-    private Jogador jogadorRemoto;
-    private boolean partidaEmAndamento;
-    private int quantidadeCartasBaralho;
 
-    public Mesa() {
-        slots = new ArrayList<Slot>(18);
-    }
-    
-    
+	protected Slot slotCartaMesa;
+	protected Carta baralho;
+	protected Carta mortoLocal;
+	protected Carta mortoRemoto;
+	protected Jogador jogadorLocal;
+	protected Jogador jogadorRemoto;
+	protected boolean isPartidaEmAndamento;
+	protected int quantidadeCartasBaralho;
 
-    public List<Slot> getSlots() {
-        return slots;
-    }
+	public Mesa() {
+		throw new UnsupportedOperationException();
+	}
 
-    public void setSlots(List<Slot> slots) {
-        this.slots = slots;
-    }
+	public void limparMesa() {
+		throw new UnsupportedOperationException();
+	}
 
-    public List<Carta> getBaralho() {
-        return baralho;
-    }
+	/**
+	 * 
+	 * @param nome
+	 * @param tipo
+	 */
+	public void criarJogador(string nome, int tipo) {
+		throw new UnsupportedOperationException();
+	}
 
-    public void setBaralho(List<Carta> baralho) {
-        this.baralho = baralho;
-    }
+	/**
+	 * 
+	 * @param primeiro
+	 */
+	public void definirOPrimeiro(int primeiro) {
+		throw new UnsupportedOperationException();
+	}
 
-    public List<Carta> getMortoLocal() {
-        return mortoLocal;
-    }
+	public void distribuirCartasMesa() {
+		throw new UnsupportedOperationException();
+	}
 
-    public void setMortoLocal(List<Carta> mortoLocal) {
-        this.mortoLocal = mortoLocal;
-    }
+	public void distribuirCartasJogador() {
+		throw new UnsupportedOperationException();
+	}
 
-    public List<Carta> getMortoRemoto() {
-        return mortoRemoto;
-    }
+	public void avaliarFimDoBaralho() {
+		throw new UnsupportedOperationException();
+	}
 
-    public void setMortoRemoto(List<Carta> mortoRemoto) {
-        this.mortoRemoto = mortoRemoto;
-    }
+	public void avaliarFimCartasMao() {
+		throw new UnsupportedOperationException();
+	}
 
-    public Jogador getJogadorLocal() {
-        return jogadorLocal;
-    }
+	public void avaliarVencedor() {
+		throw new UnsupportedOperationException();
+	}
 
-    public void setJogadorLocal(Jogador jogadorLocal) {
-        this.jogadorLocal = jogadorLocal;
-    }
+	public int getQuantidadeCartasBaralho() {
+		return this.quantidadeCartasBaralho;
+	}
 
-    public Jogador getJogadorRemoto() {
-        return jogadorRemoto;
-    }
+	/**
+	 * 
+	 * @param quantidade
+	 */
+	public void setQuantidadeCartasBaralho(int quantidade) {
+		this.quantidadeCartasBaralho = quantidade;
+	}
 
-    public void setJogadorRemoto(Jogador jogadorRemoto) {
-        this.jogadorRemoto = jogadorRemoto;
-    }
+	public Jogador getJogadorLocal() {
+		return this.jogadorLocal;
+	}
 
-    public boolean isPartidaEmAndamento() {
-        return partidaEmAndamento;
-    }
+	public Jogador getJogadorRemoto() {
+		return this.jogadorRemoto;
+	}
 
-    public void setPartidaEmAndamento(boolean partidaEmAndamento) {
-        this.partidaEmAndamento = partidaEmAndamento;
-    }
+	public void terminarPartidaEmAndamento() {
+		throw new UnsupportedOperationException();
+	}
 
-    public int getQuantidadeCartasBaralho() {
-        return quantidadeCartasBaralho;
-    }
+	/**
+	 * 
+	 * @param carta
+	 */
+	public void setCartaMortoLocal(Carta carta) {
+		throw new UnsupportedOperationException();
+	}
 
-    public void setQuantidadeCartasBaralho(int quantidadeCartasBaralho) {
-        this.quantidadeCartasBaralho = quantidadeCartasBaralho;
-    }
-    
-    
-    
-    
+	/**
+	 * 
+	 * @param carta
+	 */
+	public void setCartaMortoRemoto(Carta carta) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void exibirNovoEstado() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void receberJogada() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void fazerJogada() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void inserirJogada() {
+		throw new UnsupportedOperationException();
+	}
+
 }

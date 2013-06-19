@@ -1,81 +1,66 @@
-package dominioProblema;
-
-import java.util.ArrayList;
-import java.util.List;
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Murilo
- */
 public class Jogador {
-    
-    private List<Carta> mao;
-    private List<Slot> slotCartaJogador;
-    private int tipo;
-    private int pontuacao;
-    private boolean vezDeJogar;
-    private int quantidadeCartasMao;
-    private boolean vencedor;
 
-    public List<Carta> getMao() {
-        return mao;
-    }
+	protected Carta mao;
+	protected Slot slotCartaJogador;
+	/**
+	 * Identifica se é jogador local ou remoto
+	 */
+	protected int tipo;
+	protected int pontuacao;
+	protected boolean vezDeJogar;
+	protected int quantidadeCartasMao;
+	protected boolean vencedor;
 
-    public void setMao(List<Carta> mao) {
-        this.mao = mao;
-    }
+	public int informarTipo() {
+		throw new UnsupportedOperationException();
+	}
 
-    public List<Slot> getSlotCartaJogador() {
-        return slotCartaJogador;
-    }
+	public int getPontuacao() {
+		return this.pontuacao;
+	}
 
-    public void setSlotCartaJogador(List<Slot> slotCartaJogador) {
-        this.slotCartaJogador = slotCartaJogador;
-    }
+	public void setPontuacao() {
+		throw new UnsupportedOperationException();
+	}
 
-    public int getTipo() {
-        return tipo;
-    }
+	public boolean isVezDeJogar() {
+		return this.vezDeJogar;
+	}
 
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
-    }
+	/**
+	 * 
+	 * @param valor
+	 */
+	public void setVezDeJogar(boolean valor) {
+		this.vezDeJogar = valor;
+	}
 
-    public int getPontuacao() {
-        return pontuacao;
-    }
+	public int getQuantidadeCartasMao() {
+		return this.quantidadeCartasMao;
+	}
 
-    public void setPontuacao(int pontuacao) {
-        this.pontuacao = pontuacao;
-    }
+	/**
+	 * 
+	 * @param quantidade
+	 */
+	public void setQuantidadeCartasMao(int quantidade) {
+		this.quantidadeCartasMao = quantidade;
+	}
 
-    public boolean isVezDeJogar() {
-        return vezDeJogar;
-    }
+	public void setVencedor() {
+		throw new UnsupportedOperationException();
+	}
 
-    public void setVezDeJogar(boolean vezDeJogar) {
-        this.vezDeJogar = vezDeJogar;
-    }
+	/**
+	 * 
+	 * @param carta
+	 */
+	public void setCarta(Carta carta) {
+		throw new UnsupportedOperationException();
+	}
 
-    public int getQuantidadeCartasMao() {
-        return quantidadeCartasMao;
-    }
+	public void receberAguarde() {
+		throw new UnsupportedOperationException();
+	}
 
-    public void setQuantidadeCartasMao(int quantidadeCartasMao) {
-        this.quantidadeCartasMao = quantidadeCartasMao;
-    }
-
-    public boolean isVencedor() {
-        return vencedor;
-    }
-
-    public void setVencedor(boolean vencedor) {
-        this.vencedor = vencedor;
-    }
-    
 }

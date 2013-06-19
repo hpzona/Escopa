@@ -1,53 +1,55 @@
-package dominioProblema;
 
 import javax.swing.ImageIcon;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Murilo
- */
 public class Carta {
-    
-    private int numero;
-    private String naipe;
-    private ImageIcon imagem;
-    private int valor;
 
-    public int getNumero() {
-        return numero;
-    }
+	protected int numero;
+	protected string naipe;
+	protected ImageIcon imagem;
+	protected int valor;
 
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
+	public Carta() {
+		throw new UnsupportedOperationException();
+	}
 
-    public String getNaipe() {
-        return naipe;
-    }
+	/**
+	 * 
+	 * @param numero
+	 */
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
 
-    public void setNaipe(String naipe) {
-        this.naipe = naipe;
-    }
+	/**
+	 * 
+	 * @param naipe
+	 */
+	public void setNaipe(string naipe) {
+		this.naipe = naipe;
+	}
 
-    public ImageIcon getImagem() {
-        return imagem;
-    }
+	public void setImagem() {
+		throw new UnsupportedOperationException();
+	}
 
-    public void setImagem(ImageIcon imagem) {
-        this.imagem = imagem;
-    }
+	/**
+	 * 
+	 * @param valor
+	 */
+	public void setValor(int valor) {
+		this.valor = valor;
+	}
 
-    public int getValor() {
-        return valor;
-    }
+	public int getNumero() {
+		return this.numero;
+	}
 
-    public void setValor(int valor) {
-        this.valor = valor;
-    }
-    
+	public string getNaipe() {
+		return this.naipe;
+	}
+
+	public int getValor() {
+		return this.valor;
+	}
+
 }
