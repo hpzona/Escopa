@@ -1,9 +1,11 @@
+package dominioProblema;
+
 public class Jogador {
 
 	protected Carta mao;
 	protected Slot slotCartaJogador;
 	/**
-	 * Identifica se é jogador local ou remoto
+	 * Identifica se ï¿½ jogador local ou remoto
 	 */
 	protected int tipo;
 	protected int pontuacao;

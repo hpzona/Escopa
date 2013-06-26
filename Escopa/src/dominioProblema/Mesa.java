@@ -1,3 +1,5 @@
+package dominioProblema;
+
 public class Mesa {
 
 	protected Slot slotCartaMesa;
@@ -22,7 +24,7 @@ public class Mesa {
 	 * @param nome
 	 * @param tipo
 	 */
-	public void criarJogador(string nome, int tipo) {
+	public void criarJogador(String nome, int tipo) {
 		throw new UnsupportedOperationException();
 	}
 

@@ -1,3 +1,8 @@
+package interfaceGrafica;
+
+
+import dominioProblema.Carta;
+
 public class JogadaEscopa implements Jogada {
 
 	protected Carta carta;

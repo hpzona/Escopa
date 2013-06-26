@@ -1,10 +1,11 @@
+package dominioProblema;
 
 import javax.swing.ImageIcon;
 
 public class Carta {
 
 	protected int numero;
-	protected string naipe;
+	protected String naipe;
 	protected ImageIcon imagem;
 	protected int valor;
 
@@ -24,7 +25,7 @@ public class Carta {
 	 * 
 	 * @param naipe
 	 */
-	public void setNaipe(string naipe) {
+	public void setNaipe(String naipe) {
 		this.naipe = naipe;
 	}
 
@@ -44,7 +45,7 @@ public class Carta {
 		return this.numero;
 	}
 
-	public string getNaipe() {
+	public String getNaipe() {
 		return this.naipe;
 	}
 

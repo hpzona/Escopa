@@ -1,3 +1,5 @@
+package dominioProblema;
+
 public class Slot {
 
 	protected Carta carta;

@@ -1,4 +1,7 @@
 
+package interfaceGrafica;
+import dominioProblema.Carta;
+import dominioProblema.Mesa;
 import rede.AtorNetGames;
 
 public class AtorJogador {

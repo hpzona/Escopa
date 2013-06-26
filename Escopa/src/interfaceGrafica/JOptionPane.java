@@ -1,3 +1,5 @@
+package interfaceGrafica;
+
 public class JOptionPane {
 
 	public void showMessageDialog() {

@@ -1,5 +1,8 @@
 package rede;
 
+import interfaceGrafica.AtorJogador;
+import interfaceGrafica.Jogada;
+
 public class AtorNetGames implements OuvidorProxy {
 
 	protected boolean minhaVez;
@@ -18,7 +21,7 @@ public class AtorNetGames implements OuvidorProxy {
 	 * @param nome
 	 * @param ipServidor
 	 */
-	protected void conectarRede(string nome, string ipServidor) {
+	protected void conectarRede(String nome, String ipServidor) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -38,8 +41,38 @@ public class AtorNetGames implements OuvidorProxy {
 		return this.minhaVez;
 	}
 
-	public string obtemNomeAdversario() {
+	public String obtemNomeAdversario() {
 		throw new UnsupportedOperationException();
 	}
+
+    @Override
+    public void iniciarNovaPartida(int posicao) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void finalizarPartidaComErro(String message) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void receberMensagem(String message) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void receberJogada(Jogada jogada) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void tratarConexaoPerdida() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void tratarPartidaNaoIniciada(String message) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
