@@ -4,17 +4,29 @@ public class Jogador {
 
 	protected Carta mao;
 	protected Slot slotCartaJogador;
+        protected String nome;
 	/**
 	 * Identifica se � jogador local ou remoto
 	 */
-	protected int tipo;
+	protected Integer tipo;
 	protected int pontuacao;
 	protected boolean vezDeJogar;
 	protected int quantidadeCartasMao;
 	protected boolean vencedor;
 
-	public int informarTipo() {
-		throw new UnsupportedOperationException();
+    public Jogador(String nome, Integer tipo) {
+        
+        this.nome = nome;
+        this.tipo = tipo;
+    }
+        
+        
+
+	public int informarTipo() throws Exception {
+            if(tipo == null){
+                throw new Exception("Jogador não criado");
+            }
+		return tipo;
 	}
 
 	public int getPontuacao() {

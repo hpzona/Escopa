@@ -9,8 +9,9 @@ public class Carta {
 	protected ImageIcon imagem;
 	protected int valor;
 
-	public Carta() {
-		throw new UnsupportedOperationException();
+	public Carta(int numero, String naipe) {
+            this.numero = numero;
+            this.naipe = naipe;
 	}
 
 	/**
