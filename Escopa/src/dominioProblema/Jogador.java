@@ -1,9 +1,12 @@
 package dominioProblema;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Jogador {
 
-	protected Carta mao;
-	protected Slot slotCartaJogador;
+	protected List<Carta> mao;
+	protected List<Slot> slotCartaJogador;
         protected String nome;
 	/**
 	 * Identifica se � jogador local ou remoto
@@ -18,6 +21,7 @@ public class Jogador {
         
         this.nome = nome;
         this.tipo = tipo;
+        mao = new ArrayList<>(3);
     }
         
         
@@ -65,13 +69,15 @@ public class Jogador {
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * 
-	 * @param carta
-	 */
-	public void setCarta(Carta carta) {
-		throw new UnsupportedOperationException();
-	}
+	public void adicionarCartaMao(Carta carta) throws Exception{
+            
+            if(this.mao.size() < 3){
+                this.mao.add(carta);
+            }else{
+                throw new Exception("Jogador ja com 3 cartas na mão");
+            }
+        }
+	
 
 	public void receberAguarde() {
 		throw new UnsupportedOperationException();

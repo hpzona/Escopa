@@ -7,8 +7,8 @@ public class Mesa {
 
     protected Slot slotCartaMesa;
     protected List<Carta> baralho;
-    protected Carta mortoLocal;
-    protected Carta mortoRemoto;
+    protected List<Carta> mortoLocal;
+    protected List<Carta> mortoRemoto;
     protected Jogador jogadorLocal;
     protected Jogador jogadorRemoto;
     protected boolean isPartidaEmAndamento;
@@ -71,13 +71,13 @@ public class Mesa {
         if (getQuantidadeCartasBaralho() > 6) {
             for (int i = 0; i < 3; i++) {
                 cartaBaralho = (int) (1 + (Math.random() * getQuantidadeCartasBaralho()));
-                jogadorLocal.setCarta(baralho.get(cartaBaralho));
+                jogadorLocal.adicionarCartaMao(baralho.get(cartaBaralho));
                 baralho.remove(cartaBaralho);
             }
             setQuantidadeCartasBaralho(-3);
             for (int i = 0; i < 3; i++) {
                 cartaBaralho = (int) (1 + (Math.random() * getQuantidadeCartasBaralho()));
-                jogadorRemoto.setCarta(baralho.get(cartaBaralho));
+                jogadorRemoto.adicionarCartaMao(baralho.get(cartaBaralho));
                 baralho.remove(cartaBaralho);
             }
             setQuantidadeCartasBaralho(-3);
@@ -148,23 +148,23 @@ public class Mesa {
         return this.jogadorRemoto;
     }
 
-    public void terminarPartidaEmAndamento() {
+    public void terminarPartidaEmAndamento() { // Esse método fica aqui msm?
     }
 
     /**
      *
      * @param carta
      */
-    public void setCartaMortoLocal(Carta carta) {
-        throw new UnsupportedOperationException();
+    public void setCartaMortoLocal(List<Carta> carta) {
+        this.mortoLocal = carta;
     }
 
     /**
      *
      * @param carta
      */
-    public void setCartaMortoRemoto(Carta carta) {
-        throw new UnsupportedOperationException();
+    public void setCartaMortoRemoto(List<Carta> carta) {
+        this.mortoRemoto = carta;
     }
 
     public void exibirNovoEstado() {
