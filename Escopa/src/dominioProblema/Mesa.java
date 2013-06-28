@@ -40,11 +40,11 @@ public class Mesa {
      *
      * @param primeiro
      */
-    public void definirOPrimeiro(int primeiro) {
+    public Jogador definirOPrimeiro(int primeiro) {
         if(primeiro == 0){
-            //jogadorLocal é o primeiro
+            return jogadorLocal;
         }else{
-            //jogadorRemoto é o primeiro
+            return jogadorRemoto;
         }
     }
 
