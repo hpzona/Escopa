@@ -18,7 +18,7 @@ public class Mesa {
     }
 
     public void limparMesa() {
-        if(!slotCartaMesa.isSlotSelecionado()){
+        if (!slotCartaMesa.isSlotSelecionado()) {
             slotCartaMesa = null;
         }
     }
@@ -41,9 +41,9 @@ public class Mesa {
      * @param primeiro
      */
     public Jogador definirOPrimeiro(int primeiro) {
-        if(primeiro == 0){
+        if (primeiro == 0) {
             return jogadorLocal;
-        }else{
+        } else {
             return jogadorRemoto;
         }
     }
@@ -69,18 +69,22 @@ public class Mesa {
     public void distribuirCartasJogador() throws Exception {
         int cartaBaralho = 0;
         if (getQuantidadeCartasBaralho() > 6) {
-            for (int i = 0; i < 3; i++) {
-                cartaBaralho = (int) (1 + (Math.random() * getQuantidadeCartasBaralho()));
-                jogadorLocal.adicionarCartaMao(baralho.get(cartaBaralho));
-                baralho.remove(cartaBaralho);
+            if (avaliarFimCartasMao(0)) {
+                for (int i = 0; i < 3; i++) {
+                    cartaBaralho = (int) (1 + (Math.random() * getQuantidadeCartasBaralho()));
+                    jogadorLocal.adicionarCartaMao(baralho.get(cartaBaralho));
+                    baralho.remove(cartaBaralho);
+                }
+                setQuantidadeCartasBaralho(-3);
             }
-            setQuantidadeCartasBaralho(-3);
-            for (int i = 0; i < 3; i++) {
-                cartaBaralho = (int) (1 + (Math.random() * getQuantidadeCartasBaralho()));
-                jogadorRemoto.adicionarCartaMao(baralho.get(cartaBaralho));
-                baralho.remove(cartaBaralho);
+            if (avaliarFimCartasMao(1)) {
+                for (int i = 0; i < 3; i++) {
+                    cartaBaralho = (int) (1 + (Math.random() * getQuantidadeCartasBaralho()));
+                    jogadorRemoto.adicionarCartaMao(baralho.get(cartaBaralho));
+                    baralho.remove(cartaBaralho);
+                }
+                setQuantidadeCartasBaralho(-3);
             }
-            setQuantidadeCartasBaralho(-3);
         } else {
             throw new Exception("Baralho Insuficiente");
         }
@@ -101,31 +105,37 @@ public class Mesa {
     }
 
     public boolean avaliarFimDoBaralho() { //troquei para boolean, me corrijam se eu estiver errado
-        if(getQuantidadeCartasBaralho() == 0){
+        if (getQuantidadeCartasBaralho() == 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     public boolean avaliarFimCartasMao(int tipo) { //troquei para boolean, me corrijam se eu estiver errado
-        if(tipo == 0){
-        if(jogadorLocal.getQuantidadeCartasMao() == 0){
-            return true;
-        }else{
-            return false;
-        }
-        }else{
-         if(jogadorRemoto.getQuantidadeCartasMao() == 0){
-           return true;
-       }else{
-           return false;
-       }
+        if (tipo == 0) {
+            if (jogadorLocal.getQuantidadeCartasMao() == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (jogadorRemoto.getQuantidadeCartasMao() == 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
     public void avaliarVencedor() {
-        throw new UnsupportedOperationException();
+        
+        if(jogadorLocal.getPontuacao()> jogadorRemoto.getPontuacao()){
+            //jgador local é o vencedor
+        }else{
+            //jgador remoto é o vencedor
+        }
+        
     }
 
     public int getQuantidadeCartasBaralho() {
@@ -149,6 +159,10 @@ public class Mesa {
     }
 
     public void terminarPartidaEmAndamento() { // Esse método fica aqui msm?
+        if(baralho.isEmpty()){
+            //partida encerrada
+        }
+        
     }
 
     /**
