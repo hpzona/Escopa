@@ -1,4 +1,4 @@
-package interfaceGrafica;
+package dominioProblema;
 
 public interface Jogada {
 }

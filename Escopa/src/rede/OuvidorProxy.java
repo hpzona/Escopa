@@ -1,7 +1,7 @@
 package rede;
 
 
-import interfaceGrafica.Jogada;
+import dominioProblema.Jogada;
 
 public interface OuvidorProxy {
 
