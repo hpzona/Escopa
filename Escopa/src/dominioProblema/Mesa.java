@@ -18,7 +18,7 @@ public class Mesa {
     }
 
     public void limparMesa() {
-            slotCartaMesa = null;
+        slotCartaMesa = null;
     }
 
     /**
@@ -52,9 +52,9 @@ public class Mesa {
 
         for (int i = 0; i < 6; i++) {
             cartaBaralho = (int) (1 + (Math.random() * getQuantidadeCartasBaralho()));
-            Slot slot = new Slot();
+            Slot slot = new Slot(); 
             slot.setCarta(baralho.get(cartaBaralho));
-            slotCartaMesa.add(slot);
+            slotCartaMesa.add(slot); // vai adicionando os 6 slots da mesa
             baralho.remove(cartaBaralho);
         }
         setQuantidadeCartasBaralho(-6);
@@ -62,12 +62,12 @@ public class Mesa {
 
     public void distribuirCartasJogador() throws Exception {
         int cartaBaralho = 0;
-        if (getQuantidadeCartasBaralho() > 6) {
-            if (avaliarFimCartasMao(0)) {
+        if (getQuantidadeCartasBaralho() > 6) { // caso tenha cartas suficientes para distribuir para os 2 jogadores
+            if (avaliarFimCartasMao(0)) { // verifica se realmente eles estão sem nenhuma carta na mão
                 for (int i = 0; i < 3; i++) {
-                    cartaBaralho = (int) (1 + (Math.random() * getQuantidadeCartasBaralho()));
-                    jogadorLocal.adicionarCartaMao(baralho.get(cartaBaralho));
-                    baralho.remove(cartaBaralho);
+                    cartaBaralho = (int) (1 + (Math.random() * getQuantidadeCartasBaralho())); // pega uma carta aleatoria do baralho
+                    jogadorLocal.adicionarCartaMao(baralho.get(cartaBaralho)); // adiciona na mao do jogador
+                    baralho.remove(cartaBaralho); // remove essa carta do baralho
                 }
                 setQuantidadeCartasBaralho(-3);
             }
@@ -190,21 +190,30 @@ public class Mesa {
     }
 
     public void tratarJogada() {
-        int interecao = jogadorLocal.getJogada().jogada.size();
+        
         int ponto = 0;
         int quinze = 0;
-        for (int i = 0; i < interecao; i++) {
-            
-            for(int j = 0; j < 6; j++){
-                if(slotCartaMesa.get(j).getCarta() != null && slotCartaMesa.get(j).isSlotSelecionado()){
-                    quinze = jogadorLocal.getJogada().jogada.get(i).getValor() + slotCartaMesa.get(j).getCarta().getValor();
+
+            for (int j = 0; j < 6; j++) {
+                if (slotCartaMesa.get(j).getCarta() != null && slotCartaMesa.get(j).isSlotSelecionado()) {//se tiver uma carta e ela for selecionada
+                    quinze = jogadorLocal.getJogada().getCarta().getValor() + slotCartaMesa.get(j).getCarta().getValor(); //faz a soma, com a primeira carta selecionada, e assim em diante
                 }
-            }
-                if(quinze == 15){
+                if (quinze == 15) { 
+                    List<Slot> cartasDaMesa;
+                    cartasDaMesa = slotCartaMesa.subList(0, j);  //recolho as cartas selecionadas, caso tenha feito 15 pontos
+                    for (int k = 0; k < cartasDaMesa.size(); k++) {
+
+                        mortoLocal.add(slotCartaMesa.get(k).getCarta());
+                    }
+                        mortoLocal.add(jogadorLocal.getJogada().getCarta());//pegando a carta que ele selecionou para fazer a combinação
                     
-                    jogadorLocal.setPontuacao(ponto++;);
+                    if(cartasDaMesa.size() == 6){//escova 
+                        jogadorLocal.setPontuacao(ponto++);
+                    }
                 }
-        }
+
+            }
+
 
 
     }

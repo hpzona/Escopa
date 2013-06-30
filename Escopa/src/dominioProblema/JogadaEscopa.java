@@ -4,7 +4,7 @@ import java.util.List;
 
 public class JogadaEscopa implements Jogada {
 
-    protected List<Carta> jogada;
+    protected Carta jogada;
 
     public JogadaEscopa() {
         throw new UnsupportedOperationException();
@@ -14,15 +14,16 @@ public class JogadaEscopa implements Jogada {
      *
      * @param carta
      */
-    public void JogadaEscopa(List<Carta> jogada) {
+    public void JogadaEscopa(Carta jogada) {
         this.jogada = jogada;
     }
 
-    public List<Carta> getJogada() {
+    public Carta getCarta() {
         return jogada;
     }
 
-    public void setJogada(List<Carta> jogada) {
+    public void setJogada(Carta jogada) {
         this.jogada = jogada;
     }
+
 }
