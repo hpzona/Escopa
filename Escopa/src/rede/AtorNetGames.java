@@ -1,7 +1,7 @@
 package rede;
 
 import interfaceGrafica.AtorJogador;
-import interfaceGrafica.Jogada;
+import dominioProblema.Jogada;
 
 public class AtorNetGames implements OuvidorProxy {
 
@@ -24,6 +24,10 @@ public class AtorNetGames implements OuvidorProxy {
 	protected void conectarRede(String nome, String ipServidor) {
 		throw new UnsupportedOperationException();
 	}
+        
+        public void enviarJogadaRede(){
+            
+        }
 
 	protected void iniciarPartidaRede() {
 		throw new UnsupportedOperationException();

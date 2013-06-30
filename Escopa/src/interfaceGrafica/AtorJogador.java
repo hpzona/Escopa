@@ -55,5 +55,9 @@ public class AtorJogador {
 	public void terminarPartidaEmAndamento() {
 		throw new UnsupportedOperationException();
 	}
+        
+        public JPanel getJContentPane(){
+          return null;  
+        }
 
 }

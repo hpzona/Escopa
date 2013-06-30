@@ -5,22 +5,20 @@ import java.util.List;
 
 public class Mesa {
 
-    protected Slot slotCartaMesa;
+    protected List<Slot> slotCartaMesa;
     protected List<Carta> baralho;
     protected List<Carta> mortoLocal;
     protected List<Carta> mortoRemoto;
     protected Jogador jogadorLocal;
     protected Jogador jogadorRemoto;
-    protected boolean isPartidaEmAndamento;
+    protected boolean partidaEmAndamento;
     protected int quantidadeCartasBaralho;
 
     public Mesa() {
     }
 
     public void limparMesa() {
-        if (!slotCartaMesa.isSlotSelecionado()) {
             slotCartaMesa = null;
-        }
     }
 
     /**
@@ -49,21 +47,17 @@ public class Mesa {
     }
 
     public void distribuirCartasMesa() {
-        int cartaBaralho = 0;
-        if (slotCartaMesa.slotCartasMesaVazio()) {
-            slotCartaMesa = new Slot();
-            if (getQuantidadeCartasBaralho() > 6) {
+        int cartaBaralho;
+        slotCartaMesa = new ArrayList<>(6);
 
-                List<Carta> cartasSlot = new ArrayList<>(6);
-                for (int i = 0; i < 6; i++) {
-                    cartaBaralho = (int) (1 + (Math.random() * getQuantidadeCartasBaralho()));
-                    cartasSlot.add(baralho.get(cartaBaralho));
-                    baralho.remove(cartaBaralho);
-                }
-                setQuantidadeCartasBaralho(-6);
-                slotCartaMesa.setCarta(cartasSlot);
-            }
+        for (int i = 0; i < 6; i++) {
+            cartaBaralho = (int) (1 + (Math.random() * getQuantidadeCartasBaralho()));
+            Slot slot = new Slot();
+            slot.setCarta(baralho.get(cartaBaralho));
+            slotCartaMesa.add(slot);
+            baralho.remove(cartaBaralho);
         }
+        setQuantidadeCartasBaralho(-6);
     }
 
     public void distribuirCartasJogador() throws Exception {
@@ -129,13 +123,13 @@ public class Mesa {
     }
 
     public void avaliarVencedor() {
-        
-        if(jogadorLocal.getPontuacao()> jogadorRemoto.getPontuacao()){
+
+        if (jogadorLocal.getPontuacao() > jogadorRemoto.getPontuacao()) {
             //jgador local é o vencedor
-        }else{
+        } else {
             //jgador remoto é o vencedor
         }
-        
+
     }
 
     public int getQuantidadeCartasBaralho() {
@@ -159,10 +153,12 @@ public class Mesa {
     }
 
     public void terminarPartidaEmAndamento() { // Esse método fica aqui msm?
-        if(baralho.isEmpty()){
-            //partida encerrada
+        if (baralho.isEmpty()) {
+            if (isPartidaEmAndamento()) {
+                //partida encerrada
+            }
         }
-        
+
     }
 
     /**
@@ -193,7 +189,34 @@ public class Mesa {
         throw new UnsupportedOperationException();
     }
 
+    public void tratarJogada() {
+        int interecao = jogadorLocal.getJogada().jogada.size();
+        int ponto = 0;
+        int quinze = 0;
+        for (int i = 0; i < interecao; i++) {
+            
+            for(int j = 0; j < 6; j++){
+                if(slotCartaMesa.get(j).getCarta() != null && slotCartaMesa.get(j).isSlotSelecionado()){
+                    quinze = jogadorLocal.getJogada().jogada.get(i).getValor() + slotCartaMesa.get(j).getCarta().getValor();
+                }
+            }
+                if(quinze == 15){
+                    
+                    jogadorLocal.setPontuacao(ponto++;);
+                }
+        }
+
+
+    }
+
     public void inserirJogada() {
-        throw new UnsupportedOperationException();
+    }
+
+    public boolean isPartidaEmAndamento() {
+        return partidaEmAndamento;
+    }
+
+    public void setPartidaEmAndamento(boolean partidaEmAndamento) {
+        this.partidaEmAndamento = partidaEmAndamento;
     }
 }
