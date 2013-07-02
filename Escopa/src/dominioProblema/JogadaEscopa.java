@@ -1,13 +1,12 @@
 package dominioProblema;
 
-import java.util.List;
+import br.ufsc.inf.leobr.cliente.Jogada;
 
 public class JogadaEscopa implements Jogada {
 
     protected Carta jogada;
 
     public JogadaEscopa() {
-        throw new UnsupportedOperationException();
     }
 
     /**

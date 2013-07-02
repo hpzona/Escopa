@@ -33,7 +33,9 @@ public class AtorJogador {
 	 * @param cartasSelecionadas
 	 */
 	public void efetuarJogadaEmRede(Carta cartasSelecionadas) {
-		throw new UnsupportedOperationException();
+		
+            
+            
 	}
 
 	public void exibirEstado() {
