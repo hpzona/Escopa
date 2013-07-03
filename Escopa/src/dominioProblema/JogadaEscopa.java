@@ -1,10 +1,11 @@
 package dominioProblema;
 
 import br.ufsc.inf.leobr.cliente.Jogada;
+import java.util.List;
 
 public class JogadaEscopa implements Jogada {
 
-    protected Carta jogada;
+    protected List<Carta> jogada;
 
     public JogadaEscopa() {
     }
@@ -13,15 +14,15 @@ public class JogadaEscopa implements Jogada {
      *
      * @param carta
      */
-    public void JogadaEscopa(Carta jogada) {
+    public void JogadaEscopa(List<Carta> jogada) {
         this.jogada = jogada;
     }
 
-    public Carta getCarta() {
+    public List<Carta> getCartas() {
         return jogada;
     }
 
-    public void setJogada(Carta jogada) {
+    public void setCartas(List<Carta> jogada) {
         this.jogada = jogada;
     }
 

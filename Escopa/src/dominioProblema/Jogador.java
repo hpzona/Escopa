@@ -11,26 +11,24 @@ public class Jogador {
     /**
      * Identifica se � jogador local ou remoto
      */
-    protected Integer tipo;
     protected int pontuacao;
     protected boolean vezDeJogar;
     protected int quantidadeCartasMao;
     protected boolean vencedor;
     protected JogadaEscopa jogada;
 
-    public Jogador(String nome, Integer tipo) {
+    public Jogador(String nome) {
 
         this.nome = nome;
-        this.tipo = tipo;
         mao = new ArrayList<>(3);
     }
 
-    public int informarTipo() throws Exception {
-        if (tipo == null) {
-            throw new Exception("Jogador não criado");
-        }
-        return tipo;
-    }
+//    public int informarTipo() throws Exception {
+//        if (tipo == null) {
+//            throw new Exception("Jogador não criado");
+//        }
+//        return tipo;
+//    }
 
     public int getPontuacao() {
         return this.pontuacao;

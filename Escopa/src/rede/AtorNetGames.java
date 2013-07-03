@@ -21,16 +21,16 @@ public class AtorNetGames implements OuvidorProxy {
     private Mesa mesa;
     private Proxy proxy;
 
-    public AtorNetGames(boolean minhaVez, AtorJogador atorJogador, Mesa mesa) {
-        this.minhaVez = minhaVez;
+    public AtorNetGames(AtorJogador atorJogador) {
+//        this.minhaVez = minhaVez;
         this.atorJogador = atorJogador;
         this.proxy = proxy.getInstance();
         proxy.addOuvinte(this);
-        this.mesa = mesa;
-        
+//        this.mesa = mesa;
+
     }
 
-    protected void desconectar() {
+    public void desconectar() {
         try {
             proxy.desconectar();
         } catch (NaoConectadoException ex) {
@@ -38,7 +38,7 @@ public class AtorNetGames implements OuvidorProxy {
         }
     }
 
-    protected void conectarRede(String nome, String servidor) {
+    public void conectarRede(String nome, String servidor) {
         try {
             proxy.conectar(servidor, nome);
         } catch (JahConectadoException ex) {
@@ -55,9 +55,7 @@ public class AtorNetGames implements OuvidorProxy {
      * @param nome
      * @param ipServidor
      */
-
-    public void enviarJogadaRede() {
-        JogadaEscopa jogada = new JogadaEscopa();
+    public void enviarJogadaRede(Jogada jogada) {
         try {
             proxy.enviaJogada(jogada);
         } catch (NaoJogandoException ex) {
@@ -65,12 +63,23 @@ public class AtorNetGames implements OuvidorProxy {
         }
     }
 
-    protected void iniciarPartidaRede() {
+    public void iniciarPartidaRede() {
         try {
             proxy.iniciarPartida(2);
         } catch (NaoConectadoException ex) {
             Logger.getLogger(AtorNetGames.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public void iniciarNovaPartida(Integer posicao) {
+        if (posicao == 1) {
+            minhaVez = true;
+        } else if (posicao == 2) {
+            minhaVez = false;
+        }
+
+        atorJogador.iniciarPartidaEmRede(minhaVez);
     }
 
     public AtorNetGames() {
@@ -86,9 +95,16 @@ public class AtorNetGames implements OuvidorProxy {
     }
 
     public String obtemNomeAdversario() {
-        throw new UnsupportedOperationException();
+        String nome = "";
+        
+        if(minhaVez){
+            nome = proxy.obterNomeAdversario(2);
+        }else{
+            nome = proxy.obterNomeAdversario(1);
+        }
+        
+        return nome;
     }
-    
 
     @Override
     public void finalizarPartidaComErro(String message) {
@@ -99,7 +115,6 @@ public class AtorNetGames implements OuvidorProxy {
     public void receberMensagem(String message) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
     @Override
     public void tratarConexaoPerdida() {
@@ -113,17 +128,7 @@ public class AtorNetGames implements OuvidorProxy {
 
     @Override
     public void receberJogada(Jogada jogada) {
-        JogadaEscopa jogadaRecebida = (JogadaEscopa)jogada;
-        mesa.receberJogada(jogadaRecebida);
+        JogadaEscopa jogadaRecebida = (JogadaEscopa) jogada;
+        atorJogador.receberJogada(jogadaRecebida);
     }
-
-    @Override
-    public void iniciarNovaPartida(Integer posicao) {
-        atorJogador.iniciarPartidaEmRede(minhaVez);
-    }
-
-
-    
-    
-
 }
