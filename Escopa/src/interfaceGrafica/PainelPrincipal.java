@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
 public class PainelPrincipal extends javax.swing.JFrame {
@@ -121,6 +122,7 @@ public class PainelPrincipal extends javax.swing.JFrame {
         jFundo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -175,6 +177,20 @@ public class PainelPrincipal extends javax.swing.JFrame {
         getContentPane().add(jFundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jMenu1.setText("Arquivo");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                temp(evt);
+            }
+        });
+
+        jMenuItem1.setText("jMenuItem1");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Sair");
@@ -184,6 +200,15 @@ public class PainelPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+      JOptionPane.showMessageDialog(this, "Botao clicado");
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void temp(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_temp
+
+    }//GEN-LAST:event_temp
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jBaralho;
     private javax.swing.JLabel jDescarte;
@@ -194,6 +219,7 @@ public class PainelPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel jMesa1;
     private javax.swing.JLabel jMesa2;
     private javax.swing.JLabel jMesa3;
