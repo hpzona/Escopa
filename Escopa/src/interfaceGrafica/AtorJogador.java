@@ -7,8 +7,8 @@ import dominioProblema.Mesa;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import rede.AtorNetGames;
@@ -16,10 +16,10 @@ import rede.AtorNetGames;
 public class AtorJogador {
 
     protected PainelPrincipal painelPrincipal; //MODIFICADO
+//    protected JPanel painelConexao;
     protected Mesa mesa;
     protected JLabel slot;
     protected AtorNetGames atorNetGames;
-    protected JMenuBar jMenuBar;
     String nome;
 
     public AtorJogador(PainelPrincipal painel) { //PAINEL VEM DO MAIN
@@ -29,6 +29,13 @@ public class AtorJogador {
         painelPrincipal.setVisible(true);
         painelPrincipal.setLocationRelativeTo(null);
         
+//        painelConexao = new JPanel();
+//        JButton conectar = new JButton("conectar");
+//        JButton desconectar = new JButton("desconectar");
+//        ConexaoListener conexao = new ConexaoListener();
+//        conectar.addActionListener(conexao);
+//        desconectar.addActionListener(conexao);
+//        painelPrincipal.add(painelConexao);
         
     }
 
@@ -67,6 +74,25 @@ public class AtorJogador {
 
         }
     }
+    
+     public class ConexaoListener implements ActionListener {
+         
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+          if(e.getSource() instanceof JButton ){//coloquei jbutton, mas pode ser qualquer q seja o componente q a gente colocou
+              JButton botao = (JButton)e.getSource();
+              if(botao.getText().equals("conectar")){
+                  AtorJogador.this.atorNetGames.iniciarPartidaRede();
+              }else if(botao.getText().equals("desconectar")){
+                  AtorJogador.this.atorNetGames.desconectar();
+              }
+          }
+
+        }
+    }
+
 
     /**
      *

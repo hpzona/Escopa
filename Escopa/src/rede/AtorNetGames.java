@@ -58,9 +58,17 @@ public class AtorNetGames implements OuvidorProxy {
     public void enviarJogadaRede(Jogada jogada) {
         try {
             proxy.enviaJogada(jogada);
+            minhaVez = false;
         } catch (NaoJogandoException ex) {
             Logger.getLogger(AtorNetGames.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public void receberJogada(Jogada jogada) {
+        JogadaEscopa jogadaRecebida = (JogadaEscopa) jogada;
+        atorJogador.receberJogada(jogadaRecebida);
+        minhaVez = true;
     }
 
     public void iniciarPartidaRede() {
@@ -83,11 +91,9 @@ public class AtorNetGames implements OuvidorProxy {
     }
 
     public AtorNetGames() {
-        throw new UnsupportedOperationException();
     }
 
     public void setMinhaVez() {
-        throw new UnsupportedOperationException();
     }
 
     public boolean isMinhaVez() {
@@ -96,39 +102,29 @@ public class AtorNetGames implements OuvidorProxy {
 
     public String obtemNomeAdversario() {
         String nome = "";
-        
-        if(minhaVez){
+
+        if (minhaVez) {
             nome = proxy.obterNomeAdversario(2);
-        }else{
+        } else {
             nome = proxy.obterNomeAdversario(1);
         }
-        
+
         return nome;
     }
 
     @Override
     public void finalizarPartidaComErro(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void receberMensagem(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void tratarConexaoPerdida() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void tratarPartidaNaoIniciada(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void receberJogada(Jogada jogada) {
-        JogadaEscopa jogadaRecebida = (JogadaEscopa) jogada;
-        atorJogador.receberJogada(jogadaRecebida);
     }
 }
