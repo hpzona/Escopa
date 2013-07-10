@@ -5,7 +5,6 @@
 package dominioProblema;
 
 import interfaceGrafica.AtorJogador;
-import interfaceGrafica.AtorJogadorAntigo;
 import interfaceGrafica.PainelPrincipal;
 import javax.swing.JFrame;
 

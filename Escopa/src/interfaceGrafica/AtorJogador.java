@@ -3,7 +3,6 @@ package interfaceGrafica;
 import dominioProblema.JogadaEscopa;
 import dominioProblema.Mesa;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -20,7 +19,6 @@ public class AtorJogador extends javax.swing.JFrame {
     protected ArrayList<JLabel> labelsMesa;
     protected ArrayList<JLabel> labelsMao;
     protected JPanel jPainel = null;
-//    protected JPanel painelConexao;
     protected Mesa mesa;
     protected JLabel slot;
     protected AtorNetGames atorNetGames;
@@ -29,7 +27,7 @@ public class AtorJogador extends javax.swing.JFrame {
     public AtorJogador() {
         initComponents();
         
-
+        atorNetGames = new AtorNetGames(this);
         maoClicado = null;
 
         //TESTES
@@ -224,7 +222,7 @@ public class AtorJogador extends javax.swing.JFrame {
     
     
     public void inicializar() {
-        atorNetGames.conectarRede(nome, "localhost");
+        atorNetGames.conectarRede(nome, "venus.inf.ufsc.br");
     }
 
     /**
@@ -305,12 +303,12 @@ public class AtorJogador extends javax.swing.JFrame {
                     case "Conectar":
                         JOptionPane.showMessageDialog(null, "CONECTADO"); //TESTE DE BOTAO
                         botao.setText("Desconectar");
-                        AtorJogador.this.atorNetGames.iniciarPartidaRede();
+                        inicializar();
                         break;
                     case "Desconectar":
                         JOptionPane.showMessageDialog(null, "DESCONECTADO"); //TESTE DE BOTAO
                         botao.setText("Conectar");
-                        AtorJogador.this.atorNetGames.desconectar();
+                        inicializar();
                         break;
                 }
           }
