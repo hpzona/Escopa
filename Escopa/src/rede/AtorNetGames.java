@@ -10,18 +10,18 @@ import br.ufsc.inf.leobr.cliente.exception.NaoJogandoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
 import dominioProblema.JogadaEscopa;
 import dominioProblema.Mesa;
-import interfaceGrafica.AtorJogador;
+import interfaceGrafica.AtorJogadorAntigo;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AtorNetGames implements OuvidorProxy {
 
     protected boolean minhaVez;
-    private AtorJogador atorJogador;
+    private AtorJogadorAntigo atorJogador;
     private Mesa mesa;
     private Proxy proxy;
 
-    public AtorNetGames(AtorJogador atorJogador) {
+    public AtorNetGames(AtorJogadorAntigo atorJogador) {
 //        this.minhaVez = minhaVez;
         this.atorJogador = atorJogador;
         this.proxy = proxy.getInstance();

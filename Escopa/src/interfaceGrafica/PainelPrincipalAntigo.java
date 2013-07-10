@@ -1,52 +1,103 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package interfaceGrafica;
 
-import dominioProblema.JogadaEscopa;
-import dominioProblema.Mesa;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-import rede.AtorNetGames;
 
-public class AtorJogador extends javax.swing.JFrame {
+public class PainelPrincipalAntigo extends javax.swing.JFrame {
 
-    protected JLabel maoClicado;
-    protected ArrayList<JLabel> labelsMesa;
-    protected ArrayList<JLabel> labelsMao;
-    protected JPanel jPainel = null;
-//    protected JPanel painelConexao;
-    protected Mesa mesa;
-    protected JLabel slot;
-    protected AtorNetGames atorNetGames;
-    String nome;
+    JLabel maoClicado;
+    ArrayList<JLabel> mesa;
+    ArrayList<JLabel> mao;
 
-    public AtorJogador() {
+    public PainelPrincipalAntigo() {
         initComponents();
         
+        //Add Labels na Mesa
+        mesa = new ArrayList();
+        mesa.add(jMesa1);
+        mesa.add(jMesa2);
+        mesa.add(jMesa3);
+        mesa.add(jMesa4);
+        mesa.add(jMesa5);
+        mesa.add(jMesa6);
+        mesa.add(jMesa7);
+        mesa.add(jMesa8);
+        
+        //Add Labels na Mao
+        mao = new ArrayList();
+        mao.add(jMao1);
+        mao.add(jMao2);
+        mao.add(jMao3);
+        
+        
+        //Add os Listener no Labels
+        jMao1.addMouseListener(this.eventoClick(jMao1));
+        jMao2.addMouseListener(this.eventoClick(jMao2));
+        jMao3.addMouseListener(this.eventoClick(jMao3));
+        jDescarte.addMouseListener(this.eventoDescartar());
 
         maoClicado = null;
-
+        
         //TESTES
         String cart = "1_Ouro";
         jMao1.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cart + ".png")));
-
+        
         //será um metodo 
         boolean temCarta = true;
         //QUANDO BARALHO TEM CARTA
-        if (temCarta) {
+        if(temCarta)
             jBaralho.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
-        }
-
+        
         //QUANDO MORTO TIVER CARTAS
         jMortoAdv.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
         jMorto.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
+        
+    }
 
+    public java.awt.event.MouseAdapter eventoClick(final JLabel clicado) {
+        return new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (clicado.getIcon() != null) {
+                    if (maoClicado != null) {
+                        maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+                    }
+                    maoClicado = clicado;
+                    maoClicado.setBorder(new LineBorder(Color.red, 2, true));
+                }
+            }
+        };
+    }
+    
+
+    public java.awt.event.MouseAdapter eventoDescartar() {
+        return new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (maoClicado != null) {
+                    maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+                   
+                    //PEDIR A PROXIMA POSIÇÃO LIVRE
+                    String livre = "1";
+                    //
+                    
+                    JLabel pos = mesa.get(Integer.parseInt(livre) - 1);
+                    pos.setIcon(maoClicado.getIcon());
+                    maoClicado.setIcon(null);
+                    maoClicado = null;
+
+                }
+            }
+        };
     }
 
     @SuppressWarnings("unchecked")
@@ -68,7 +119,7 @@ public class AtorJogador extends javax.swing.JFrame {
         jBaralho = new javax.swing.JLabel();
         jMortoAdv = new javax.swing.JLabel();
         jMorto = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        jFundo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jConectarButton = new javax.swing.JMenuItem();
@@ -121,16 +172,13 @@ public class AtorJogador extends javax.swing.JFrame {
         getContentPane().add(jBaralho, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 80, 100));
         getContentPane().add(jMortoAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 110, 80, 100));
         getContentPane().add(jMorto, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 290, 80, 100));
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 500));
+
+        jFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/mesa.png"))); // NOI18N
+        getContentPane().add(jFundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jMenu1.setText("Arquivo");
 
         jConectarButton.setText("Conectar");
-        jConectarButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jConectarButtonActionPerformed(evt);
-            }
-        });
         jMenu1.add(jConectarButton);
 
         jMenuBar1.add(jMenu1);
@@ -143,184 +191,24 @@ public class AtorJogador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public java.awt.event.MouseAdapter eventoClick(final JLabel clicado) {
-        return new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                if (clicado.getIcon() != null) {
-                    if (maoClicado != null) {
-                        maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-                    }
-                    maoClicado = clicado;
-                    maoClicado.setBorder(new LineBorder(Color.red, 2, true));
-                }
-            }
-        };
-    }
-
-    public java.awt.event.MouseAdapter eventoDescartar() {
-        return new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                if (maoClicado != null) {
-                    maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-
-                    //PEDIR A PROXIMA POSIÇÃO LIVRE
-                    String livre = "1";
-                    //
-
-                    JLabel pos = labelsMesa.get(Integer.parseInt(livre) - 1);
-                    pos.setIcon(maoClicado.getIcon());
-                    maoClicado.setIcon(null);
-                    maoClicado = null;
-
-                }
-            }
-        };
-    }
-
-    public void addConectarButtonListener(ActionListener evt) {
+    
+    public void addConectarButtonListener(ActionListener evt){
         jConectarButton.addActionListener(evt);
     }
-
-    private JPanel getJPainel() {
-        jPainel = new PainelPrincipal();
-        jPainel.setLayout(null);
-        
-        //Add Labels na Mesa
-        labelsMesa = new ArrayList();
-        labelsMesa.add(jMesa1);
-        labelsMesa.add(jMesa2);
-        labelsMesa.add(jMesa3);
-        labelsMesa.add(jMesa4);
-        labelsMesa.add(jMesa5);
-        labelsMesa.add(jMesa6);
-        labelsMesa.add(jMesa7);
-        labelsMesa.add(jMesa8);
-
-        //Add Labels na Mao
-        labelsMao = new ArrayList();
-        labelsMao.add(jMao1);
-        labelsMao.add(jMao2);
-        labelsMao.add(jMao3);
-
-
-        //Add os Listener no Labels
-        jMao1.addMouseListener(this.eventoClick(jMao1));
-        jMao2.addMouseListener(this.eventoClick(jMao2));
-        jMao3.addMouseListener(this.eventoClick(jMao3));
-        jDescarte.addMouseListener(this.eventoDescartar());
-
-        for (JLabel mao : labelsMao) {
-            jPainel.add(mao);
-        }
-        
-        for (JLabel mesa : labelsMesa){
-            jPainel.add(mesa);
-        }
-
-        return jPainel;
-    }
     
-    
-    public void inicializar() {
-        atorNetGames.conectarRede(nome, "localhost");
-    }
-
-    /**
-     *
-     * @param iniciarComoSolicitante
-     */
-    public void iniciarPartidaEmRede(boolean comecarJogando) {
-        Mesa mesa = new Mesa();
-
-        String nomeOutroParticipante = atorNetGames.obtemNomeAdversario();
-
-        if (comecarJogando) {
-            mesa.criarJogador(this.nome);
-            mesa.criarJogador(nomeOutroParticipante);
-        } else {
-            mesa.criarJogador(nomeOutroParticipante);
-            mesa.criarJogador(this.nome);
-        }
-    }
-
-    public boolean efetuarJogadaEmRede(JogadaEscopa cartasSelecionadas) {
-
-
-        if (atorNetGames.isMinhaVez()) {
-            boolean jogadaEfetuada = mesa.tratarJogada(cartasSelecionadas);
-
-            if (jogadaEfetuada) {
-                //IGU
-
-                atorNetGames.enviarJogadaRede(mesa.informarJogada());
-                return jogadaEfetuada;
-            } else {
-                JOptionPane.showMessageDialog(null, "ERRO NA JOGADA");
-            }
-            return jogadaEfetuada;
-        }
-        return false;
-
-    }
-
-    public void receberJogada(JogadaEscopa cartasSelecionadas) {
-        mesa.tratarJogada(cartasSelecionadas);
-        //IGU
-
-    }
-
-    public void exibirEstado() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     *
-     * @param codigo
-     */
-    public void notificarIrregularidade(int codigo) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void selecionaCarta() {
-        throw new UnsupportedOperationException();
-    }
-
-    public void terminarPartidaEmAndamento() {
-        throw new UnsupportedOperationException();
-    }
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        JOptionPane.showMessageDialog(this, "Botao clicado");
+      JOptionPane.showMessageDialog(this, "Botao clicado");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void temp(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_temp
-    }//GEN-LAST:event_temp
 
-    private void jConectarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConectarButtonActionPerformed
-        if(evt.getSource() instanceof JMenuItem ){
-              JMenuItem botao = (JMenuItem)evt.getSource();
-                switch (botao.getText()) {
-                    case "Conectar":
-                        JOptionPane.showMessageDialog(null, "CONECTADO"); //TESTE DE BOTAO
-                        botao.setText("Desconectar");
-                        AtorJogador.this.atorNetGames.iniciarPartidaRede();
-                        break;
-                    case "Desconectar":
-                        JOptionPane.showMessageDialog(null, "DESCONECTADO"); //TESTE DE BOTAO
-                        botao.setText("Conectar");
-                        AtorJogador.this.atorNetGames.desconectar();
-                        break;
-                }
-          }
-    }//GEN-LAST:event_jConectarButtonActionPerformed
+    }//GEN-LAST:event_temp
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jBaralho;
     private javax.swing.JMenuItem jConectarButton;
     private javax.swing.JLabel jDescarte;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jFundo;
     private javax.swing.JLabel jMao1;
     private javax.swing.JLabel jMao2;
     private javax.swing.JLabel jMao3;

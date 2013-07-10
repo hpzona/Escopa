@@ -5,7 +5,9 @@
 package dominioProblema;
 
 import interfaceGrafica.AtorJogador;
+import interfaceGrafica.AtorJogadorAntigo;
 import interfaceGrafica.PainelPrincipal;
+import javax.swing.JFrame;
 
 /**
  *
@@ -13,11 +15,11 @@ import interfaceGrafica.PainelPrincipal;
  */
 public class TesteMain {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        PainelPrincipal p = new PainelPrincipal();
-        AtorJogador a = new AtorJogador(p);
-    }
+	public static void main(String args[]){
+		AtorJogador janela;
+		janela = new AtorJogador();
+		janela.setLocationRelativeTo(null);
+		janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		janela.setVisible(true);
+	}
 }
