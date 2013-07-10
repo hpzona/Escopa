@@ -12,15 +12,21 @@ import rede.AtorNetGames;
 
 public class AtorJogador {
 
-    protected JPanel jContentPane;
+    protected PainelPrincipal painelPrincipal; //MODIFICADO
     protected Mesa mesa;
     protected JLabel slot;
     protected AtorNetGames atorNetGames;
     protected JMenuBar jMenuBar;
     String nome;
 
-    public AtorJogador() {
+    public AtorJogador(PainelPrincipal painel) { //PAINEL VEM DO MAIN
         atorNetGames = new AtorNetGames(this);
+        
+        painelPrincipal = painel;
+        painelPrincipal.setVisible(true);
+        painelPrincipal.setLocationRelativeTo(null);
+        
+        
     }
 
     public void inicializar() {
