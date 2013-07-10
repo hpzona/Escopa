@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import rede.AtorNetGames;
@@ -26,6 +27,7 @@ public class AtorJogador {
         atorNetGames = new AtorNetGames(this);
         
         painelPrincipal = painel;
+        painelPrincipal.addConectarButtonListener(new ConexaoListener());
         painelPrincipal.setVisible(true);
         painelPrincipal.setLocationRelativeTo(null);
         
@@ -81,13 +83,20 @@ public class AtorJogador {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-          if(e.getSource() instanceof JButton ){//coloquei jbutton, mas pode ser qualquer q seja o componente q a gente colocou
-              JButton botao = (JButton)e.getSource();
-              if(botao.getText().equals("conectar")){
-                  AtorJogador.this.atorNetGames.iniciarPartidaRede();
-              }else if(botao.getText().equals("desconectar")){
-                  AtorJogador.this.atorNetGames.desconectar();
-              }
+          if(e.getSource() instanceof JMenuItem ){
+              JMenuItem botao = (JMenuItem)e.getSource();
+                switch (botao.getText()) {
+                    case "Conectar":
+                        JOptionPane.showMessageDialog(null, "CONECTADO"); //TESTE DE BOTAO
+                        botao.setText("Desconectar");
+                        AtorJogador.this.atorNetGames.iniciarPartidaRede();
+                        break;
+                    case "Desconectar":
+                        JOptionPane.showMessageDialog(null, "DESCONECTADO"); //TESTE DE BOTAO
+                        botao.setText("Conectar");
+                        AtorJogador.this.atorNetGames.desconectar();
+                        break;
+                }
           }
 
         }
