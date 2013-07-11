@@ -266,17 +266,25 @@ public class AtorJogador extends javax.swing.JFrame {
         jNomeAdv.setText(nomeOutroParticipante);
         jNome.setText(nome);
         mesa.montarBaralho();
+        mesa.distribuirCartasMesa();
         try {
+            if(comecarJogando){
             mesa.distribuirCartasJogador();
+            exibirEstado();
+            }
+            else{
+            mesa.distribuirCartasJogador();
+            exibirEstado();
+            }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "ERRO");
+            System.out.println(ex.getCause());
         }
-        try {
-                mesa.distribuirCartasJogador();
-                this.exibirEstado();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Baralho Insuficiente");
-        }
+//        try {
+//                mesa.distribuirCartasJogador();
+//                this.exibirEstado();
+//            } catch (Exception ex) {
+//                JOptionPane.showMessageDialog(null, "Baralho Insuficiente");
+//        }
 
         
     }
@@ -310,13 +318,27 @@ public class AtorJogador extends javax.swing.JFrame {
     public void exibirEstado() {
         ArrayList<String> cartasMesa = mesa.getCartaMesa();    
         ArrayList<String> cartasMao = mesa.getCartaMao();
+        labelsMesa = new ArrayList();
+        labelsMesa.add(jMesa1);
+        labelsMesa.add(jMesa2);
+        labelsMesa.add(jMesa3);
+        labelsMesa.add(jMesa4);
+        labelsMesa.add(jMesa5);
+        labelsMesa.add(jMesa6);
+        labelsMesa.add(jMesa7);
+        labelsMesa.add(jMesa8);
+        
+        labelsMao = new ArrayList<>();
+        labelsMao.add(jMao1);
+        labelsMao.add(jMao2);
+        labelsMao.add(jMao3);
         
         for(int i = 0; i < cartasMesa.size(); i++){
-           labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMesa.get(1) + ".png")));
+           labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMesa.get(i) + ".png")));
         }
         
         for(int i = 0; i < cartasMao.size(); i++){
-           labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMao.get(1) + ".png")));
+           labelsMao.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMao.get(i) + ".png")));
         }
         
         

@@ -46,13 +46,13 @@ public class Mesa {
         slotCartaMesa = new ArrayList();
 
         for (int i = 0; i < 4; i++) {
-            cartaBaralho = (int) (1 + (Math.random() * getQuantidadeCartasBaralho()));
+            cartaBaralho = (int)  (getQuantidadeCartasBaralho() - 1);
             Slot slot = new Slot();
             slot.setCarta(baralho.get(cartaBaralho));
             slotCartaMesa.add(slot); // vai adicionando os 4 slots da mesa
             baralho.remove(cartaBaralho);
+            setQuantidadeCartasBaralho(-1);
         }
-        setQuantidadeCartasBaralho(-4);
     }
 
     public void distribuirCartasJogador() throws Exception {
@@ -60,11 +60,12 @@ public class Mesa {
         if (getQuantidadeCartasBaralho() > 6) { // caso tenha cartas suficientes para distribuir para os 2 jogadores
             if (avaliarFimCartasMao()) { // verifica se realmente eles estão sem nenhuma carta na mão
                 for (int i = 0; i < 3; i++) {
-                    cartaBaralho = (int) (1 + (Math.random() * getQuantidadeCartasBaralho())); // pega uma carta aleatoria do baralho
+                    cartaBaralho = (int) (getQuantidadeCartasBaralho() - 1); // pega uma carta aleatoria do baralho
                     jogador.adicionarCartaMao(baralho.get(cartaBaralho)); // adiciona na mao do jogador
+                    jogador.setQuantidadeCartasMao(1);
                     baralho.remove(cartaBaralho); // remove essa carta do baralho
+                    setQuantidadeCartasBaralho(-1);
                 }
-                setQuantidadeCartasBaralho(-3);
             }
         } else {
             throw new Exception("Baralho Insuficiente");
@@ -72,7 +73,7 @@ public class Mesa {
     }
 
     public void montarBaralho() {
-        quantidadeCartasBaralho = 44;
+        setQuantidadeCartasBaralho(44);
         for (int i = 0; i < 11; i++) {
 
             baralho.add(new Carta(i, "Ouros"));
@@ -119,7 +120,7 @@ public class Mesa {
      * @param quantidade
      */
     public void setQuantidadeCartasBaralho(int quantidade) {
-        this.quantidadeCartasBaralho = quantidade;
+        this.quantidadeCartasBaralho += quantidade;
     }
 
     public Jogador getJogador() {
@@ -138,7 +139,7 @@ public class Mesa {
     public ArrayList<String> getCartaMesa() {
         ArrayList<String> cartas = new ArrayList();
         for (Slot i : slotCartaMesa) {
-            cartas.add(i.getCarta().getValor() + "_" + i.getCarta().getNaipe());
+            cartas.add(i.getCarta().getValor()+1 + "_" + i.getCarta().getNaipe());
         }
         return cartas;
     }
@@ -147,7 +148,7 @@ public class Mesa {
         ArrayList<String> cartas = new ArrayList();
         
         for (int i = 0; i < jogador.getQuantidadeCartasMao(); i++) {
-            cartas.add(jogador.getMao().get(i).getNumero() + "_" + jogador.getMao().get(i).getNaipe());
+            cartas.add(jogador.getMao().get(i).getNumero()+1 + "_" + jogador.getMao().get(i).getNaipe());
         }
         return cartas;
     }

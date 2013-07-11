@@ -64,7 +64,7 @@ public class Jogador {
      * @param quantidade
      */
     public void setQuantidadeCartasMao(int quantidade) {
-        this.quantidadeCartasMao = quantidade;
+        this.quantidadeCartasMao += quantidade;
     }
 
     public void setVencedor() {
