@@ -5,6 +5,8 @@ import dominioProblema.Mesa;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -30,7 +32,7 @@ public class AtorJogador extends javax.swing.JFrame {
         atorNetGames = new AtorNetGames(this);
         maoClicado = null;
 
-        //TESTES
+       /* //TESTES
         String cart = "1_Ouro";
         jMao1.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cart + ".png")));
 
@@ -44,7 +46,8 @@ public class AtorJogador extends javax.swing.JFrame {
         //QUANDO MORTO TIVER CARTAS
         jMortoAdv.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
         jMorto.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
-
+    */
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -228,8 +231,8 @@ public class AtorJogador extends javax.swing.JFrame {
             jPainel.add(mao);
         }
         
-        for (JLabel mesa : labelsMesa){
-            jPainel.add(mesa);
+        for (JLabel mes : labelsMesa){
+            jPainel.add(mes);
         }
 
         return jPainel;
@@ -248,8 +251,8 @@ public class AtorJogador extends javax.swing.JFrame {
      * @param iniciarComoSolicitante
      */
     public void iniciarPartidaEmRede(boolean comecarJogando) {
-        Mesa mesa = new Mesa();
-
+        mesa = new Mesa();
+        
         String nomeOutroParticipante = atorNetGames.obtemNomeAdversario();
 
         if (comecarJogando) {
@@ -262,6 +265,20 @@ public class AtorJogador extends javax.swing.JFrame {
         
         jNomeAdv.setText(nomeOutroParticipante);
         jNome.setText(nome);
+        mesa.montarBaralho();
+        try {
+            mesa.distribuirCartasJogador();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "ERRO");
+        }
+        try {
+                mesa.distribuirCartasJogador();
+                this.exibirEstado();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Baralho Insuficiente");
+        }
+
+        
     }
 
     public boolean efetuarJogadaEmRede(JogadaEscopa cartasSelecionadas) {
@@ -291,7 +308,18 @@ public class AtorJogador extends javax.swing.JFrame {
     }
 
     public void exibirEstado() {
-        throw new UnsupportedOperationException();
+        ArrayList<String> cartasMesa = mesa.getCartaMesa();    
+        ArrayList<String> cartasMao = mesa.getCartaMao();
+        
+        for(int i = 0; i < cartasMesa.size(); i++){
+           labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMesa.get(1) + ".png")));
+        }
+        
+        for(int i = 0; i < cartasMao.size(); i++){
+           labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMao.get(1) + ".png")));
+        }
+        
+        
     }
 
     /**

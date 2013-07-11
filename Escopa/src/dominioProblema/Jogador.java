@@ -6,8 +6,8 @@ import java.util.List;
 public class Jogador {
 
     protected List<Carta> mao;
-    protected List<Slot> slotCartaJogador;
     protected String nome;
+
     /**
      * Identifica se � jogador local ou remoto
      */
@@ -21,6 +21,7 @@ public class Jogador {
 
         this.nome = nome;
         mao = new ArrayList<>(3);
+        vezDeJogar = true;
     }
 
 //    public int informarTipo() throws Exception {
@@ -32,6 +33,10 @@ public class Jogador {
 
     public int getPontuacao() {
         return this.pontuacao;
+    }
+    
+    public List<Carta> getMao() {
+        return mao;
     }
 
     public void setPontuacao(int pontuacao) {
