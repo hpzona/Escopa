@@ -222,6 +222,7 @@ public class AtorJogador extends javax.swing.JFrame {
     
     
     public void inicializar() {
+        String nome = JOptionPane.showInputDialog("Nome");
         atorNetGames.conectarRede(nome, "venus.inf.ufsc.br");
     }
 
@@ -251,7 +252,7 @@ public class AtorJogador extends javax.swing.JFrame {
 
             if (jogadaEfetuada) {
                 //IGU
-
+                
                 atorNetGames.enviarJogadaRede(mesa.informarJogada());
                 return jogadaEfetuada;
             } else {
@@ -304,11 +305,13 @@ public class AtorJogador extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "CONECTADO"); //TESTE DE BOTAO
                         botao.setText("Desconectar");
                         inicializar();
+                        AtorJogador.this.atorNetGames.iniciarPartidaRede();
+                        iniciarPartidaEmRede(true);
                         break;
                     case "Desconectar":
                         JOptionPane.showMessageDialog(null, "DESCONECTADO"); //TESTE DE BOTAO
                         botao.setText("Conectar");
-                        inicializar();
+                        AtorJogador.this.atorNetGames.desconectar();
                         break;
                 }
           }
