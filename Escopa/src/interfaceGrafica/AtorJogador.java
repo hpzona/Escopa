@@ -28,26 +28,26 @@ public class AtorJogador extends javax.swing.JFrame {
 
     public AtorJogador() {
         initComponents();
-        
+
         atorNetGames = new AtorNetGames(this);
         maoClicado = null;
 
-       /* //TESTES
-        String cart = "1_Ouro";
-        jMao1.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cart + ".png")));
+        /* //TESTES
+         String cart = "1_Ouro";
+         jMao1.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cart + ".png")));
 
-        //será um metodo 
-        boolean temCarta = true;
-        //QUANDO BARALHO TEM CARTA
-        if (temCarta) {
-            jBaralho.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
-        }
+         //será um metodo 
+         boolean temCarta = true;
+         //QUANDO BARALHO TEM CARTA
+         if (temCarta) {
+         jBaralho.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
+         }
 
-        //QUANDO MORTO TIVER CARTAS
-        jMortoAdv.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
-        jMorto.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
-    */
-        
+         //QUANDO MORTO TIVER CARTAS
+         jMortoAdv.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
+         jMorto.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
+         */
+
     }
 
     @SuppressWarnings("unchecked")
@@ -202,7 +202,7 @@ public class AtorJogador extends javax.swing.JFrame {
     private JPanel getJPainel() {
         jPainel = new PainelPrincipal();
         jPainel.setLayout(null);
-        
+
         //Add Labels na Mesa
         labelsMesa = new ArrayList();
         labelsMesa.add(jMesa1);
@@ -230,15 +230,14 @@ public class AtorJogador extends javax.swing.JFrame {
         for (JLabel mao : labelsMao) {
             jPainel.add(mao);
         }
-        
-        for (JLabel mes : labelsMesa){
+
+        for (JLabel mes : labelsMesa) {
             jPainel.add(mes);
         }
 
         return jPainel;
     }
-    
-    
+
     public void inicializar() {
         PainelConectar p = new PainelConectar(this, true);
         p.setVisible(true);
@@ -250,35 +249,41 @@ public class AtorJogador extends javax.swing.JFrame {
      *
      * @param iniciarComoSolicitante
      */
-    public void iniciarPartidaEmRede(boolean comecarJogando) {
+    public void iniciarPartidaEmRede(boolean minhaVez) {
         mesa = new Mesa();
-        
+
         String nomeOutroParticipante = atorNetGames.obtemNomeAdversario();
 
-        if (comecarJogando) {
+        if (minhaVez) {
             mesa.criarJogador(this.nome);
             mesa.criarJogador(nomeOutroParticipante);
+            jNomeAdv.setText(nomeOutroParticipante);
+            jNome.setText(nome);
+            mesa.montarBaralho();
+            mesa.distribuirCartasMesa();
+            try {
+                mesa.distribuirCartasJogador();
+            } catch (Exception ex) {
+                Logger.getLogger(AtorJogador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+
         } else {
             mesa.criarJogador(nomeOutroParticipante);
             mesa.criarJogador(this.nome);
-        }
-        
-        jNomeAdv.setText(nomeOutroParticipante);
-        jNome.setText(nome);
-        mesa.montarBaralho();
-        mesa.distribuirCartasMesa();
-        try {
-            if(comecarJogando){
-            mesa.distribuirCartasJogador();
-            exibirEstado();
+            jNomeAdv.setText(nomeOutroParticipante);
+            jNome.setText(nome);
+            mesa.montarBaralho();
+            mesa.distribuirCartasMesa();
+            try {
+                mesa.distribuirCartasJogador();
+            } catch (Exception ex) {
+                Logger.getLogger(AtorJogador.class.getName()).log(Level.SEVERE, null, ex);
             }
-            else{
-            mesa.distribuirCartasJogador();
-            exibirEstado();
-            }
-        } catch (Exception ex) {
-            System.out.println(ex.getCause());
+
         }
+        exibirEstado();
+
 //        try {
 //                mesa.distribuirCartasJogador();
 //                this.exibirEstado();
@@ -286,7 +291,7 @@ public class AtorJogador extends javax.swing.JFrame {
 //                JOptionPane.showMessageDialog(null, "Baralho Insuficiente");
 //        }
 
-        
+
     }
 
     public boolean efetuarJogadaEmRede(JogadaEscopa cartasSelecionadas) {
@@ -297,7 +302,7 @@ public class AtorJogador extends javax.swing.JFrame {
 
             if (jogadaEfetuada) {
                 //IGU
-                
+
                 atorNetGames.enviarJogadaRede(mesa.informarJogada());
                 return jogadaEfetuada;
             } else {
@@ -316,7 +321,7 @@ public class AtorJogador extends javax.swing.JFrame {
     }
 
     public void exibirEstado() {
-        ArrayList<String> cartasMesa = mesa.getCartaMesa();    
+        ArrayList<String> cartasMesa = mesa.getCartaMesa();
         ArrayList<String> cartasMao = mesa.getCartaMao();
         labelsMesa = new ArrayList();
         labelsMesa.add(jMesa1);
@@ -327,21 +332,22 @@ public class AtorJogador extends javax.swing.JFrame {
         labelsMesa.add(jMesa6);
         labelsMesa.add(jMesa7);
         labelsMesa.add(jMesa8);
-        
+
         labelsMao = new ArrayList<>();
         labelsMao.add(jMao1);
         labelsMao.add(jMao2);
         labelsMao.add(jMao3);
-        
-        for(int i = 0; i < cartasMesa.size(); i++){
-           labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMesa.get(i) + ".png")));
+        labelsMao.add(jMao3);
+        labelsMao.add(jMao3);
+
+        for (int i = 0; i < cartasMesa.size(); i++) {
+            labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMesa.get(i) + ".png")));
         }
-        
-        for(int i = 0; i < cartasMao.size(); i++){
-           labelsMao.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMao.get(i) + ".png")));
-        }
-        
-        
+
+            for (int i = 0; i < cartasMao.size(); i++) {
+                labelsMao.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMao.get(i) + ".png")));
+            }
+
     }
 
     /**
@@ -368,24 +374,22 @@ public class AtorJogador extends javax.swing.JFrame {
     }//GEN-LAST:event_temp
 
     private void jConectarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConectarButtonActionPerformed
-        if(evt.getSource() instanceof JMenuItem ){
-              JMenuItem botao = (JMenuItem)evt.getSource();
-                switch (botao.getText()) {
-                    case "Conectar":
-                        botao.setText("Desconectar");
-                        inicializar();
-                        AtorJogador.this.atorNetGames.iniciarPartidaRede();
-                        iniciarPartidaEmRede(true);
-                        break;
-                    case "Desconectar":
-                        JOptionPane.showMessageDialog(null, "DESCONECTADO"); //TESTE DE BOTAO
-                        botao.setText("Conectar");
-                        AtorJogador.this.atorNetGames.desconectar();
-                        break;
-                }
-          }
+        if (evt.getSource() instanceof JMenuItem) {
+            JMenuItem botao = (JMenuItem) evt.getSource();
+            switch (botao.getText()) {
+                case "Conectar":
+                    botao.setText("Desconectar");
+                    inicializar();
+                    AtorJogador.this.atorNetGames.iniciarPartidaRede();
+                    break;
+                case "Desconectar":
+                    JOptionPane.showMessageDialog(null, "DESCONECTADO"); //TESTE DE BOTAO
+                    botao.setText("Conectar");
+                    AtorJogador.this.atorNetGames.desconectar();
+                    break;
+            }
+        }
     }//GEN-LAST:event_jConectarButtonActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jBaralho;
     private javax.swing.JMenuItem jConectarButton;

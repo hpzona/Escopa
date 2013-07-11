@@ -8,6 +8,8 @@ public class Jogador {
     protected List<Carta> mao;
     protected String nome;
 
+ 
+
     /**
      * Identifica se � jogador local ou remoto
      */
@@ -31,6 +33,15 @@ public class Jogador {
 //        return tipo;
 //    }
 
+    
+       public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
     public int getPontuacao() {
         return this.pontuacao;
     }
