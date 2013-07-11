@@ -51,6 +51,8 @@ public class AtorJogador extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jNome = new javax.swing.JLabel();
+        jNomeAdv = new javax.swing.JLabel();
         jMao1 = new javax.swing.JLabel();
         jMao2 = new javax.swing.JLabel();
         jMao3 = new javax.swing.JLabel();
@@ -66,7 +68,7 @@ public class AtorJogador extends javax.swing.JFrame {
         jBaralho = new javax.swing.JLabel();
         jMortoAdv = new javax.swing.JLabel();
         jMorto = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        jFundo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jConectarButton = new javax.swing.JMenuItem();
@@ -77,6 +79,15 @@ public class AtorJogador extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(810, 547));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jNome.setForeground(new java.awt.Color(255, 255, 255));
+        jNome.setText("  ");
+        jNome.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+        getContentPane().add(jNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 90, 30));
+
+        jNomeAdv.setForeground(new java.awt.Color(255, 255, 255));
+        jNomeAdv.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+        getContentPane().add(jNomeAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 90, 30));
 
         jMao1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMao1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 390, 80, 100));
@@ -112,14 +123,18 @@ public class AtorJogador extends javax.swing.JFrame {
         getContentPane().add(jMesa8, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 250, 80, 100));
 
         jDescarte.setBackground(new java.awt.Color(255, 255, 255));
-        jDescarte.setForeground(new java.awt.Color(255, 255, 255));
-        jDescarte.setText("   DESCARTAR");
-        jDescarte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 4));
-        getContentPane().add(jDescarte, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 450, 90, 30));
+        jDescarte.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jDescarte.setForeground(new java.awt.Color(135, 136, 32));
+        jDescarte.setText("  FAZER JOGADA / DESCARTAR");
+        jDescarte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(135, 136, 32), 2));
+        jDescarte.setOpaque(true);
+        getContentPane().add(jDescarte, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 450, 180, 30));
         getContentPane().add(jBaralho, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 80, 100));
         getContentPane().add(jMortoAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 110, 80, 100));
         getContentPane().add(jMorto, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 290, 80, 100));
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 500));
+
+        jFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/mesa.png"))); // NOI18N
+        getContentPane().add(jFundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 500));
 
         jMenu1.setText("Arquivo");
 
@@ -222,7 +237,9 @@ public class AtorJogador extends javax.swing.JFrame {
     
     
     public void inicializar() {
-        String nome = JOptionPane.showInputDialog("Nome");
+        PainelConectar p = new PainelConectar(this, true);
+        p.setVisible(true);
+        nome = p.getTextField();
         atorNetGames.conectarRede(nome, "venus.inf.ufsc.br");
     }
 
@@ -242,6 +259,9 @@ public class AtorJogador extends javax.swing.JFrame {
             mesa.criarJogador(nomeOutroParticipante);
             mesa.criarJogador(this.nome);
         }
+        
+        jNomeAdv.setText(nomeOutroParticipante);
+        jNome.setText(nome);
     }
 
     public boolean efetuarJogadaEmRede(JogadaEscopa cartasSelecionadas) {
@@ -302,7 +322,6 @@ public class AtorJogador extends javax.swing.JFrame {
               JMenuItem botao = (JMenuItem)evt.getSource();
                 switch (botao.getText()) {
                     case "Conectar":
-                        JOptionPane.showMessageDialog(null, "CONECTADO"); //TESTE DE BOTAO
                         botao.setText("Desconectar");
                         inicializar();
                         AtorJogador.this.atorNetGames.iniciarPartidaRede();
@@ -321,7 +340,7 @@ public class AtorJogador extends javax.swing.JFrame {
     private javax.swing.JLabel jBaralho;
     private javax.swing.JMenuItem jConectarButton;
     private javax.swing.JLabel jDescarte;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jFundo;
     private javax.swing.JLabel jMao1;
     private javax.swing.JLabel jMao2;
     private javax.swing.JLabel jMao3;
@@ -338,5 +357,7 @@ public class AtorJogador extends javax.swing.JFrame {
     private javax.swing.JLabel jMesa8;
     private javax.swing.JLabel jMorto;
     private javax.swing.JLabel jMortoAdv;
+    private javax.swing.JLabel jNome;
+    private javax.swing.JLabel jNomeAdv;
     // End of variables declaration//GEN-END:variables
 }

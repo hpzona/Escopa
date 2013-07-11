@@ -8,10 +8,7 @@ import interfaceGrafica.AtorJogador;
 import interfaceGrafica.PainelPrincipal;
 import javax.swing.JFrame;
 
-/**
- *
- * @author Willian
- */
+
 public class TesteMain {
 
 	public static void main(String args[]){
