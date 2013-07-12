@@ -42,6 +42,7 @@ public class AtorJogador extends javax.swing.JFrame {
 
         atorNetGames = new AtorNetGames(this);
         maoClicado = null;
+        // jPainel = this.iniciarPainel();
 
         /* //TESTES
          String cart = "1_Ouro";
@@ -210,7 +211,7 @@ public class AtorJogador extends javax.swing.JFrame {
         jConectarButton.addActionListener(evt);
     }
 
-    private JPanel getJPainel() {
+    private JPanel iniciarPainel() {
         jPainel = new PainelPrincipal();
         jPainel.setLayout(null);
 
@@ -277,11 +278,12 @@ public class AtorJogador extends javax.swing.JFrame {
 
         this.efetuarJogada(mesa);
         this.receberJogada(mesa);
+        jNome.setText(nome);
+        jNomeAdv.setText(mesa.getJogadores().get(1).getNome());
 
 
     }
 
- 
 //    public void iniciarPartidaEmRede(boolean minhaVez) {
 //        mesa = new Mesa();
 //        mesa.montarBaralho();
@@ -359,7 +361,6 @@ public class AtorJogador extends javax.swing.JFrame {
 //
 //
 //    }
-
     public void efetuarJogada(Jogada jogada) {
 
         atorNetGames.enviarJogadaRede(jogada);
@@ -393,10 +394,6 @@ public class AtorJogador extends javax.swing.JFrame {
 
     }
 
-
-
-
-
     private void atualizaCartasJogadorAtual(Jogador joga) {
 
         labelsMao = new ArrayList<>();
@@ -413,6 +410,12 @@ public class AtorJogador extends javax.swing.JFrame {
     }
 
     public void exibirEstado() {
+
+        if (jNome.getText().equalsIgnoreCase("") || jNomeAdv.getText().equalsIgnoreCase("")) {
+            jNome.setText(nome);
+            jNomeAdv.setText(mesa.getJogadores().get(0).getNome());
+        }
+
         ArrayList<String> cartasMesa = mesa.getCartaMesa();
 //        ArrayList<String> cartasMao = mesa.getCartaMao();
         labelsMesa = new ArrayList();

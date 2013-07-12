@@ -11,18 +11,11 @@ import java.util.logging.Logger;
 
 public class Mesa implements Jogada {
 
-    public List<Jogador> getJogadores() {
-        return jogadores;
-    }
 
-    public void setJogadores(List<Jogador> jogadores) {
-        this.jogadores = jogadores;
-    }
     private List<Jogador> jogadores;
     protected ArrayList<Slot> slotCartaMesa;
     protected List<Carta> baralho;
     protected List<Carta> morto;
-//    protected ArrayList<Jogador> jogadores;
     protected Jogador jogador;
     protected AtorJogador ator;
     protected boolean partidaEmAndamento;
@@ -30,7 +23,14 @@ public class Mesa implements Jogada {
 
     public Mesa() {
         baralho = new ArrayList();
-//        jogadores = new ArrayList();
+    }
+    
+    public List<Jogador> getJogadores() {
+        return jogadores;
+    }
+
+    public void setJogadores(List<Jogador> jogadores) {
+        this.jogadores = jogadores;
     }
 
     public void limparMesa() {

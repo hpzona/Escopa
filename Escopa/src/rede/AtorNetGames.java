@@ -102,36 +102,35 @@ public class AtorNetGames implements OuvidorProxy {
         return this.minhaVez;
     }
 
-//    public String obtemNomeAdversario() {
-//        String nome = "";
-//
-//        if (minhaVez) {
-//            nome = proxy.obterNomeAdversario(2);
-//        } else {
-//            nome = proxy.obterNomeAdversario(1);
-//        }
-//
-//        return nome;
-//    }
-    
-        public List<Jogador> getJogadores() {
+    public String obtemNomeAdversario(Jogador jogadorAtual, String atual) {
+        String nome = "";
+        if (jogadorAtual.getNome().equals(atual)) {
+            nome = proxy.obterNomeAdversario(2);
+        } else {
+            nome = proxy.obterNomeAdversario(1);
+        }
+
+        return nome;
+    }
+
+    public List<Jogador> getJogadores() {
         List<Jogador> jogadores = new ArrayList<Jogador>();
 
-        
+
         for (int i = 1; i < 3; i++) {
 
             Jogador j = null;
-            try{
-             j = new Jogador(proxy.obterNomeAdversario(i), i);
+            try {
+                j = new Jogador(proxy.obterNomeAdversario(i), i);
 
-            System.out.println("NOME" + j.getNome() + " ID "+i);
+                System.out.println("NOME" + j.getNome() + " ID " + i);
                 jogadores.add(j);
-              }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("Sem Jogadores Suficientes");
-             }
-            
+            }
+
         }
-      
+
         return jogadores;
 
     }
@@ -151,6 +150,4 @@ public class AtorNetGames implements OuvidorProxy {
     @Override
     public void tratarPartidaNaoIniciada(String message) {
     }
-
- 
 }
