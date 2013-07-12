@@ -249,14 +249,13 @@ public class AtorJogador extends javax.swing.JFrame {
      *
      * @param iniciarComoSolicitante
      */
-    public void iniciarPartidaEmRede(boolean minhaVez) {
+    public void iniciarPartidaEmRede(boolean minhaPos) {
         mesa = new Mesa();
 
         String nomeOutroParticipante = atorNetGames.obtemNomeAdversario();
 
-        if (minhaVez) {
-            mesa.criarJogador(this.nome);
-            mesa.criarJogador(nomeOutroParticipante);
+        //if (minhaVez) {
+            mesa.posicionarJogadores(minhaPos, nomeOutroParticipante, this.nome);
             jNomeAdv.setText(nomeOutroParticipante);
             jNome.setText(nome);
             mesa.montarBaralho();
@@ -268,7 +267,7 @@ public class AtorJogador extends javax.swing.JFrame {
             }
 
 
-        } else {
+       /* } else {
             mesa.criarJogador(nomeOutroParticipante);
             mesa.criarJogador(this.nome);
             jNomeAdv.setText(nomeOutroParticipante);
@@ -281,7 +280,7 @@ public class AtorJogador extends javax.swing.JFrame {
                 Logger.getLogger(AtorJogador.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        }
+        }*/
         exibirEstado();
 
 //        try {
@@ -303,7 +302,7 @@ public class AtorJogador extends javax.swing.JFrame {
             if (jogadaEfetuada) {
                 //IGU
 
-                atorNetGames.enviarJogadaRede(mesa.informarJogada());
+                //atorNetGames.enviarJogadaRede(mesa.informarJogada());
                 return jogadaEfetuada;
             } else {
                 JOptionPane.showMessageDialog(null, "ERRO NA JOGADA");
