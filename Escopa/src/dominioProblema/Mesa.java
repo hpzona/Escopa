@@ -132,8 +132,14 @@ public class Mesa implements Jogada {
             baralho.add(new Carta(i, "Espadas"));
         }
     }
+    
+    public Carta getCarta(int index){
+        Carta c = null;
+        c = slotCartaMesa.get(index).getCarta();
+        return c;
+    }
 
-    public ArrayList<String> getCartaMesa() {
+    public ArrayList<String> getCartaMesa_toString() {
         ArrayList<String> cartas = new ArrayList();
         for (Slot i : slotCartaMesa) {
             cartas.add(i.getCarta().getNumero() + "_" + i.getCarta().getNaipe());
@@ -141,13 +147,23 @@ public class Mesa implements Jogada {
         return cartas;
     }
 
-    public ArrayList<String> getCartaMao(Jogador jogador) {
+    public ArrayList<String> getCartaMao_toString(Jogador jogador) {
         ArrayList<String> cartas = new ArrayList();
         for (int i = 0; i < jogador.getMao().size(); i++) {
             cartas.add(jogador.getMao().get(i).getNumero() + "_" + jogador.getMao().get(i).getNaipe());
         }
         return cartas;
     }
+    
+    public void addCartaMesa(Carta carta){
+        slotCartaMesa.add(new Slot(carta));
+    }
+    
+    public int nextPosicaoLivre(){
+        int pos = slotCartaMesa.size();
+        return pos; 
+    }
+    
 
     public boolean avaliarFimDoBaralho() { //troquei para boolean, me corrijam se eu estiver errado
         if (getQuantidadeCartasBaralho() == 0) {

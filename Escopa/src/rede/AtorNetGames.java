@@ -70,7 +70,7 @@ public class AtorNetGames implements OuvidorProxy {
     @Override
     public void receberJogada(Jogada jogada) {
         atorJogador.receberJogada(jogada);
-//        minhaVez = true;
+        minhaVez = true;
     }
 
     public void iniciarPartidaRede() {
@@ -83,13 +83,11 @@ public class AtorNetGames implements OuvidorProxy {
 
     @Override
     public void iniciarNovaPartida(Integer posicao) {
-//        if (posicao == 1) {
-//            minhaVez = true;
-//        } else if (posicao == 2) {
-//            minhaVez = false;
-//        }
-//
-////        atorJogador.iniciarPartidaEmRede(minhaVez);
+        if (posicao == 1) {
+            minhaVez = true;
+       } else if (posicao == 2) {
+            minhaVez = false;
+        }
     }
 
     public AtorNetGames() {
@@ -100,17 +98,6 @@ public class AtorNetGames implements OuvidorProxy {
 
     public boolean isMinhaVez() {
         return this.minhaVez;
-    }
-
-    public String obtemNomeAdversario(Jogador jogadorAtual, String atual) {
-        String nome = "";
-        if (jogadorAtual.getNome().equals(atual)) {
-            nome = proxy.obterNomeAdversario(2);
-        } else {
-            nome = proxy.obterNomeAdversario(1);
-        }
-
-        return nome;
     }
 
     public List<Jogador> getJogadores() {
