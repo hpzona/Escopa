@@ -1,7 +1,9 @@
 package dominioProblema;
 
+import br.ufsc.inf.leobr.cliente.Jogada;
 
-public class Slot {
+
+public class Slot implements Jogada{
 
 	protected Carta carta; 
 	protected boolean slotSelecionado;

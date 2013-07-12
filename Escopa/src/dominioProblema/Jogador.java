@@ -1,15 +1,13 @@
 package dominioProblema;
 
+import br.ufsc.inf.leobr.cliente.Jogada;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Jogador {
+public class Jogador implements Jogada {
 
     protected List<Carta> mao;
     protected String nome;
-
- 
-
     /**
      * Identifica se � jogador local ou remoto
      */
@@ -18,12 +16,20 @@ public class Jogador {
     protected int quantidadeCartasMao;
     protected boolean vencedor;
     protected JogadaEscopa jogada;
+    protected int id;
 
-    public Jogador(String nome) {
+    public Jogador(String nome, int id) {
 
         this.nome = nome;
         mao = new ArrayList<>(3);
-        vezDeJogar = true;
+        this.id = id;
+    }
+
+    public Jogador(String nome) {
+        
+        this.nome = nome;
+        mao = new ArrayList<>(3);
+
     }
 
 //    public int informarTipo() throws Exception {
@@ -32,23 +38,27 @@ public class Jogador {
 //        }
 //        return tipo;
 //    }
-
-    
-       public String getNome() {
+    public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
     public int getPontuacao() {
         return this.pontuacao;
     }
-    
+
     public List<Carta> getMao() {
         return mao;
     }
+
+    public void setMao(List<Carta> mao) {
+        this.mao = mao;
+    }
+
+ 
 
     public void setPontuacao(int pontuacao) {
         this.pontuacao += pontuacao;

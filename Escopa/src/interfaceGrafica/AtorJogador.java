@@ -1,10 +1,14 @@
 package interfaceGrafica;
 
+import br.ufsc.inf.leobr.cliente.Jogada;
+import dominioProblema.Carta;
 import dominioProblema.JogadaEscopa;
+import dominioProblema.Jogador;
 import dominioProblema.Mesa;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -22,9 +26,16 @@ public class AtorJogador extends javax.swing.JFrame {
     protected ArrayList<JLabel> labelsMao;
     protected JPanel jPainel = null;
     protected Mesa mesa;
+    protected Jogador jogadorAtual;
     protected JLabel slot;
     protected AtorNetGames atorNetGames;
+    protected int quantidadeExcluir;
     String nome;
+
+    public void criarJogadorAtual(String nome) {
+        jogadorAtual = new Jogador(nome);
+
+    }
 
     public AtorJogador() {
         initComponents();
@@ -243,85 +254,167 @@ public class AtorJogador extends javax.swing.JFrame {
         p.setVisible(true);
         nome = p.getTextField();
         atorNetGames.conectarRede(nome, "venus.inf.ufsc.br");
+        criarJogadorAtual(nome);
+        iniciarPartida();
     }
 
-    /**
-     *
-     * @param iniciarComoSolicitante
-     */
-    public void iniciarPartidaEmRede(boolean minhaPos) {
-        mesa = new Mesa();
+    public void iniciarPartida() {
 
-        String nomeOutroParticipante = atorNetGames.obtemNomeAdversario();
+        atorNetGames.iniciarPartidaRede();
 
-        //if (minhaVez) {
-            mesa.posicionarJogadores(minhaPos, nomeOutroParticipante, this.nome);
-            jNomeAdv.setText(nomeOutroParticipante);
-            jNome.setText(nome);
-            mesa.montarBaralho();
-            mesa.distribuirCartasMesa();
-            try {
-                mesa.distribuirCartasJogador();
-            } catch (Exception ex) {
-                Logger.getLogger(AtorJogador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        List<Jogador> jogadores = atorNetGames.getJogadores();
 
-
-       /* } else {
-            mesa.criarJogador(nomeOutroParticipante);
-            mesa.criarJogador(this.nome);
-            jNomeAdv.setText(nomeOutroParticipante);
-            jNome.setText(nome);
-            mesa.montarBaralho();
-            mesa.distribuirCartasMesa();
-            try {
-                mesa.distribuirCartasJogador();
-            } catch (Exception ex) {
-                Logger.getLogger(AtorJogador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }*/
-        exibirEstado();
-
-//        try {
-//                mesa.distribuirCartasJogador();
-//                this.exibirEstado();
-//            } catch (Exception ex) {
-//                JOptionPane.showMessageDialog(null, "Baralho Insuficiente");
-//        }
-
-
-    }
-
-    public boolean efetuarJogadaEmRede(JogadaEscopa cartasSelecionadas) {
-
-
-        if (atorNetGames.isMinhaVez()) {
-            boolean jogadaEfetuada = mesa.tratarJogada(cartasSelecionadas);
-
-            if (jogadaEfetuada) {
-                //IGU
-
-                //atorNetGames.enviarJogadaRede(mesa.informarJogada());
-                return jogadaEfetuada;
-            } else {
-                JOptionPane.showMessageDialog(null, "ERRO NA JOGADA");
-            }
-            return jogadaEfetuada;
+        if (jogadores.size() == 2) {
+            mesa.setJogadores(jogadores);
+            this.iniciarNovaPartida();
         }
-        return false;
 
     }
 
-    public void receberJogada(JogadaEscopa cartasSelecionadas) {
-        mesa.tratarJogada(cartasSelecionadas);
-        //IGU
+    public void iniciarNovaPartida() {
+
+        mesa.iniciarMao();
+
+        this.efetuarJogada(mesa);
+        this.receberJogada(mesa);
+
+
+    }
+
+ 
+//    public void iniciarPartidaEmRede(boolean minhaVez) {
+//        mesa = new Mesa();
+//        mesa.montarBaralho();
+//        mesa.distribuirCartasMesa();
+//        String nomeOutroParticipante = atorNetGames.obtemNomeAdversario();
+////                      JogadaEscopa jogada = new JogadaEscopa();
+//
+//
+//
+//
+//
+//
+//        if (minhaVez) {
+////            mesa.posicionarJogadores(minhaPos, nomeOutroParticipante, this.nome);
+//
+//
+//            mesa.criarJogador(nomeOutroParticipante);
+//            mesa.criarJogador(this.nome);
+//            jNomeAdv.setText(nomeOutroParticipante);
+//            jNome.setText(nome);
+//            exibirEstado();
+//
+////            try {
+////  
+////                if (quantidadeExcluir != 0) {
+////                    mesa.getBaralho().remove(mesa.getQuantidadeCartasBaralho() - quantidadeExcluir);
+////                }
+////
+////
+////                mesa.distribuirCartasJogador();
+////                jogada.setCartas(mesa.getBaralho());
+////                jogada.setQuantidadeParaExcluir(3);
+////
+////                atorNetGames.enviarJogadaRede(jogada);
+//
+////            } catch (Exception ex) {
+////                Logger.getLogger(AtorJogador.class.getName()).log(Level.SEVERE, null, ex);
+////            }
+//
+//
+//        } else {
+//
+//
+//            mesa.criarJogador(this.nome);
+//            mesa.criarJogador(nomeOutroParticipante);
+//            jNomeAdv.setText(nomeOutroParticipante);
+//            jNome.setText(nome);
+//            exibirEstado();
+//
+////            try {
+////                if (quantidadeExcluir != 0) {
+////                    mesa.getBaralho().remove(mesa.getQuantidadeCartasBaralho() - quantidadeExcluir);
+////                }
+////
+////
+////                mesa.distribuirCartasJogador();
+////                jogada.setCartas(mesa.getBaralho());
+////                jogada.setQuantidadeParaExcluir(3);
+////                atorNetGames.enviarJogadaRede(jogada);
+////
+////
+////            } catch (Exception ex) {
+////                Logger.getLogger(AtorJogador.class.getName()).log(Level.SEVERE, null, ex);
+////            }
+//
+//        }
+//
+//
+////        try {
+////                mesa.distribuirCartasJogador();
+////                this.exibirEstado();
+////            } catch (Exception ex) {
+////                JOptionPane.showMessageDialog(null, "Baralho Insuficiente");
+////        }
+//
+//
+//    }
+
+    public void efetuarJogada(Jogada jogada) {
+
+        atorNetGames.enviarJogadaRede(jogada);
+
+
+    }
+
+    protected void setJogadorAtualIniciarPartida(Mesa mesa) {
+        for (Jogador jog : mesa.getJogadores()) {
+            if (jog.getNome().equals(jogadorAtual.getNome())) {
+                jogadorAtual = jog;
+            }
+
+        }
+    }
+
+    public void receberJogada(Jogada jogada) {
+
+        if (jogada instanceof Mesa) {
+
+            this.mesa = (Mesa) jogada;
+
+            this.setJogadorAtualIniciarPartida(mesa);
+
+            exibirEstado();
+
+            atualizaCartasJogadorAtual(jogadorAtual);
+
+
+        }
+
+    }
+
+
+
+
+
+    private void atualizaCartasJogadorAtual(Jogador joga) {
+
+        labelsMao = new ArrayList<>();
+        labelsMao.add(jMao1);
+        labelsMao.add(jMao2);
+        labelsMao.add(jMao3);
+
+        List<String> cartasMao = mesa.getCartaMao(joga);
+
+        for (int i = 0; i < cartasMao.size(); i++) {
+            labelsMao.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMao.get(i) + ".png")));
+        }
 
     }
 
     public void exibirEstado() {
         ArrayList<String> cartasMesa = mesa.getCartaMesa();
-        ArrayList<String> cartasMao = mesa.getCartaMao();
+//        ArrayList<String> cartasMao = mesa.getCartaMao();
         labelsMesa = new ArrayList();
         labelsMesa.add(jMesa1);
         labelsMesa.add(jMesa2);
@@ -332,20 +425,20 @@ public class AtorJogador extends javax.swing.JFrame {
         labelsMesa.add(jMesa7);
         labelsMesa.add(jMesa8);
 
-        labelsMao = new ArrayList<>();
-        labelsMao.add(jMao1);
-        labelsMao.add(jMao2);
-        labelsMao.add(jMao3);
-        labelsMao.add(jMao3);
-        labelsMao.add(jMao3);
+//        labelsMao = new ArrayList<>();
+//        labelsMao.add(jMao1);
+//        labelsMao.add(jMao2);
+//        labelsMao.add(jMao3);
+
 
         for (int i = 0; i < cartasMesa.size(); i++) {
             labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMesa.get(i) + ".png")));
         }
 
-            for (int i = 0; i < cartasMao.size(); i++) {
-                labelsMao.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMao.get(i) + ".png")));
-            }
+//        for (int i = 0; i < cartasMao.size(); i++) {
+//            labelsMao.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMao.get(i) + ".png")));
+//        }
+
 
     }
 
@@ -378,8 +471,8 @@ public class AtorJogador extends javax.swing.JFrame {
             switch (botao.getText()) {
                 case "Conectar":
                     botao.setText("Desconectar");
+                    mesa = new Mesa();
                     inicializar();
-                    AtorJogador.this.atorNetGames.iniciarPartidaRede();
                     break;
                 case "Desconectar":
                     JOptionPane.showMessageDialog(null, "DESCONECTADO"); //TESTE DE BOTAO

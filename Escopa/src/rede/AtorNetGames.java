@@ -9,8 +9,11 @@ import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoJogandoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
 import dominioProblema.JogadaEscopa;
+import dominioProblema.Jogador;
 import dominioProblema.Mesa;
 import interfaceGrafica.AtorJogador;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,9 +69,8 @@ public class AtorNetGames implements OuvidorProxy {
 
     @Override
     public void receberJogada(Jogada jogada) {
-        JogadaEscopa jogadaRecebida = (JogadaEscopa) jogada;
-        atorJogador.receberJogada(jogadaRecebida);
-        minhaVez = true;
+        atorJogador.receberJogada(jogada);
+//        minhaVez = true;
     }
 
     public void iniciarPartidaRede() {
@@ -81,13 +83,13 @@ public class AtorNetGames implements OuvidorProxy {
 
     @Override
     public void iniciarNovaPartida(Integer posicao) {
-        if (posicao == 1) {
-            minhaVez = true;
-        } else if (posicao == 2) {
-            minhaVez = false;
-        }
-
-        atorJogador.iniciarPartidaEmRede(minhaVez);
+//        if (posicao == 1) {
+//            minhaVez = true;
+//        } else if (posicao == 2) {
+//            minhaVez = false;
+//        }
+//
+////        atorJogador.iniciarPartidaEmRede(minhaVez);
     }
 
     public AtorNetGames() {
@@ -100,16 +102,38 @@ public class AtorNetGames implements OuvidorProxy {
         return this.minhaVez;
     }
 
-    public String obtemNomeAdversario() {
-        String nome = "";
+//    public String obtemNomeAdversario() {
+//        String nome = "";
+//
+//        if (minhaVez) {
+//            nome = proxy.obterNomeAdversario(2);
+//        } else {
+//            nome = proxy.obterNomeAdversario(1);
+//        }
+//
+//        return nome;
+//    }
+    
+        public List<Jogador> getJogadores() {
+        List<Jogador> jogadores = new ArrayList<Jogador>();
 
-        if (minhaVez) {
-            nome = proxy.obterNomeAdversario(2);
-        } else {
-            nome = proxy.obterNomeAdversario(1);
+        
+        for (int i = 1; i < 3; i++) {
+
+            Jogador j = null;
+            try{
+             j = new Jogador(proxy.obterNomeAdversario(i), i);
+
+            System.out.println("NOME" + j.getNome() + " ID "+i);
+                jogadores.add(j);
+              }catch(Exception e){
+                System.out.println("Sem Jogadores Suficientes");
+             }
+            
         }
+      
+        return jogadores;
 
-        return nome;
     }
 
     @Override

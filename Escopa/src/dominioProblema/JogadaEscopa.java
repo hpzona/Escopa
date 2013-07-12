@@ -6,6 +6,15 @@ import java.util.List;
 public class JogadaEscopa implements Jogada {
 
     protected List<Carta> jogada;
+    protected int quantidadeParaExcluir;
+
+    public int getQuantidadeParaExcluir() {
+        return quantidadeParaExcluir;
+    }
+
+    public void setQuantidadeParaExcluir(int quantidadeParaExcluir) {
+        this.quantidadeParaExcluir = quantidadeParaExcluir;
+    }
 
     public JogadaEscopa() {
     }

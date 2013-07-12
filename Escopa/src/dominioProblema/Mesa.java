@@ -1,23 +1,36 @@
 package dominioProblema;
 
 import br.ufsc.inf.leobr.cliente.Jogada;
+import interfaceGrafica.AtorJogador;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class Mesa {
+public class Mesa implements Jogada {
 
+    public List<Jogador> getJogadores() {
+        return jogadores;
+    }
+
+    public void setJogadores(List<Jogador> jogadores) {
+        this.jogadores = jogadores;
+    }
+    private List<Jogador> jogadores;
     protected ArrayList<Slot> slotCartaMesa;
     protected List<Carta> baralho;
     protected List<Carta> morto;
-    protected ArrayList<Jogador> jogadores;
+//    protected ArrayList<Jogador> jogadores;
+    protected Jogador jogador;
+    protected AtorJogador ator;
     protected boolean partidaEmAndamento;
     protected int quantidadeCartasBaralho;
 
     public Mesa() {
         baralho = new ArrayList();
-        jogadores = new ArrayList();
+//        jogadores = new ArrayList();
     }
 
     public void limparMesa() {
@@ -29,13 +42,15 @@ public class Mesa {
      * @param nome
      * @param tipo
      */
-    /*    public void criarJogador(String nome) {
-     jogador = new Jogador(nome);
-     }
+    public void criarJogador(String nome) {
+        jogador = new Jogador(nome);
+        try {
+            distribuirCartasJogador(jogador);
+        } catch (Exception ex) {
+            Logger.getLogger(Mesa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-     *
-     * @param primeiro
-     */
 //    public Jogador definirOPrimeiro(int primeiro) {
 //        if (primeiro == 0) {
 //            return jogadorLocal;
@@ -43,22 +58,21 @@ public class Mesa {
 //            return jogadorRemoto;
 //        }
 //    }
-    public void posicionarJogadores(boolean minhaposicao, String nomeAdv, String nome) {
-
-        Jogador local = new Jogador(nome);
-        Jogador remoto = new Jogador(nomeAdv);
-
-        if (minhaposicao == true) {
-            this.jogadores.add(local);
-            this.jogadores.add(remoto);
-        } else {
-            this.jogadores.add(remoto);
-            this.jogadores.add(local);
-        }
-
-
-    }
-
+//    public void posicionarJogadores(boolean minhaposicao, String nomeAdv, String nome) {
+//
+//        Jogador local = new Jogador(nome);
+//        Jogador remoto = new Jogador(nomeAdv);
+//
+//        if (minhaposicao == true) {
+//            this.jogadores.add(local);
+//            this.jogadores.add(remoto);
+//        } else {
+//            this.jogadores.add(remoto);
+//            this.jogadores.add(local);
+//        }
+//
+//
+//    }
     public void distribuirCartasMesa() {
         int cartaBaralho;
         slotCartaMesa = new ArrayList();
@@ -74,36 +88,35 @@ public class Mesa {
 
     }
 
-    public void distribuirCartasJogador() throws Exception {
+    public void distribuirCartasJogador(Jogador jogador) throws Exception {
         int cartaBaralho = 0;
         if (getQuantidadeCartasBaralho() > 6) { // caso tenha cartas suficientes para distribuir para os 2 jogadores
-            if (avaliarFimCartasMao()) { // verifica se realmente eles estão sem nenhuma carta na mão
-                
-                Collections.shuffle(baralho);
-                for (int i = 0; i < 3; i++) {
-                    cartaBaralho = (int) (getQuantidadeCartasBaralho() - 1); // pega uma carta aleatoria do baralho
-                    jogadores.get(0).adicionarCartaMao(baralho.get(cartaBaralho)); // adiciona na mao do jogador
-                    jogadores.get(0).setQuantidadeCartasMao(1);
-                    jogadores.get(0).setVezDeJogar(false);
-                    baralho.remove(cartaBaralho); // remove essa carta do baralho
-                    setQuantidadeCartasBaralho(-1);
-                    
-                    
-                    ///////////////////////////////
-                }
-                
-                  for (int j = 0; j < 3; j++) {
-                    cartaBaralho = (int) (getQuantidadeCartasBaralho() - 1); // pega uma carta aleatoria do baralho
-                    jogadores.get(1).adicionarCartaMao(baralho.get(cartaBaralho)); // adiciona na mao do jogador
-                    jogadores.get(1).setQuantidadeCartasMao(1);
-                    jogadores.get(1).setVezDeJogar(false);
-                    baralho.remove(cartaBaralho); // remove essa carta do baralho
-                    setQuantidadeCartasBaralho(-1);
-                    
-                    
-                    ///////////////////////////////
-                }
+//            if (avaliarFimCartasMao()) { // verifica se realmente eles estão sem nenhuma carta na mão
+
+//                Collections.shuffle(baralho);
+            for (int i = 0; i < 3; i++) {
+                cartaBaralho = (int) (getQuantidadeCartasBaralho() - 1);
+                jogador.adicionarCartaMao(baralho.get(cartaBaralho)); // adiciona na mao do jogador
+                jogador.setQuantidadeCartasMao(1);
+                baralho.remove(cartaBaralho); // remove essa carta do baralho
+                setQuantidadeCartasBaralho(-1);
+
+
+                ///////////////////////////////
             }
+
+//                for (int j = 0; j < 3; j++) {
+//                    cartaBaralho = (int) (getQuantidadeCartasBaralho() - 1); // pega uma carta aleatoria do baralho
+//                    jogadores.get(1).adicionarCartaMao(baralho.get(cartaBaralho)); // adiciona na mao do jogador
+//                    jogadores.get(1).setQuantidadeCartasMao(1);
+//                    jogadores.get(1).setVezDeJogar(false);
+//                    baralho.remove(cartaBaralho); // remove essa carta do baralho
+//                    setQuantidadeCartasBaralho(-1);
+//
+//
+//                    ///////////////////////////////
+//                }
+//            }
         } else {
             throw new Exception("Baralho Insuficiente");
         }
@@ -123,19 +136,19 @@ public class Mesa {
     public ArrayList<String> getCartaMesa() {
         ArrayList<String> cartas = new ArrayList();
         for (Slot i : slotCartaMesa) {
-            cartas.add(i.getCarta().getValor() + 1 + "_" + i.getCarta().getNaipe());
+            cartas.add(i.getCarta().getNumero() + "_" + i.getCarta().getNaipe());
         }
         return cartas;
     }
 
-        public ArrayList<String> getCartaMao() {
-     ArrayList<String> cartas = new ArrayList();
-     for (int i = 0; i < jogadores.get(0).getQuantidadeCartasMao(); i++) {
-     cartas.add(jogadores.get(0).getMao().get(i).getNumero() + 1 + "_" + jogadores.get(0).getMao().get(i).getNaipe());
-     }
-     return cartas;
-     }
-        
+    public ArrayList<String> getCartaMao(Jogador jogador) {
+        ArrayList<String> cartas = new ArrayList();
+        for (int i = 0; i < jogador.getMao().size(); i++) {
+            cartas.add(jogador.getMao().get(i).getNumero() + "_" + jogador.getMao().get(i).getNaipe());
+        }
+        return cartas;
+    }
+
     public boolean avaliarFimDoBaralho() { //troquei para boolean, me corrijam se eu estiver errado
         if (getQuantidadeCartasBaralho() == 0) {
             return true;
@@ -144,15 +157,14 @@ public class Mesa {
         }
     }
 
-    public boolean avaliarFimCartasMao() { //troquei para boolean, me corrijam se eu estiver errado
-        if (jogadores.get(0).getQuantidadeCartasMao() == 0) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
+//    public boolean avaliarFimCartasMao() { //troquei para boolean, me corrijam se eu estiver errado
+//        if (jogador.getQuantidadeCartasMao() == 0) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//
+//    }
     public void avaliarVencedor() {
 //        if (jogadorLocal.getPontuacao() > jogadorRemoto.getPontuacao()) {
 //            //jgador local é o vencedor
@@ -172,7 +184,6 @@ public class Mesa {
     public void setQuantidadeCartasBaralho(int quantidade) {
         this.quantidadeCartasBaralho += quantidade;
     }
-
 
     public void terminarPartidaEmAndamento() { // Esse método fica aqui msm?
         if (baralho.isEmpty()) {
@@ -240,7 +251,7 @@ public class Mesa {
                     morto.add(jogada.getCartas().get(0));//pegando a carta que ele selecionou para fazer a combinação
 
                     if (cartasDaMesa.size() == 6) {//escova 
-                       // jogador.setPontuacao(ponto++);
+                        // jogador.setPontuacao(ponto++);
                     }
 
                 }
@@ -257,14 +268,54 @@ public class Mesa {
     }
 
     /*public Jogada informarJogada() {
-        return jogador.getJogada();
-    }*/
-
+     return jogador.getJogada();
+     }*/
     public boolean isPartidaEmAndamento() {
         return partidaEmAndamento;
     }
 
     public void setPartidaEmAndamento(boolean partidaEmAndamento) {
         this.partidaEmAndamento = partidaEmAndamento;
+    }
+
+    public List<Carta> getBaralho() {
+        return baralho;
+    }
+
+    public void setBaralho(List<Carta> baralho) {
+        this.baralho = baralho;
+    }
+
+    public void iniciarMao() {
+        this.montarBaralho();
+        this.distribuirCartasMesa();
+        this.distribuirCartasJogadores();
+    }
+
+    public void distribuirCartasJogadores() {
+        int ultimoValor = 0;
+
+        int[] posicoes = {3, 6};
+
+
+
+        for (int i = 0; i < jogadores.size(); i++) {
+
+            Jogador joga = jogadores.get(i);
+            int valorAtual = posicoes[i];
+            List<Carta> listaDeCartasPorJogador = new ArrayList<Carta>();
+
+
+            for (int b = ultimoValor; b < posicoes[i]; b++) {
+                
+                listaDeCartasPorJogador.add(baralho.get(getQuantidadeCartasBaralho() - 1));
+                baralho.remove(getQuantidadeCartasBaralho() - 1);
+                setQuantidadeCartasBaralho(-1);
+
+            }
+            joga.setMao(listaDeCartasPorJogador);
+            ultimoValor = valorAtual;
+        }
+
     }
 }

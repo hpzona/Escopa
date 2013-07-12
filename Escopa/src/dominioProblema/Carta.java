@@ -1,8 +1,9 @@
 package dominioProblema;
 
+import br.ufsc.inf.leobr.cliente.Jogada;
 import javax.swing.ImageIcon;
 
-public class Carta {
+public class Carta implements Jogada{
 
 	protected int numero;
 	protected String naipe;
