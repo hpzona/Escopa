@@ -26,7 +26,7 @@ public class Jogador implements Jogada {
     }
 
     public Jogador(String nome) {
-        
+
         this.nome = nome;
         mao = new ArrayList<>(3);
 
@@ -46,6 +46,14 @@ public class Jogador implements Jogada {
         this.nome = nome;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getPontuacao() {
         return this.pontuacao;
     }
@@ -57,8 +65,6 @@ public class Jogador implements Jogada {
     public void setMao(List<Carta> mao) {
         this.mao = mao;
     }
-
- 
 
     public void setPontuacao(int pontuacao) {
         this.pontuacao += pontuacao;

@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 
 public class Mesa implements Jogada {
 
-
     private List<Jogador> jogadores;
     protected ArrayList<Slot> slotCartaMesa;
     protected List<Carta> baralho;
@@ -20,11 +19,17 @@ public class Mesa implements Jogada {
     protected AtorJogador ator;
     protected boolean partidaEmAndamento;
     protected int quantidadeCartasBaralho;
+    private StatusMesa status;
 
     public Mesa() {
         baralho = new ArrayList();
     }
-    
+
+    public enum StatusMesa {
+
+        INICAR_PARTIDA, INICIAR_RODADA;
+    }
+
     public List<Jogador> getJogadores() {
         return jogadores;
     }
@@ -132,8 +137,8 @@ public class Mesa implements Jogada {
             baralho.add(new Carta(i, "Espadas"));
         }
     }
-    
-    public Carta getCarta(int index){
+
+    public Carta getCarta(int index) {
         Carta c = null;
         c = slotCartaMesa.get(index).getCarta();
         return c;
@@ -154,16 +159,16 @@ public class Mesa implements Jogada {
         }
         return cartas;
     }
-    
-    public void addCartaMesa(Carta carta){
+
+    public void addCartaMesa(Carta carta) {
         slotCartaMesa.add(new Slot(carta));
+
     }
-    
-    public int nextPosicaoLivre(){
+
+    public int nextPosicaoLivre() {
         int pos = slotCartaMesa.size();
-        return pos; 
+        return pos;
     }
-    
 
     public boolean avaliarFimDoBaralho() { //troquei para boolean, me corrijam se eu estiver errado
         if (getQuantidadeCartasBaralho() == 0) {
@@ -308,6 +313,14 @@ public class Mesa implements Jogada {
         this.distribuirCartasJogadores();
     }
 
+    public StatusMesa getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusMesa status) {
+        this.status = status;
+    }
+
     public void distribuirCartasJogadores() {
         int ultimoValor = 0;
 
@@ -323,7 +336,7 @@ public class Mesa implements Jogada {
 
 
             for (int b = ultimoValor; b < posicoes[i]; b++) {
-                
+
                 listaDeCartasPorJogador.add(baralho.get(getQuantidadeCartasBaralho() - 1));
                 baralho.remove(getQuantidadeCartasBaralho() - 1);
                 setQuantidadeCartasBaralho(-1);

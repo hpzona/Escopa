@@ -44,12 +44,12 @@ public class AtorJogador extends javax.swing.JFrame {
         atorNetGames = new AtorNetGames(this);
         maoClicado = null;
         mesaClicado = new ArrayList();
-        
+
         //MouseListeners da Mao
         jMao1.addMouseListener(this.eventoClickMao(jMao1));
         jMao2.addMouseListener(this.eventoClickMao(jMao2));
         jMao3.addMouseListener(this.eventoClickMao(jMao3));
-        
+
         //MouseListener da Mesa
         jMesa1.addMouseListener(this.eventoClickMesa(jMesa1));
         jMesa2.addMouseListener(this.eventoClickMesa(jMesa2));
@@ -59,7 +59,7 @@ public class AtorJogador extends javax.swing.JFrame {
         jMesa6.addMouseListener(this.eventoClickMesa(jMesa6));
         jMesa7.addMouseListener(this.eventoClickMesa(jMesa7));
         jMesa8.addMouseListener(this.eventoClickMesa(jMesa8));
-        
+
         //MouseListener do Descarte/FazerJogada
         jDescarte.addMouseListener(this.eventoDescartar());
 
@@ -205,29 +205,28 @@ public class AtorJogador extends javax.swing.JFrame {
         };
     }
 
-        public final java.awt.event.MouseAdapter eventoClickMesa(final JLabel clicado) {
+    public final java.awt.event.MouseAdapter eventoClickMesa(final JLabel clicado) {
         return new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 boolean remover = false;
                 if (clicado.getIcon() != null) {
                     //Verifica se a carta já havia sido selecionada
-                        if (mesaClicado.indexOf(clicado) >= 0){
-                            clicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-                            remover = true;
-                            mesaClicado.remove(clicado);
-                        }
-                    if(!remover){
-                    mesaClicado.add(clicado);
-                    clicado.setBorder(new LineBorder(Color.red, 2, true));
+                    if (mesaClicado.indexOf(clicado) >= 0) {
+                        clicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+                        remover = true;
+                        mesaClicado.remove(clicado);
                     }
-                    
+                    if (!remover) {
+                        mesaClicado.add(clicado);
+                        clicado.setBorder(new LineBorder(Color.red, 2, true));
+                    }
+
                 }
             }
         };
     }
 
-    
     public final java.awt.event.MouseAdapter eventoDescartar() {
         return new java.awt.event.MouseAdapter() {
             @Override
@@ -236,28 +235,28 @@ public class AtorJogador extends javax.swing.JFrame {
 
                     if (maoClicado != null) {
                         boolean valida = false;
-                        if(mesaClicado != null) {
+                        if (!mesaClicado.isEmpty()) {
                             //AQUI TRATA A JOGADA
                             maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
 
                             int indexMao = getIndexMaoClicado();
                             ArrayList<Integer> indexMesa = getIndexMesaClicado();
-                            
+
                             JogadaEscopa jogada = new JogadaEscopa();
-                            ArrayList<Carta> cartasDaJogada = new  ArrayList();
-                            
+                            ArrayList<Carta> cartasDaJogada = new ArrayList();
+
                             cartasDaJogada.add(jogadorAtual.getMao().get(indexMao));
-                            
-                            for(Integer i : indexMesa){
+
+                            for (Integer i : indexMesa) {
                                 cartasDaJogada.add(mesa.getCarta(i));
                             }
-                            
+
                             jogada.setCartas(cartasDaJogada);
-                            
+
                             valida = mesa.tratarJogada(jogada);
                         }
-                        
-                         if ( !valida ) {
+
+                        if (!valida) {
                             //AQUI DESCARTA A CARTA
 
                             maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
@@ -266,11 +265,20 @@ public class AtorJogador extends javax.swing.JFrame {
                             //
                             mesa.addCartaMesa(jogadorAtual.getMao().get(getIndexMaoClicado()));
 
+ 
+                            
+                            jogadorAtual.getMao().set(getIndexMaoClicado(), null);         
+                   
                             JLabel pos = labelsMesa.get(livre);
                             pos.setIcon(maoClicado.getIcon());
 
                             maoClicado.setIcon(null);
                             maoClicado = null;
+
+
+
+                            efetuarJogada(mesa);
+                            receberJogada(mesa);
                         }
 
                     }
@@ -284,10 +292,10 @@ public class AtorJogador extends javax.swing.JFrame {
 
     public ArrayList<Integer> getIndexMesaClicado() {
         ArrayList<Integer> index = new ArrayList();
-        
-        for(JLabel m : mesaClicado){
-            for (int i = 0; i < this.labelsMesa.size(); i++){
-                if (m == labelsMesa.get(i)){
+
+        for (JLabel m : mesaClicado) {
+            for (int i = 0; i < this.labelsMesa.size(); i++) {
+                if (m == labelsMesa.get(i)) {
                     index.add(i);
                 }
             }
@@ -381,7 +389,7 @@ public class AtorJogador extends javax.swing.JFrame {
     public void iniciarNovaPartida() {
 
         mesa.iniciarMao();
-
+        mesa.setStatus(Mesa.StatusMesa.INICAR_PARTIDA);
         this.efetuarJogada(mesa);
         this.receberJogada(mesa);
         jNome.setText(nome);
@@ -489,12 +497,18 @@ public class AtorJogador extends javax.swing.JFrame {
 
             this.mesa = (Mesa) jogada;
 
+
+
+
             this.setJogadorAtualIniciarPartida(mesa);
 
             exibirEstado();
 
-            atualizaCartasJogadorAtual(jogadorAtual);
+            if (mesa.getStatus().equals(Mesa.StatusMesa.INICAR_PARTIDA)) { // se eu nao coloco essa condição, ele fica atualizando a mão qdo eu descarto a carta, com dados falsos
 
+                atualizaCartasJogadorAtual(jogadorAtual);
+                mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
+            }
 
         }
 
@@ -509,8 +523,10 @@ public class AtorJogador extends javax.swing.JFrame {
 
         List<String> cartasMao = mesa.getCartaMao_toString(joga);
 
-        for (int i = 0; i < cartasMao.size(); i++) {
-            labelsMao.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMao.get(i) + ".png")));
+        if (cartasMao.size() > 0) {
+            for (int i = 0; i < cartasMao.size(); i++) {
+                labelsMao.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMao.get(i) + ".png")));
+            }
         }
 
     }
