@@ -252,6 +252,7 @@ public class AtorJogador extends javax.swing.JFrame {
                             }
 
                             jogada.setCartas(cartasDaJogada);
+                            jogada.setExecutante(jogadorAtual);
 
                             valida = mesa.tratarJogada(jogada);
                         }
@@ -262,24 +263,22 @@ public class AtorJogador extends javax.swing.JFrame {
                             maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
 
                             int livre = mesa.nextPosicaoLivre();
-                            //
                             mesa.addCartaMesa(jogadorAtual.getMao().get(getIndexMaoClicado()));
 
- 
-                            
-                            jogadorAtual.getMao().set(getIndexMaoClicado(), null);         
-                   
+                            jogadorAtual.getMao().set(getIndexMaoClicado(), null);
+
                             JLabel pos = labelsMesa.get(livre);
                             pos.setIcon(maoClicado.getIcon());
 
-                            maoClicado.setIcon(null);
-                            maoClicado = null;
-
-
-
-                            efetuarJogada(mesa);
-                            receberJogada(mesa);
                         }
+
+
+                        maoClicado.setIcon(null);
+                        maoClicado = null;
+                        mesaClicado.clear();
+                        efetuarJogada(mesa);
+                        receberJogada(mesa);
+
 
                     }
                 } else {
@@ -556,8 +555,21 @@ public class AtorJogador extends javax.swing.JFrame {
 //        labelsMao.add(jMao3);
 
 
-        for (int i = 0; i < cartasMesa.size(); i++) {
-            labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMesa.get(i) + ".png")));
+        for (int i = 0; i < 8; i++) {
+            labelsMesa.get(i).setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+            if (i < cartasMesa.size()) {
+                labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMesa.get(i) + ".png")));
+            } else {
+                labelsMesa.get(i).setIcon(null);
+            }
+        }
+        
+        if (!mesa.getBaralho().isEmpty()){
+            jBaralho.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
+        }
+        
+        if (!jogadorAtual.getMorto().isEmpty()){
+            jMorto.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
         }
 
 //        for (int i = 0; i < cartasMao.size(); i++) {

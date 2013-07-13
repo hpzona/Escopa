@@ -7,14 +7,7 @@ public class JogadaEscopa implements Jogada {
 
     protected List<Carta> jogada;
     protected int quantidadeParaExcluir;
-
-    public int getQuantidadeParaExcluir() {
-        return quantidadeParaExcluir;
-    }
-
-    public void setQuantidadeParaExcluir(int quantidadeParaExcluir) {
-        this.quantidadeParaExcluir = quantidadeParaExcluir;
-    }
+    protected Jogador executante; 
 
     public JogadaEscopa() {
     }
@@ -25,6 +18,22 @@ public class JogadaEscopa implements Jogada {
      */
     public void JogadaEscopa(List<Carta> jogada) {
         this.jogada = jogada;
+    }
+    
+        public Jogador getExecutante() {
+        return executante;
+    }
+
+    public void setExecutante(Jogador executante) {
+        this.executante = executante;
+    }
+
+    public int getQuantidadeParaExcluir() {
+        return quantidadeParaExcluir;
+    }
+
+    public void setQuantidadeParaExcluir(int quantidadeParaExcluir) {
+        this.quantidadeParaExcluir = quantidadeParaExcluir;
     }
 
     public List<Carta> getCartas() {

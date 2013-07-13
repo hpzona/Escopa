@@ -7,6 +7,7 @@ import java.util.List;
 public class Jogador implements Jogada {
 
     protected List<Carta> mao;
+    protected List<Carta> morto;
     protected String nome;
     /**
      * Identifica se � jogador local ou remoto
@@ -23,12 +24,14 @@ public class Jogador implements Jogada {
         this.nome = nome;
         mao = new ArrayList<>(3);
         this.id = id;
+        morto = new ArrayList();
     }
 
     public Jogador(String nome) {
 
         this.nome = nome;
         mao = new ArrayList<>(3);
+        morto = new ArrayList();
 
     }
 
@@ -44,6 +47,14 @@ public class Jogador implements Jogada {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+    
+        public List<Carta> getMorto() {
+        return morto;
+    }
+
+    public void setMorto(List<Carta> morto) {
+        this.morto = morto;
     }
 
     public int getId() {
