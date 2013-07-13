@@ -26,7 +26,15 @@ public class Mesa implements Jogada {
 
     public enum StatusMesa {
 
-        INICAR_PARTIDA, INICIAR_RODADA;
+        INICAR_PARTIDA, INICIAR_RODADA, MESA_CHEIA, MAOS_VAZIA;
+    }
+
+    public ArrayList<Carta> getCartasMesa() {
+        return cartasMesa;
+    }
+
+    public void setCartasMesa(ArrayList<Carta> cartasMesa) {
+        this.cartasMesa = cartasMesa;
     }
 
     public List<Jogador> getJogadores() {
@@ -38,7 +46,10 @@ public class Mesa implements Jogada {
     }
 
     public void limparMesa() {
-        cartasMesa = null;
+        baralho.addAll(cartasMesa);
+        setQuantidadeCartasBaralho(8);
+        Collections.shuffle(baralho);
+        cartasMesa.removeAll(cartasMesa);
     }
 
     /**
@@ -90,45 +101,36 @@ public class Mesa implements Jogada {
 
     }
 
-    public void distribuirCartasJogador(Jogador jogador) throws Exception {
-        int cartaBaralho = 0;
-        if (getQuantidadeCartasBaralho() > 6) { // caso tenha cartas suficientes para distribuir para os 2 jogadores
-//            if (avaliarFimCartasMao()) { // verifica se realmente eles estão sem nenhuma carta na mão
+    public void distribuirCartasJogador(Jogador jogador) {
 
-            for (int i = 0; i < 3; i++) {
-                cartaBaralho = (int) (getQuantidadeCartasBaralho() - 1);
-                jogador.adicionarCartaMao(baralho.get(cartaBaralho)); // adiciona na mao do jogador
-                jogador.setQuantidadeCartasMao(1);
-                baralho.remove(cartaBaralho); // remove essa carta do baralho
+        List<Carta> listaDeCartasJogador = new ArrayList<>();
+
+
+
+        for (int i = 0; i < jogadores.size(); i++) {
+            if (jogadores.get(i).getNome().equals(jogador.getNome())) {
+                for(int j = 0; j < 3; j++){
+                listaDeCartasJogador.add(baralho.get(getQuantidadeCartasBaralho() - 1));
+
+                baralho.remove(getQuantidadeCartasBaralho() - 1);
                 setQuantidadeCartasBaralho(-1);
-            }
 
-//                for (int j = 0; j < 3; j++) {
-//                    cartaBaralho = (int) (getQuantidadeCartasBaralho() - 1); // pega uma carta aleatoria do baralho
-//                    jogadores.get(1).adicionarCartaMao(baralho.get(cartaBaralho)); // adiciona na mao do jogador
-//                    jogadores.get(1).setQuantidadeCartasMao(1);
-//                    jogadores.get(1).setVezDeJogar(false);
-//                    baralho.remove(cartaBaralho); // remove essa carta do baralho
-//                    setQuantidadeCartasBaralho(-1);
-//
-//
-//                    ///////////////////////////////
-//                }
-//            }
-        } else {
-            throw new Exception("Baralho Insuficiente");
+                }
+            }
         }
+                jogador.setMao(listaDeCartasJogador);
     }
 
     public void montarBaralho() {
-        setQuantidadeCartasBaralho(44);
-        for (int i = 0; i < 11; i++) {
+        setQuantidadeCartasBaralho(40);
+        for (int i = 1; i < 11; i++) {
 
             baralho.add(new Carta(i, "Ouros"));
             baralho.add(new Carta(i, "Paus"));
             baralho.add(new Carta(i, "Copas"));
             baralho.add(new Carta(i, "Espadas"));
         }
+        Collections.shuffle(baralho);
     }
 
     public Carta getCarta(int index) {
@@ -295,7 +297,6 @@ public class Mesa implements Jogada {
         int[] posicoes = {3, 6};
 
 
-        Collections.shuffle(baralho);
         for (int i = 0; i < jogadores.size(); i++) {
 
             Jogador joga = jogadores.get(i);
@@ -304,13 +305,17 @@ public class Mesa implements Jogada {
 
 
             for (int b = ultimoValor; b < posicoes[i]; b++) {
-
+                if(getQuantidadeCartasBaralho() > 0){
                 listaDeCartasPorJogador.add(baralho.get(getQuantidadeCartasBaralho() - 1));
                 baralho.remove(getQuantidadeCartasBaralho() - 1);
                 setQuantidadeCartasBaralho(-1);
+                }else{
+                    System.out.print("Acabou baralho");
+                }
 
             }
             joga.setMao(listaDeCartasPorJogador);
+            joga.setMaoVazia(false);
             ultimoValor = valorAtual;
         }
 

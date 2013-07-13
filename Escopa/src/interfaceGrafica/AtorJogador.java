@@ -30,11 +30,13 @@ public class AtorJogador extends javax.swing.JFrame {
     protected Jogador jogadorAtual;
     protected JLabel slot;
     protected AtorNetGames atorNetGames;
+    protected int quantidadeMao = 6;
     protected int quantidadeExcluir;
     String nome;
 
     public void criarJogadorAtual(String nome) {
         jogadorAtual = new Jogador(nome);
+        jogadorAtual.setQuantidadeCartasMao(6);
 
     }
 
@@ -267,27 +269,38 @@ public class AtorJogador extends javax.swing.JFrame {
 
                             jogadorAtual.getMao().set(getIndexMaoClicado(), null);
 
-                            JLabel pos = labelsMesa.get(livre);
-                            pos.setIcon(maoClicado.getIcon());
+
+                                JLabel pos = labelsMesa.get(livre);
+                                pos.setIcon(maoClicado.getIcon());
+
+                                if (mesa.getCartasMesa().size() == 8) {
+                                    mesa.setStatus(Mesa.StatusMesa.MESA_CHEIA);
+                                    mesa.limparMesa();
+                                }
+
+                            }
+
+                        
+                            verificarMaoVazia();
+                            quantidadeMao--;
+                            maoClicado.setIcon(null);
+                            maoClicado = null;
+                            mesaClicado.clear();
+                            efetuarJogada(mesa);
+                            receberJogada(mesa);
+
 
                         }
-
-
-                        maoClicado.setIcon(null);
-                        maoClicado = null;
-                        mesaClicado.clear();
-                        efetuarJogada(mesa);
-                        receberJogada(mesa);
-
-
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Aguarde sua Vez");
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Aguarde sua Vez");
                 }
             }
-        };
+        ;
 
-    }
+        }
+
+    
 
     public ArrayList<Integer> getIndexMesaClicado() {
         ArrayList<Integer> index = new ArrayList();
@@ -301,6 +314,39 @@ public class AtorJogador extends javax.swing.JFrame {
         }
 
         return index;
+
+    }
+    
+    public void verificarMaoVazia(){
+                    List<Carta> listaNulos = new ArrayList<Carta>();
+                            for (Carta elemento : jogadorAtual.getMao()) {
+                                if (elemento == null) {
+                                    listaNulos.add(elemento);
+                                }
+                            }
+
+                            if (listaNulos.size() == 3) {
+                                jogadorAtual.setMaoVazia(true);
+
+                            }
+                            int cont = 0;
+                            boolean distribuirCartas = false;
+                            for (Jogador jog : mesa.getJogadores()) {
+                                  if(jog.isMaoVazia()){
+                                      cont ++;
+                                  }
+                                  if(cont == 2){
+                                      distribuirCartas = true;
+                                  }
+                                
+                                }
+                            
+                            if(distribuirCartas == true){
+                                
+                                mesa.distribuirCartasJogadores();
+                                mesa.setStatus(Mesa.StatusMesa.MAOS_VAZIA);
+                            }
+
 
     }
 
@@ -397,83 +443,6 @@ public class AtorJogador extends javax.swing.JFrame {
 
     }
 
-//    public void iniciarPartidaEmRede(boolean minhaVez) {
-//        mesa = new Mesa();
-//        mesa.montarBaralho();
-//        mesa.distribuirCartasMesa();
-//        String nomeOutroParticipante = atorNetGames.obtemNomeAdversario();
-////                      JogadaEscopa jogada = new JogadaEscopa();
-//
-//
-//
-//
-//
-//
-//        if (minhaVez) {
-////            mesa.posicionarJogadores(minhaPos, nomeOutroParticipante, this.nome);
-//
-//
-//            mesa.criarJogador(nomeOutroParticipante);
-//            mesa.criarJogador(this.nome);
-//            jNomeAdv.setText(nomeOutroParticipante);
-//            jNome.setText(nome);
-//            exibirEstado();
-//
-////            try {
-////  
-////                if (quantidadeExcluir != 0) {
-////                    mesa.getBaralho().remove(mesa.getQuantidadeCartasBaralho() - quantidadeExcluir);
-////                }
-////
-////
-////                mesa.distribuirCartasJogador();
-////                jogada.setCartas(mesa.getBaralho());
-////                jogada.setQuantidadeParaExcluir(3);
-////
-////                atorNetGames.enviarJogadaRede(jogada);
-//
-////            } catch (Exception ex) {
-////                Logger.getLogger(AtorJogador.class.getName()).log(Level.SEVERE, null, ex);
-////            }
-//
-//
-//        } else {
-//
-//
-//            mesa.criarJogador(this.nome);
-//            mesa.criarJogador(nomeOutroParticipante);
-//            jNomeAdv.setText(nomeOutroParticipante);
-//            jNome.setText(nome);
-//            exibirEstado();
-//
-////            try {
-////                if (quantidadeExcluir != 0) {
-////                    mesa.getBaralho().remove(mesa.getQuantidadeCartasBaralho() - quantidadeExcluir);
-////                }
-////
-////
-////                mesa.distribuirCartasJogador();
-////                jogada.setCartas(mesa.getBaralho());
-////                jogada.setQuantidadeParaExcluir(3);
-////                atorNetGames.enviarJogadaRede(jogada);
-////
-////
-////            } catch (Exception ex) {
-////                Logger.getLogger(AtorJogador.class.getName()).log(Level.SEVERE, null, ex);
-////            }
-//
-//        }
-//
-//
-////        try {
-////                mesa.distribuirCartasJogador();
-////                this.exibirEstado();
-////            } catch (Exception ex) {
-////                JOptionPane.showMessageDialog(null, "Baralho Insuficiente");
-////        }
-//
-//
-//    }
     public void efetuarJogada(Jogada jogada) {
 
         atorNetGames.enviarJogadaRede(jogada);
@@ -496,14 +465,11 @@ public class AtorJogador extends javax.swing.JFrame {
 
             this.mesa = (Mesa) jogada;
 
-
-
-
             this.setJogadorAtualIniciarPartida(mesa);
 
             exibirEstado();
 
-            if (mesa.getStatus().equals(Mesa.StatusMesa.INICAR_PARTIDA)) { // se eu nao coloco essa condição, ele fica atualizando a mão qdo eu descarto a carta, com dados falsos
+            if (mesa.getStatus().equals(Mesa.StatusMesa.INICAR_PARTIDA) || mesa.getStatus().equals(Mesa.StatusMesa.MAOS_VAZIA)) { // se eu nao coloco essa condição, ele fica atualizando a mão qdo eu descarto a carta, com dados falsos
 
                 atualizaCartasJogadorAtual(jogadorAtual);
                 mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
@@ -532,13 +498,6 @@ public class AtorJogador extends javax.swing.JFrame {
 
     public void exibirEstado() {
 
-        if (jNome.getText().equalsIgnoreCase("") || jNomeAdv.getText().equalsIgnoreCase("")) {
-            jNome.setText(nome);
-            jNomeAdv.setText(mesa.getJogadores().get(0).getNome());
-        }
-
-        ArrayList<String> cartasMesa = mesa.getCartaMesa_toString();
-//        ArrayList<String> cartasMao = mesa.getCartaMao();
         labelsMesa = new ArrayList();
         labelsMesa.add(jMesa1);
         labelsMesa.add(jMesa2);
@@ -549,26 +508,35 @@ public class AtorJogador extends javax.swing.JFrame {
         labelsMesa.add(jMesa7);
         labelsMesa.add(jMesa8);
 
-//        labelsMao = new ArrayList<>();
-//        labelsMao.add(jMao1);
-//        labelsMao.add(jMao2);
-//        labelsMao.add(jMao3);
+        if (jNome.getText().equalsIgnoreCase("") || jNomeAdv.getText().equalsIgnoreCase("")) {
+            jNome.setText(nome);
+            jNomeAdv.setText(mesa.getJogadores().get(0).getNome());
+        }
+        if (mesa.getStatus().equals(Mesa.StatusMesa.MESA_CHEIA)) {
+            for (int i = 0; i < 8; i++) {
 
-
-        for (int i = 0; i < 8; i++) {
-            labelsMesa.get(i).setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-            if (i < cartasMesa.size()) {
-                labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMesa.get(i) + ".png")));
-            } else {
                 labelsMesa.get(i).setIcon(null);
+                mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
+            }
+        } else {
+            ArrayList<String> cartasMesa = mesa.getCartaMesa_toString();
+
+
+
+            for (int i = 0; i < 8; i++) {
+                labelsMesa.get(i).setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+                if (i < cartasMesa.size()) {
+                    labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMesa.get(i) + ".png")));
+                } else {
+                    labelsMesa.get(i).setIcon(null);
+                }
             }
         }
-        
-        if (!mesa.getBaralho().isEmpty()){
+        if (!mesa.getBaralho().isEmpty()) {
             jBaralho.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
         }
-        
-        if (!jogadorAtual.getMorto().isEmpty()){
+
+        if (!jogadorAtual.getMorto().isEmpty()) {
             jMorto.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
         }
 

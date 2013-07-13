@@ -18,11 +18,12 @@ public class Jogador implements Jogada {
     protected boolean vencedor;
     protected JogadaEscopa jogada;
     protected int id;
+    protected boolean maoVazia;
 
     public Jogador(String nome, int id) {
 
         this.nome = nome;
-        mao = new ArrayList<>(3);
+        mao = new ArrayList<>();
         this.id = id;
         morto = new ArrayList();
     }
@@ -30,7 +31,7 @@ public class Jogador implements Jogada {
     public Jogador(String nome) {
 
         this.nome = nome;
-        mao = new ArrayList<>(3);
+        mao = new ArrayList<>();
         morto = new ArrayList();
 
     }
@@ -48,8 +49,8 @@ public class Jogador implements Jogada {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
-        public List<Carta> getMorto() {
+
+    public List<Carta> getMorto() {
         return morto;
     }
 
@@ -116,6 +117,14 @@ public class Jogador implements Jogada {
         } else {
             throw new Exception("Jogador ja com 3 cartas na mão");
         }
+    }
+
+    public boolean isMaoVazia() {
+        return maoVazia;
+    }
+
+    public void setMaoVazia(boolean maoVazia) {
+        this.maoVazia = maoVazia;
     }
 
     public JogadaEscopa getJogada() {
