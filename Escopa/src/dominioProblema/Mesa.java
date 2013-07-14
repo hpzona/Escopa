@@ -279,7 +279,8 @@ public class Mesa implements Jogada {
         int todos2 = 0;
         int todosAses = 0;
         boolean seteOuros = false;
-        boolean maioriaCartas = false;
+        
+        
 
         if(getJogadores().get(0).getMao().size() > getJogadores().get(1).getMao().size()){
            getJogadores().get(0).setPontuacao(1);
@@ -322,29 +323,43 @@ public class Mesa implements Jogada {
             if (todos7 == 4) {
                 jog.setPontuacao(14);
                 todos7 = 0;
+            }else{
+                todos7 = 0;
             }
             if (todos6 == 4) {
                 jog.setPontuacao(8);
+                todos6 = 0;
+            }else{
                 todos6 = 0;
             }
             if (todosAses == 4) {
                 jog.setPontuacao(6);
                 todosAses = 0;
+            }else{
+                todosAses = 0;
             }
             if (todos5 == 4) {
                 jog.setPontuacao(5);
+                todos5 = 0;
+            }else{
                 todos5 = 0;
             }
             if (todos4 == 4) {
                 jog.setPontuacao(4);
                 todos4 = 0;
+            }else{
+                todos4 = 0;
             }
             if (todos3 == 4) {
                 jog.setPontuacao(3);
                 todos3 = 0;
+            }else{
+                todos3 = 0;
             }
             if (todos2 == 4) {
                 jog.setPontuacao(2);
+                todos2 = 0;
+            }else{
                 todos2 = 0;
             }
             if (seteOuros) {
