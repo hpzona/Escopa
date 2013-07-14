@@ -530,6 +530,8 @@ public class AtorJogador extends javax.swing.JFrame {
             this.setJogadorAtualIniciarPartida(mesa);
 
             exibirEstado();
+            
+            exibirPontuacao();
 
 
             if (mesa.getStatus().equals(Mesa.StatusMesa.INICAR_PARTIDA) || mesa.getStatus().equals(Mesa.StatusMesa.MAOS_VAZIA)) { // se eu nao coloco essa condição, ele fica atualizando a mão qdo eu descarto a carta, com dados falsos
@@ -636,8 +638,19 @@ public class AtorJogador extends javax.swing.JFrame {
     }
 
     private void exibirPontuacao() {
+        Jogador jogador = null;
+        Jogador jogador2 = null;
+        
+          for (Jogador jog : mesa.getJogadores()) {
+            if (jog.getNome().equals(jogadorAtual.getNome())) {
+                jogador = jog;
+            }else{
+                jogador2 = jog;
+            }
+        }
 
-        jPontuacao.setText("Pontuação: " + jogadorAtual.getPontuacao());
+        jPontuacao.setText("Pontuação: " + jogador.getPontuacao());
+        jPontuacaoAdv.setText("Pontuação: " + jogador2.getPontuacao());
 
     }
 
