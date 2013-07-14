@@ -270,37 +270,33 @@ public class AtorJogador extends javax.swing.JFrame {
                             jogadorAtual.getMao().set(getIndexMaoClicado(), null);
 
 
-                                JLabel pos = labelsMesa.get(livre);
-                                pos.setIcon(maoClicado.getIcon());
+                            JLabel pos = labelsMesa.get(livre);
+                            pos.setIcon(maoClicado.getIcon());
 
-                                if (mesa.getCartasMesa().size() == 8) {
-                                    mesa.setStatus(Mesa.StatusMesa.MESA_CHEIA);
-                                    mesa.limparMesa();
-                                }
-
+                            if (mesa.getCartasMesa().size() == 8) {
+                                mesa.setStatus(Mesa.StatusMesa.MESA_CHEIA);
+                                mesa.limparMesa();
                             }
 
-                        
-                            verificarMaoVazia();
-                            quantidadeMao--;
-                            maoClicado.setIcon(null);
-                            maoClicado = null;
-                            mesaClicado.clear();
-                            efetuarJogada(mesa);
-                            receberJogada(mesa);
-
-
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Aguarde sua Vez");
+
+                        verificarMaoVazia();
+                        quantidadeMao--;
+                        maoClicado.setIcon(null);
+                        maoClicado = null;
+                        mesaClicado.clear();
+                        efetuarJogada(mesa);
+                        receberJogada(mesa);
+
+
                     }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Aguarde sua Vez");
                 }
             }
-        ;
+        };
 
-        }
-
-    
+    }
 
     public ArrayList<Integer> getIndexMesaClicado() {
         ArrayList<Integer> index = new ArrayList();
@@ -316,36 +312,36 @@ public class AtorJogador extends javax.swing.JFrame {
         return index;
 
     }
-    
-    public void verificarMaoVazia(){
-                    List<Carta> listaNulos = new ArrayList<Carta>();
-                            for (Carta elemento : jogadorAtual.getMao()) {
-                                if (elemento == null) {
-                                    listaNulos.add(elemento);
-                                }
-                            }
 
-                            if (listaNulos.size() == 3) {
-                                jogadorAtual.setMaoVazia(true);
+    public void verificarMaoVazia() {
+        List<Carta> listaNulos = new ArrayList<Carta>();
+        for (Carta elemento : jogadorAtual.getMao()) {
+            if (elemento == null) {
+                listaNulos.add(elemento);
+            }
+        }
 
-                            }
-                            int cont = 0;
-                            boolean distribuirCartas = false;
-                            for (Jogador jog : mesa.getJogadores()) {
-                                  if(jog.isMaoVazia()){
-                                      cont ++;
-                                  }
-                                  if(cont == 2){
-                                      distribuirCartas = true;
-                                  }
-                                
-                                }
-                            
-                            if(distribuirCartas == true){
-                                
-                                mesa.distribuirCartasJogadores();
-                                mesa.setStatus(Mesa.StatusMesa.MAOS_VAZIA);
-                            }
+        if (listaNulos.size() == 3) {
+            jogadorAtual.setMaoVazia(true);
+
+        }
+        int cont = 0;
+        boolean distribuirCartas = false;
+        for (Jogador jog : mesa.getJogadores()) {
+            if (jog.isMaoVazia()) {
+                cont++;
+            }
+            if (cont == 2) {
+                distribuirCartas = true;
+            }
+
+        }
+
+        if (distribuirCartas == true) {
+
+            mesa.distribuirCartasJogadores();
+            mesa.setStatus(Mesa.StatusMesa.MAOS_VAZIA);
+        }
 
 
     }
