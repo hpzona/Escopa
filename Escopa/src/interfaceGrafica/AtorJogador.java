@@ -482,16 +482,22 @@ public class AtorJogador extends javax.swing.JFrame {
 
     public void iniciarNovaPartida() {
 
-        mesa.iniciarMao();
-        mesa.setStatus(Mesa.StatusMesa.INICAR_PARTIDA);
-        this.efetuarJogada(mesa);
-        this.receberJogada(mesa);
-        jNome.setText(nome);
-        jNomeAdv.setText(mesa.getJogadores().get(1).getNome());
-
-
-
-
+       
+            mesa.iniciarMao();
+            mesa.setStatus(Mesa.StatusMesa.INICAR_PARTIDA);
+            this.efetuarJogada(mesa);
+            this.receberJogada(mesa);
+            jNome.setText(nome);
+            jNomeAdv.setText(mesa.getJogadores().get(1).getNome());
+    }
+    
+    public void iniciarNovaRodada(){
+            
+            mesa.iniciarMao();
+            mesa.setStatus(Mesa.StatusMesa.INICAR_PARTIDA);
+            this.efetuarJogada(mesa);
+            this.receberJogada(mesa);
+        
     }
 
     public void efetuarJogada(Jogada jogada) {
@@ -520,7 +526,7 @@ public class AtorJogador extends javax.swing.JFrame {
 
     public void receberJogada(Jogada jogada) {
 
-       
+
         if (jogada instanceof Mesa) {
 
             this.mesa = (Mesa) jogada;
@@ -530,7 +536,7 @@ public class AtorJogador extends javax.swing.JFrame {
             this.setJogadorAtualIniciarPartida(mesa);
 
             exibirEstado();
-            
+
             exibirPontuacao();
 
 
@@ -542,9 +548,11 @@ public class AtorJogador extends javax.swing.JFrame {
             }
 
         }
-         if(mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_NOVA_RODADA)){
-             this.iniciarNovaPartida();
-         }
+        if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_NOVA_RODADA)) {
+            JOptionPane.showMessageDialog(null, "rodada acabou e nenhum vencedor");
+            this.iniciarNovaRodada();
+
+        }
 
     }
 
@@ -643,11 +651,11 @@ public class AtorJogador extends javax.swing.JFrame {
     private void exibirPontuacao() {
         Jogador jogador = null;
         Jogador jogador2 = null;
-        
-          for (Jogador jog : mesa.getJogadores()) {
+
+        for (Jogador jog : mesa.getJogadores()) {
             if (jog.getNome().equals(jogadorAtual.getNome())) {
                 jogador = jog;
-            }else{
+            } else {
                 jogador2 = jog;
             }
         }
