@@ -520,7 +520,7 @@ public class AtorJogador extends javax.swing.JFrame {
 
     public void receberJogada(Jogada jogada) {
 
-
+       
         if (jogada instanceof Mesa) {
 
             this.mesa = (Mesa) jogada;
@@ -542,6 +542,10 @@ public class AtorJogador extends javax.swing.JFrame {
             }
 
         }
+         if(mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_NOVA_RODADA)){
+             JOptionPane.showMessageDialog(null, "Terminou a rodada, nenhum vencedor");
+             this.iniciarNovaPartida();
+         }
 
     }
 

@@ -28,7 +28,7 @@ public class Mesa implements Jogada {
 
     public enum StatusMesa {
 
-        INICAR_PARTIDA, INICIAR_RODADA, MESA_CHEIA, MAOS_VAZIA, FIM_PARTIDA;
+        INICAR_PARTIDA, INICIAR_RODADA, MESA_CHEIA, MAOS_VAZIA, INICIAR_NOVA_RODADA,FIM_PARTIDA;
     }
 
     public ArrayList<Carta> getCartasMesa() {
@@ -192,8 +192,7 @@ public class Mesa implements Jogada {
             getJogadores().get(1).setVencedor(true);
             setStatus(Mesa.StatusMesa.FIM_PARTIDA);
         }else{
-            setStatus(Mesa.StatusMesa.INICAR_PARTIDA);
-            this.iniciarMao();
+            setStatus(Mesa.StatusMesa.INICIAR_NOVA_RODADA);
         }
         
     }
