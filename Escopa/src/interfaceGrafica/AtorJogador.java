@@ -366,7 +366,7 @@ public class AtorJogador extends javax.swing.JFrame {
 
                 case 2:
                     if (maoClicado == jMao2) {
-                        if (jMao1 == null) {
+                        if (jMao1.getIcon() == null) {
                             index = 0;
                         } else {
                             index = 1;
