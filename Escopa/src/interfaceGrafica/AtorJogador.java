@@ -61,6 +61,10 @@ public class AtorJogador extends javax.swing.JFrame {
         jMesa6.addMouseListener(this.eventoClickMesa(jMesa6));
         jMesa7.addMouseListener(this.eventoClickMesa(jMesa7));
         jMesa8.addMouseListener(this.eventoClickMesa(jMesa8));
+        jMesa9.addMouseListener(this.eventoClickMesa(jMesa9));
+        jMesa10.addMouseListener(this.eventoClickMesa(jMesa10));
+        jMesa11.addMouseListener(this.eventoClickMesa(jMesa11));
+        jMesa12.addMouseListener(this.eventoClickMesa(jMesa12));
 
         //MouseListener do Descarte/FazerJogada
         jDescarte.addMouseListener(this.eventoDescartar());
@@ -90,6 +94,8 @@ public class AtorJogador extends javax.swing.JFrame {
         jAviso = new javax.swing.JLabel();
         jNome = new javax.swing.JLabel();
         jNomeAdv = new javax.swing.JLabel();
+        jPontuacao = new javax.swing.JLabel();
+        jPontuacaoAdv = new javax.swing.JLabel();
         jMao1 = new javax.swing.JLabel();
         jMao2 = new javax.swing.JLabel();
         jMao3 = new javax.swing.JLabel();
@@ -101,6 +107,10 @@ public class AtorJogador extends javax.swing.JFrame {
         jMesa6 = new javax.swing.JLabel();
         jMesa7 = new javax.swing.JLabel();
         jMesa8 = new javax.swing.JLabel();
+        jMesa9 = new javax.swing.JLabel();
+        jMesa10 = new javax.swing.JLabel();
+        jMesa11 = new javax.swing.JLabel();
+        jMesa12 = new javax.swing.JLabel();
         jDescarte = new javax.swing.JLabel();
         jBaralho = new javax.swing.JLabel();
         jMortoAdv = new javax.swing.JLabel();
@@ -126,11 +136,21 @@ public class AtorJogador extends javax.swing.JFrame {
         jNome.setForeground(new java.awt.Color(255, 255, 255));
         jNome.setText("  ");
         jNome.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-        getContentPane().add(jNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 90, 30));
+        getContentPane().add(jNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 440, 90, 30));
 
         jNomeAdv.setForeground(new java.awt.Color(255, 255, 255));
         jNomeAdv.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jNomeAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 90, 30));
+
+        jPontuacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jPontuacao.setForeground(new java.awt.Color(204, 204, 204));
+        jPontuacao.setText("Pontuação: ");
+        getContentPane().add(jPontuacao, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 470, 90, 20));
+
+        jPontuacaoAdv.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jPontuacaoAdv.setForeground(new java.awt.Color(204, 204, 204));
+        jPontuacaoAdv.setText("Pontuação: ");
+        getContentPane().add(jPontuacaoAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 90, 20));
 
         jMao1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMao1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 390, 80, 100));
@@ -142,35 +162,46 @@ public class AtorJogador extends javax.swing.JFrame {
         getContentPane().add(jMao3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 390, 80, 100));
 
         jMesa1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-        getContentPane().add(jMesa1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 80, 100));
+        getContentPane().add(jMesa1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 80, 100));
 
         jMesa2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-        getContentPane().add(jMesa2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, 80, 100));
+        getContentPane().add(jMesa2, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 140, 80, 100));
 
         jMesa3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-        getContentPane().add(jMesa3, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 130, 80, 100));
+        getContentPane().add(jMesa3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, 80, 100));
 
         jMesa4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-        getContentPane().add(jMesa4, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 130, 80, 100));
+        getContentPane().add(jMesa4, new org.netbeans.lib.awtextra.AbsoluteConstraints(415, 140, 80, 100));
 
         jMesa5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-        getContentPane().add(jMesa5, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, 80, 100));
+        getContentPane().add(jMesa5, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 140, 80, 100));
 
         jMesa6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-        getContentPane().add(jMesa6, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 250, 80, 100));
+        getContentPane().add(jMesa6, new org.netbeans.lib.awtextra.AbsoluteConstraints(585, 140, 80, 100));
 
         jMesa7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-        getContentPane().add(jMesa7, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 250, 80, 100));
+        getContentPane().add(jMesa7, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 260, 80, 100));
 
         jMesa8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-        getContentPane().add(jMesa8, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 250, 80, 100));
+        getContentPane().add(jMesa8, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 260, 80, 100));
 
-        jDescarte.setBackground(new java.awt.Color(255, 255, 255));
+        jMesa9.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+        getContentPane().add(jMesa9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 260, 80, 100));
+
+        jMesa10.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+        getContentPane().add(jMesa10, new org.netbeans.lib.awtextra.AbsoluteConstraints(415, 260, 80, 100));
+
+        jMesa11.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+        getContentPane().add(jMesa11, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 260, 80, 100));
+
+        jMesa12.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+        getContentPane().add(jMesa12, new org.netbeans.lib.awtextra.AbsoluteConstraints(585, 260, 80, 100));
+
+        jDescarte.setBackground(new java.awt.Color(135, 136, 32));
         jDescarte.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jDescarte.setForeground(new java.awt.Color(135, 136, 32));
+        jDescarte.setForeground(new java.awt.Color(204, 204, 204));
         jDescarte.setText("  FAZER JOGADA / DESCARTAR");
-        jDescarte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(135, 136, 32), 2));
-        jDescarte.setOpaque(true);
+        jDescarte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
         getContentPane().add(jDescarte, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 450, 180, 30));
         getContentPane().add(jBaralho, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 80, 100));
         getContentPane().add(jMortoAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 110, 80, 100));
@@ -239,6 +270,18 @@ public class AtorJogador extends javax.swing.JFrame {
     public final java.awt.event.MouseAdapter eventoDescartar() {
         return new java.awt.event.MouseAdapter() {
             @Override
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+                jDescarte.setOpaque(true);
+                jDescarte.setBorder(new LineBorder(new java.awt.Color(204, 204, 204), 2, false));
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                jDescarte.setOpaque(false);
+                jDescarte.setBorder(new LineBorder(new java.awt.Color(204, 204, 204), 2, false));
+            }
+
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (atorNetGames.isMinhaVez()) {
 
@@ -280,7 +323,7 @@ public class AtorJogador extends javax.swing.JFrame {
                             JLabel pos = labelsMesa.get(livre);
                             pos.setIcon(maoClicado.getIcon());
 
-                            if (mesa.getCartasMesa().size() == 8) {
+                            if (mesa.getCartasMesa().size() == 12) {
                                 mesa.setStatus(Mesa.StatusMesa.MESA_CHEIA);
                                 mesa.limparMesa();
                             }
@@ -385,6 +428,10 @@ public class AtorJogador extends javax.swing.JFrame {
         labelsMesa.add(jMesa6);
         labelsMesa.add(jMesa7);
         labelsMesa.add(jMesa8);
+        labelsMesa.add(jMesa9);
+        labelsMesa.add(jMesa10);
+        labelsMesa.add(jMesa11);
+        labelsMesa.add(jMesa12);
 
         //Add Labels na Mao
         labelsMao = new ArrayList();
@@ -414,7 +461,8 @@ public class AtorJogador extends javax.swing.JFrame {
         PainelConectar p = new PainelConectar(this, true);
         p.setVisible(true);
         nome = p.getTextField();
-        atorNetGames.conectarRede(nome, "venus.inf.ufsc.br");
+        String servidor = p.getServidor();
+        atorNetGames.conectarRede(nome, servidor);
         criarJogadorAtual(nome);
         iniciarPartida();
     }
@@ -462,9 +510,7 @@ public class AtorJogador extends javax.swing.JFrame {
                 if (mesa.getStatus().equals(Mesa.StatusMesa.INICAR_PARTIDA)) {
 
                     mesa.getJogadores().get(1).setVezDeJogar(true);
-                }
-                else{
-                    
+                } else {
                 }
 
             }
@@ -525,13 +571,17 @@ public class AtorJogador extends javax.swing.JFrame {
         labelsMesa.add(jMesa6);
         labelsMesa.add(jMesa7);
         labelsMesa.add(jMesa8);
+        labelsMesa.add(jMesa9);
+        labelsMesa.add(jMesa10);
+        labelsMesa.add(jMesa11);
+        labelsMesa.add(jMesa12);
 
         if (jNome.getText().equalsIgnoreCase("") || jNomeAdv.getText().equalsIgnoreCase("")) {
             jNome.setText(nome);
             jNomeAdv.setText(mesa.getJogadores().get(0).getNome());
         }
         if (mesa.getStatus().equals(Mesa.StatusMesa.MESA_CHEIA)) {
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < 12; i++) {
 
                 labelsMesa.get(i).setIcon(null);
                 mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
@@ -541,7 +591,7 @@ public class AtorJogador extends javax.swing.JFrame {
 
 
 
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < 12; i++) {
                 labelsMesa.get(i).setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
                 if (i < cartasMesa.size()) {
                     labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMesa.get(i) + ".png")));
@@ -586,11 +636,11 @@ public class AtorJogador extends javax.swing.JFrame {
     }
 
     private void exibirPontuacao() {
-        
-        System.out.print("oi");
-        
+
+        jPontuacao.setText("Pontuação: " + jogadorAtual.getPontuacao());
+
     }
-    
+
     public void terminarPartidaEmAndamento() {
         throw new UnsupportedOperationException();
     }
@@ -632,6 +682,9 @@ public class AtorJogador extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JLabel jMesa1;
+    private javax.swing.JLabel jMesa10;
+    private javax.swing.JLabel jMesa11;
+    private javax.swing.JLabel jMesa12;
     private javax.swing.JLabel jMesa2;
     private javax.swing.JLabel jMesa3;
     private javax.swing.JLabel jMesa4;
@@ -639,11 +692,12 @@ public class AtorJogador extends javax.swing.JFrame {
     private javax.swing.JLabel jMesa6;
     private javax.swing.JLabel jMesa7;
     private javax.swing.JLabel jMesa8;
+    private javax.swing.JLabel jMesa9;
     private javax.swing.JLabel jMorto;
     private javax.swing.JLabel jMortoAdv;
     private javax.swing.JLabel jNome;
     private javax.swing.JLabel jNomeAdv;
+    private javax.swing.JLabel jPontuacao;
+    private javax.swing.JLabel jPontuacaoAdv;
     // End of variables declaration//GEN-END:variables
-
-
 }

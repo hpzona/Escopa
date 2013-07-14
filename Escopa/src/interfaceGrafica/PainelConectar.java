@@ -28,7 +28,8 @@ public class PainelConectar extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jNome = new javax.swing.JTextField();
+        jServidor = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         fundo = new javax.swing.JLabel();
 
@@ -38,10 +39,21 @@ public class PainelConectar extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 51));
         jLabel1.setText("Insira o seu nome:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 120, 20));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, 120, 20));
 
-        jTextField1.setForeground(new java.awt.Color(0, 102, 51));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 220, 30));
+        jNome.setForeground(new java.awt.Color(0, 102, 51));
+        getContentPane().add(jNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 220, 30));
+
+        jServidor.setBackground(new java.awt.Color(204, 204, 204));
+        jServidor.setForeground(new java.awt.Color(0, 102, 51));
+        jServidor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jServidor.setText("venus.inf.ufsc.br");
+        jServidor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jServidorActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jServidor, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 270, -1));
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(0, 153, 51));
@@ -51,7 +63,7 @@ public class PainelConectar extends javax.swing.JDialog {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 50, 30));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 50, 30));
 
         fundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/painel.png"))); // NOI18N
         getContentPane().add(fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 240));
@@ -60,13 +72,21 @@ public class PainelConectar extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(!jTextField1.getText().equalsIgnoreCase("")){
+        if(!jNome.getText().equalsIgnoreCase("")){
             this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jServidorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jServidorActionPerformed
+
     public String getTextField(){
-        return jTextField1.getText();
+        return jNome.getText();
+    }
+    
+    public String getServidor(){
+        return jServidor.getText();
     }
     /**
      * @param args the command line arguments
@@ -75,6 +95,7 @@ public class PainelConectar extends javax.swing.JDialog {
     private javax.swing.JLabel fundo;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jNome;
+    private javax.swing.JTextField jServidor;
     // End of variables declaration//GEN-END:variables
 }

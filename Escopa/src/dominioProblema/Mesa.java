@@ -49,7 +49,7 @@ public class Mesa implements Jogada {
 
     public void limparMesa() {
         baralho.addAll(cartasMesa);
-        setQuantidadeCartasBaralho(8);
+        setQuantidadeCartasBaralho(12);
         Collections.shuffle(baralho);
         cartasMesa.removeAll(cartasMesa);
     }
