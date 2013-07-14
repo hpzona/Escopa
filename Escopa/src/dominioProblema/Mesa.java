@@ -282,9 +282,9 @@ public class Mesa implements Jogada {
         
         
 
-        if(getJogadores().get(0).getMao().size() > getJogadores().get(1).getMao().size()){
+        if(getJogadores().get(0).getMorto().size() > getJogadores().get(1).getMorto().size()){
            getJogadores().get(0).setPontuacao(1);
-        }else if(getJogadores().get(0).getMao().size() < getJogadores().get(1).getMao().size()) {
+        }else if(getJogadores().get(0).getMorto().size() < getJogadores().get(1).getMorto().size()) {
             getJogadores().get(1).setPontuacao(1);
         }
         
