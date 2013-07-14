@@ -109,16 +109,16 @@ public class Mesa implements Jogada {
 
         for (int i = 0; i < jogadores.size(); i++) {
             if (jogadores.get(i).getNome().equals(jogador.getNome())) {
-                for(int j = 0; j < 3; j++){
-                listaDeCartasJogador.add(baralho.get(getQuantidadeCartasBaralho() - 1));
+                for (int j = 0; j < 3; j++) {
+                    listaDeCartasJogador.add(baralho.get(getQuantidadeCartasBaralho() - 1));
 
-                baralho.remove(getQuantidadeCartasBaralho() - 1);
-                setQuantidadeCartasBaralho(-1);
+                    baralho.remove(getQuantidadeCartasBaralho() - 1);
+                    setQuantidadeCartasBaralho(-1);
 
                 }
             }
         }
-                jogador.setMao(listaDeCartasJogador);
+        jogador.setMao(listaDeCartasJogador);
     }
 
     public void montarBaralho() {
@@ -249,6 +249,11 @@ public class Mesa implements Jogada {
                 executante.getMorto().add(jogada.getCartas().get(j));
                 cartasMesa.remove(jogada.getCartas().get(j));
             }
+
+            if (avaliarFimDoBaralho()) {
+                calcularPontuacoes();
+            }
+
             return true;
 
         }
@@ -257,10 +262,102 @@ public class Mesa implements Jogada {
         return false;
     }
 
+    public void calcularPontuacoes() {
+        int todos7 = 0;
+        int todos6 = 0;
+        int todos5 = 0;
+        int todos4 = 0;
+        int todos3 = 0;
+        int todos2 = 0;
+        int todosAses = 0;
+        boolean seteOuros = false;
+        boolean maioriaCartas = false;
 
-    /*public Jogada informarJogada() {
-     return jogador.getJogada();
-     }*/
+        for (Jogador jog : getJogadores()) {
+
+            int quantidadeCartas = jog.getMorto().size();
+            if (quantidadeCartas > 20) {
+                maioriaCartas = true;
+            }
+
+
+            for (Carta carta : jog.getMorto()) {
+                if (carta.getNumero() == 7) {
+                    todos7++;
+                }
+                if (carta.getNumero() == 6) {
+                    todos6++;
+                }
+                if (carta.getNumero() == 5) {
+                    todos5++;
+                }
+                if (carta.getNumero() == 4) {
+                    todos4++;
+                }
+                if (carta.getNumero() == 3) {
+                    todos3++;
+                }
+                if (carta.getNumero() == 2) {
+                    todos2++;
+                }
+                if (carta.getNumero() == 1) {
+                    todosAses++;
+                }
+                if (carta.getNumero() == 7 && carta.getNaipe().equals("Ouros")) {
+                    seteOuros = true;
+                    jog.setPontuacao(1);
+                }
+            }
+
+
+
+            if (todos7 == 4) {
+                jog.setPontuacao(11);
+            }
+            if (todos7 > 2) {
+                jog.setPontuacao(3);
+                todos7 = 0;
+            }
+            if (todos6 == 4) {
+                jog.setPontuacao(8);
+                todos6 = 0;
+            }
+            if (todosAses == 4) {
+                jog.setPontuacao(6);
+                todosAses = 0;
+            }
+            if (todos5 == 4) {
+                jog.setPontuacao(5);
+                todos5 = 0;
+            }
+            if (todos4 == 4) {
+                jog.setPontuacao(4);
+                todos4 = 0;
+            }
+            if (todos3 == 4) {
+                jog.setPontuacao(3);
+                todos3 = 0;
+            }
+            if (todos2 == 4) {
+                jog.setPontuacao(2);
+                todos2 = 0;
+            }
+            if (maioriaCartas) {
+                jog.setPontuacao(1);
+                maioriaCartas = false;
+            }
+            if (seteOuros) {
+                jog.setPontuacao(1);
+                seteOuros = false;
+            }
+
+
+            System.out.println(jog.getPontuacao());
+
+        }
+
+    }
+
     public boolean isPartidaEmAndamento() {
         return partidaEmAndamento;
     }
@@ -281,6 +378,7 @@ public class Mesa implements Jogada {
         this.montarBaralho();
         this.distribuirCartasMesa();
         this.distribuirCartasJogadores();
+        setPartidaEmAndamento(true);
     }
 
     public StatusMesa getStatus() {
@@ -303,37 +401,38 @@ public class Mesa implements Jogada {
             int valorAtual = posicoes[i];
             List<Carta> listaDeCartasPorJogador = new ArrayList<Carta>();
 
-
             for (int b = ultimoValor; b < posicoes[i]; b++) {
-                if(getQuantidadeCartasBaralho() > 0){
-                listaDeCartasPorJogador.add(baralho.get(getQuantidadeCartasBaralho() - 1));
-                baralho.remove(getQuantidadeCartasBaralho() - 1);
-                setQuantidadeCartasBaralho(-1);
-                }else{
-                    System.out.print("Acabou baralho");
-                }
+                if (getQuantidadeCartasBaralho() > 0) {
 
+                    listaDeCartasPorJogador.add(baralho.get(getQuantidadeCartasBaralho() - 1));
+                    baralho.remove(getQuantidadeCartasBaralho() - 1);
+                    setQuantidadeCartasBaralho(-1);
+                } else {
+                }
+                System.out.print("Acabou baralho");
             }
+
+
             joga.setMao(listaDeCartasPorJogador);
             joga.setMaoVazia(false);
             ultimoValor = valorAtual;
         }
 
     }
-    
-    
-        public void verificarMaoVazia() {
+
+    public void verificarMaoVazia() {
         int cont = 0;
         boolean distribuirCartas = false;
         for (Jogador jog : getJogadores()) {
-            if(jog.getMao().isEmpty()){
+            if (jog.getMao().isEmpty()) {
                 cont++;
             }
-            if (cont == 2) {
-                distribuirCartas = true;
-            }    
-            
         }
+        if (cont == 2) {
+            distribuirCartas = true;
+        }
+
+
 
         if (distribuirCartas == true) {
 
