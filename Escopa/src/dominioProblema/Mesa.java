@@ -320,4 +320,27 @@ public class Mesa implements Jogada {
         }
 
     }
+    
+    
+        public void verificarMaoVazia() {
+        int cont = 0;
+        boolean distribuirCartas = false;
+        for (Jogador jog : getJogadores()) {
+            if(jog.getMao().isEmpty()){
+                cont++;
+            }
+            if (cont == 2) {
+                distribuirCartas = true;
+            }    
+            
+        }
+
+        if (distribuirCartas == true) {
+
+            distribuirCartasJogadores();
+            setStatus(Mesa.StatusMesa.MAOS_VAZIA);
+        }
+
+
+    }
 }

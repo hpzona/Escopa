@@ -267,7 +267,7 @@ public class AtorJogador extends javax.swing.JFrame {
                             int livre = mesa.nextPosicaoLivre();
                             mesa.addCartaMesa(jogadorAtual.getMao().get(getIndexMaoClicado()));
 
-                            jogadorAtual.getMao().set(getIndexMaoClicado(), null);
+                            jogadorAtual.getMao().remove(getIndexMaoClicado());
 
 
                             JLabel pos = labelsMesa.get(livre);
@@ -280,8 +280,7 @@ public class AtorJogador extends javax.swing.JFrame {
 
                         }
 
-                        verificarMaoVazia();
-                        quantidadeMao--;
+                        mesa.verificarMaoVazia();
                         maoClicado.setIcon(null);
                         maoClicado = null;
                         mesaClicado.clear();
@@ -313,38 +312,7 @@ public class AtorJogador extends javax.swing.JFrame {
 
     }
 
-    public void verificarMaoVazia() {
-        List<Carta> listaNulos = new ArrayList<Carta>();
-        for (Carta elemento : jogadorAtual.getMao()) {
-            if (elemento == null) {
-                listaNulos.add(elemento);
-            }
-        }
 
-        if (listaNulos.size() == 3) {
-            jogadorAtual.setMaoVazia(true);
-
-        }
-        int cont = 0;
-        boolean distribuirCartas = false;
-        for (Jogador jog : mesa.getJogadores()) {
-            if (jog.isMaoVazia()) {
-                cont++;
-            }
-            if (cont == 2) {
-                distribuirCartas = true;
-            }
-
-        }
-
-        if (distribuirCartas == true) {
-
-            mesa.distribuirCartasJogadores();
-            mesa.setStatus(Mesa.StatusMesa.MAOS_VAZIA);
-        }
-
-
-    }
 
     public int getIndexMaoClicado() {
         int index = -1;
