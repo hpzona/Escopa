@@ -24,9 +24,11 @@ public class Mesa implements Jogada {
         baralho = new ArrayList();
     }
 
+    
+
     public enum StatusMesa {
 
-        INICAR_PARTIDA, INICIAR_RODADA, MESA_CHEIA, MAOS_VAZIA;
+        INICAR_PARTIDA, INICIAR_RODADA, MESA_CHEIA, MAOS_VAZIA, FIM_PARTIDA;
     }
 
     public ArrayList<Carta> getCartasMesa() {
@@ -182,11 +184,18 @@ public class Mesa implements Jogada {
 //
 //    }
     public void avaliarVencedor() {
-//        if (jogadorLocal.getPontuacao() > jogadorRemoto.getPontuacao()) {
-//            //jgador local é o vencedor
-//        } else {
-//            //jgador remoto é o vencedor
-//        }
+
+        if(getJogadores().get(0).getPontuacao() > getJogadores().get(1).getPontuacao()){
+            getJogadores().get(0).setVencedor(true);
+            setStatus(Mesa.StatusMesa.FIM_PARTIDA);
+        }else if(getJogadores().get(0).getPontuacao() < getJogadores().get(1).getPontuacao()) {
+            getJogadores().get(1).setVencedor(true);
+            setStatus(Mesa.StatusMesa.FIM_PARTIDA);
+        }else{
+            setStatus(Mesa.StatusMesa.INICAR_PARTIDA);
+            this.iniciarMao();
+        }
+        
     }
 
     public int getQuantidadeCartasBaralho() {
@@ -250,19 +259,18 @@ public class Mesa implements Jogada {
                 cartasMesa.remove(jogada.getCartas().get(j));
             }
 
-            if (avaliarFimDoBaralho()) {
-                calcularPontuacoes();
-            }
+       
 
             return true;
 
         }
-
+        
         //caso jogada nao seja valida
         return false;
     }
 
     public void calcularPontuacoes() {
+
         int todos7 = 0;
         int todos6 = 0;
         int todos5 = 0;
@@ -305,17 +313,13 @@ public class Mesa implements Jogada {
                 }
                 if (carta.getNumero() == 7 && carta.getNaipe().equals("Ouros")) {
                     seteOuros = true;
-                    jog.setPontuacao(1);
                 }
             }
 
 
 
             if (todos7 == 4) {
-                jog.setPontuacao(11);
-            }
-            if (todos7 > 2) {
-                jog.setPontuacao(3);
+                jog.setPontuacao(14);
                 todos7 = 0;
             }
             if (todos6 == 4) {
@@ -353,7 +357,6 @@ public class Mesa implements Jogada {
 
 
             System.out.println(jog.getPontuacao());
-
         }
 
     }
@@ -408,8 +411,8 @@ public class Mesa implements Jogada {
                     baralho.remove(getQuantidadeCartasBaralho() - 1);
                     setQuantidadeCartasBaralho(-1);
                 } else {
+                    System.out.print("Acabou baralho");
                 }
-                System.out.print("Acabou baralho");
             }
 
 
@@ -441,5 +444,12 @@ public class Mesa implements Jogada {
         }
 
 
+    }
+    
+    public void verificarVencedor() {
+             if (avaliarFimDoBaralho()) {
+                calcularPontuacoes();
+                avaliarVencedor();
+            }
     }
 }

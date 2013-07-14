@@ -288,6 +288,7 @@ public class AtorJogador extends javax.swing.JFrame {
                         }
 
                         mesa.verificarMaoVazia();
+                        mesa.verificarVencedor();
                         maoClicado.setIcon(null);
                         maoClicado = null;
                         mesaClicado.clear();
@@ -584,6 +585,12 @@ public class AtorJogador extends javax.swing.JFrame {
         throw new UnsupportedOperationException();
     }
 
+    private void exibirPontuacao() {
+        
+        System.out.print("oi");
+        
+    }
+    
     public void terminarPartidaEmAndamento() {
         throw new UnsupportedOperationException();
     }
@@ -637,4 +644,6 @@ public class AtorJogador extends javax.swing.JFrame {
     private javax.swing.JLabel jNome;
     private javax.swing.JLabel jNomeAdv;
     // End of variables declaration//GEN-END:variables
+
+
 }

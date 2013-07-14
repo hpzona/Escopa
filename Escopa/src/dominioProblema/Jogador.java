@@ -107,8 +107,9 @@ public class Jogador implements Jogada {
         this.quantidadeCartasMao += quantidade;
     }
 
-    public void setVencedor() {
-        throw new UnsupportedOperationException();
+    public void setVencedor(boolean vencedor) {
+        this.vencedor = vencedor;
+        
     }
 
     public void adicionarCartaMao(Carta carta) throws Exception {
