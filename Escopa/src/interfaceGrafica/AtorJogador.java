@@ -349,18 +349,51 @@ public class AtorJogador extends javax.swing.JFrame {
     public int getIndexMaoClicado() {
         int index = -1;
         if (maoClicado == jMao1) {
-            index = 0;
-        } else {
-            if (maoClicado == jMao2) {
-                index = 1;
-            } else {
-                if (maoClicado == jMao3) {
-                    index = 2;
-                }
-            }
+            return 0;
         }
-        return index;
-    }
+            int qnt = jogadorAtual.getMao().size();
+
+            switch (qnt) {
+                case 3:
+                    if (maoClicado == jMao2) {
+                        index = 1;
+                    } else {
+                        if (maoClicado == jMao3) {
+                            index = 2;
+                        }
+                    }
+                    break;
+
+                case 2:
+                    if (maoClicado == jMao2) {
+                        if (jMao1 == null) {
+                            index = 0;
+                        } else {
+                            index = 1;
+                        }
+                    } else {
+                        if (maoClicado == jMao3) {
+                            index = 1;
+                        }
+                    }
+                    break;
+
+
+                case 1:
+                        if (maoClicado == jMao2) {
+                            index = 0;
+                        } else {
+                            if (maoClicado == jMao3) {
+                                index = 0;
+                            }
+                        }
+                    break;
+            }
+
+            return index;
+        }
+
+    
 
     public void addConectarButtonListener(ActionListener evt) {
         jConectarButton.addActionListener(evt);
