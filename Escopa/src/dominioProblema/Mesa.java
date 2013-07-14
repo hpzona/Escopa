@@ -281,14 +281,15 @@ public class Mesa implements Jogada {
         boolean seteOuros = false;
         boolean maioriaCartas = false;
 
+        if(getJogadores().get(0).getMao().size() > getJogadores().get(1).getMao().size()){
+           getJogadores().get(0).setPontuacao(1);
+        }else if(getJogadores().get(0).getMao().size() < getJogadores().get(1).getMao().size()) {
+            getJogadores().get(1).setPontuacao(1);
+        }
+        
         for (Jogador jog : getJogadores()) {
 
-            int quantidadeCartas = jog.getMorto().size();
-            if (quantidadeCartas > 20) {
-                maioriaCartas = true;
-            }
-
-
+          
             for (Carta carta : jog.getMorto()) {
                 if (carta.getNumero() == 7) {
                     todos7++;
@@ -345,10 +346,6 @@ public class Mesa implements Jogada {
             if (todos2 == 4) {
                 jog.setPontuacao(2);
                 todos2 = 0;
-            }
-            if (maioriaCartas) {
-                jog.setPontuacao(1);
-                maioriaCartas = false;
             }
             if (seteOuros) {
                 jog.setPontuacao(1);
