@@ -33,6 +33,7 @@ public class Jogador implements Jogada {
         this.nome = nome;
         mao = new ArrayList<>();
         morto = new ArrayList();
+        vezDeJogar = false;
 
     }
 

@@ -87,6 +87,7 @@ public class AtorJogador extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jAviso = new javax.swing.JLabel();
         jNome = new javax.swing.JLabel();
         jNomeAdv = new javax.swing.JLabel();
         jMao1 = new javax.swing.JLabel();
@@ -115,6 +116,12 @@ public class AtorJogador extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(810, 547));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jAviso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jAviso.setForeground(new java.awt.Color(204, 204, 204));
+        jAviso.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jAviso.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(135, 136, 32), 2));
+        getContentPane().add(jAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 20, 280, 30));
 
         jNome.setForeground(new java.awt.Color(255, 255, 255));
         jNome.setText("  ");
@@ -164,7 +171,7 @@ public class AtorJogador extends javax.swing.JFrame {
         jDescarte.setText("  FAZER JOGADA / DESCARTAR");
         jDescarte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(135, 136, 32), 2));
         jDescarte.setOpaque(true);
-        getContentPane().add(jDescarte, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 450, 180, 30));
+        getContentPane().add(jDescarte, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 450, 180, 30));
         getContentPane().add(jBaralho, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 80, 100));
         getContentPane().add(jMortoAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 110, 80, 100));
         getContentPane().add(jMorto, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 290, 80, 100));
@@ -312,56 +319,52 @@ public class AtorJogador extends javax.swing.JFrame {
 
     }
 
-
-
     public int getIndexMaoClicado() {
         int index = -1;
         if (maoClicado == jMao1) {
             return 0;
         }
-            int qnt = jogadorAtual.getMao().size();
+        int qnt = jogadorAtual.getMao().size();
 
-            switch (qnt) {
-                case 3:
-                    if (maoClicado == jMao2) {
+        switch (qnt) {
+            case 3:
+                if (maoClicado == jMao2) {
+                    index = 1;
+                } else {
+                    if (maoClicado == jMao3) {
+                        index = 2;
+                    }
+                }
+                break;
+
+            case 2:
+                if (maoClicado == jMao2) {
+                    if (jMao1.getIcon() == null) {
+                        index = 0;
+                    } else {
                         index = 1;
-                    } else {
-                        if (maoClicado == jMao3) {
-                            index = 2;
-                        }
                     }
-                    break;
-
-                case 2:
-                    if (maoClicado == jMao2) {
-                        if (jMao1.getIcon() == null) {
-                            index = 0;
-                        } else {
-                            index = 1;
-                        }
-                    } else {
-                        if (maoClicado == jMao3) {
-                            index = 1;
-                        }
+                } else {
+                    if (maoClicado == jMao3) {
+                        index = 1;
                     }
-                    break;
+                }
+                break;
 
 
-                case 1:
-                        if (maoClicado == jMao2) {
-                            index = 0;
-                        } else {
-                            if (maoClicado == jMao3) {
-                                index = 0;
-                            }
-                        }
-                    break;
-            }
-
-            return index;
+            case 1:
+                if (maoClicado == jMao2) {
+                    index = 0;
+                } else {
+                    if (maoClicado == jMao3) {
+                        index = 0;
+                    }
+                }
+                break;
         }
 
-    
+        return index;
+    }
 
     public void addConectarButtonListener(ActionListener evt) {
         jConectarButton.addActionListener(evt);
@@ -438,10 +441,13 @@ public class AtorJogador extends javax.swing.JFrame {
         jNomeAdv.setText(mesa.getJogadores().get(1).getNome());
 
 
+
+
     }
 
     public void efetuarJogada(Jogada jogada) {
 
+        jogadorAtual.setVezDeJogar(true);
         atorNetGames.enviarJogadaRede(jogada);
 
 
@@ -451,6 +457,15 @@ public class AtorJogador extends javax.swing.JFrame {
         for (Jogador jog : mesa.getJogadores()) {
             if (jog.getNome().equals(jogadorAtual.getNome())) {
                 jogadorAtual = jog;
+
+                if (mesa.getStatus().equals(Mesa.StatusMesa.INICAR_PARTIDA)) {
+
+                    mesa.getJogadores().get(1).setVezDeJogar(true);
+                }
+                else{
+                    
+                }
+
             }
 
         }
@@ -458,18 +473,23 @@ public class AtorJogador extends javax.swing.JFrame {
 
     public void receberJogada(Jogada jogada) {
 
+
         if (jogada instanceof Mesa) {
 
             this.mesa = (Mesa) jogada;
+
+            jogadorAtual.setVezDeJogar(false);
 
             this.setJogadorAtualIniciarPartida(mesa);
 
             exibirEstado();
 
+
             if (mesa.getStatus().equals(Mesa.StatusMesa.INICAR_PARTIDA) || mesa.getStatus().equals(Mesa.StatusMesa.MAOS_VAZIA)) { // se eu nao coloco essa condição, ele fica atualizando a mão qdo eu descarto a carta, com dados falsos
 
                 atualizaCartasJogadorAtual(jogadorAtual);
                 mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
+                mesa.getJogadores().get(0).setVezDeJogar(true);
             }
 
         }
@@ -531,10 +551,18 @@ public class AtorJogador extends javax.swing.JFrame {
         }
         if (!mesa.getBaralho().isEmpty()) {
             jBaralho.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
+        } else {
+            jBaralho.setIcon(null);
         }
 
         if (!jogadorAtual.getMorto().isEmpty()) {
             jMorto.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
+        }
+
+        if (jogadorAtual.isVezDeJogar()) {
+            jAviso.setText("SUA VEZ DE JOGAR");
+        } else {
+            jAviso.setText("VEZ DO ADVERSARIO");
         }
 
 //        for (int i = 0; i < cartasMao.size(); i++) {
@@ -585,6 +613,7 @@ public class AtorJogador extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jConectarButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jAviso;
     private javax.swing.JLabel jBaralho;
     private javax.swing.JMenuItem jConectarButton;
     private javax.swing.JLabel jDescarte;
