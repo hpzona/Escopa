@@ -543,7 +543,6 @@ public class AtorJogador extends javax.swing.JFrame {
 
         }
          if(mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_NOVA_RODADA)){
-             JOptionPane.showMessageDialog(null, "Terminou a rodada, nenhum vencedor");
              this.iniciarNovaPartida();
          }
 

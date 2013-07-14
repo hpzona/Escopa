@@ -185,10 +185,10 @@ public class Mesa implements Jogada {
 //    }
     public void avaliarVencedor() {
 
-        if(getJogadores().get(0).getPontuacao() > getJogadores().get(1).getPontuacao()){
+        if(getJogadores().get(0).getPontuacao() > getJogadores().get(1).getPontuacao() && getJogadores().get(0).getPontuacao() > 21){
             getJogadores().get(0).setVencedor(true);
             setStatus(Mesa.StatusMesa.FIM_PARTIDA);
-        }else if(getJogadores().get(0).getPontuacao() < getJogadores().get(1).getPontuacao()) {
+        }else if(getJogadores().get(0).getPontuacao() < getJogadores().get(1).getPontuacao() && getJogadores().get(1).getPontuacao() > 21){
             getJogadores().get(1).setVencedor(true);
             setStatus(Mesa.StatusMesa.FIM_PARTIDA);
         }else{
