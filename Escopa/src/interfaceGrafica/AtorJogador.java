@@ -574,11 +574,13 @@ public class AtorJogador extends javax.swing.JFrame {
 
         }
         if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_NOVA_RODADA)) {
-            JOptionPane.showMessageDialog(null, "rodada acabou e nenhum vencedor");
+            if (mesa.getPosicaoNovaRodada() != 1) {
+                JOptionPane.showMessageDialog(null, "rodada acabou e nenhum vencedor");
+                mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
+            }
             mesa.iniciarNovaRodada();
-            this.exibirEstado();
             atualizaCartasJogadorAtual(jogadorAtual);
-            mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
+            this.exibirEstado();
 
         }
         if (mesa.getStatus().equals(Mesa.StatusMesa.FIM_PARTIDA)) {
@@ -759,11 +761,11 @@ public class AtorJogador extends javax.swing.JFrame {
     }//GEN-LAST:event_jConectarButtonActionPerformed
 
     private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
-        if (conectado)
+        if (conectado) {
             AtorJogador.this.atorNetGames.desconectar();
+        }
         System.exit(0);    // TODO add your handling code here:
     }//GEN-LAST:event_jSairActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jAviso;
     private javax.swing.JLabel jBaralho;

@@ -19,12 +19,18 @@ public class Mesa implements Jogada {
     protected boolean partidaEmAndamento;
     protected int quantidadeCartasBaralho;
     private StatusMesa status;
+    protected int posicaoNovaRodada = 1;
 
-    public Mesa() {
-       
+    public int getPosicaoNovaRodada() {
+        return posicaoNovaRodada;
     }
 
-    
+    public void setPosicaoNovaRodada(int posicaoNovaRodada) {
+        this.posicaoNovaRodada = posicaoNovaRodada;
+    }
+
+    public Mesa() {
+    }
 
     public enum StatusMesa {
 
@@ -125,7 +131,7 @@ public class Mesa implements Jogada {
 
     public void montarBaralho() {
         setQuantidadeCartasBaralho(40);
-         baralho = new ArrayList();
+        baralho = new ArrayList();
         for (int i = 1; i < 11; i++) {
 
             baralho.add(new Carta(i, "Ouros"));
@@ -186,18 +192,18 @@ public class Mesa implements Jogada {
 //    }
     public void avaliarVencedor() {
 
-        if(getJogadores().get(0).getPontuacao() > getJogadores().get(1).getPontuacao() && getJogadores().get(0).getPontuacao() > 21){
+        if (getJogadores().get(0).getPontuacao() > getJogadores().get(1).getPontuacao() && getJogadores().get(0).getPontuacao() > 21) {
             getJogadores().get(0).setVencedor(true);
             setStatus(Mesa.StatusMesa.FIM_PARTIDA);
-        }else if(getJogadores().get(0).getPontuacao() < getJogadores().get(1).getPontuacao() && getJogadores().get(1).getPontuacao() > 21){
+        } else if (getJogadores().get(0).getPontuacao() < getJogadores().get(1).getPontuacao() && getJogadores().get(1).getPontuacao() > 21) {
             getJogadores().get(1).setVencedor(true);
             setStatus(Mesa.StatusMesa.FIM_PARTIDA);
-        }else{
+        } else {
             setStatus(Mesa.StatusMesa.INICIAR_NOVA_RODADA);
             getJogadores().get(1).setQntEscovas(0);
             getJogadores().get(0).setQntEscovas(0);
         }
-        
+
     }
 
     public int getQuantidadeCartasBaralho() {
@@ -211,6 +217,7 @@ public class Mesa implements Jogada {
     public void setQuantidadeCartasBaralho(int quantidade) {
         this.quantidadeCartasBaralho = quantidade;
     }
+
     public void addQuantidadeCartasBaralho(int quantidade) {
         this.quantidadeCartasBaralho += quantidade;
     }
@@ -254,8 +261,8 @@ public class Mesa implements Jogada {
             pontuacao += jogada.getCartas().get(i).getNumero();
 
         }
-        
-        
+
+
         if (pontuacao == 15) {
             //jogada valida
             executante.getMorto().add(jogada.getCartas().get(0)); //carta da mao
@@ -264,16 +271,17 @@ public class Mesa implements Jogada {
                 executante.getMorto().add(jogada.getCartas().get(j));
                 cartasMesa.remove(jogada.getCartas().get(j));
             }
-            
-            if(cartasMesa.isEmpty())
-               executante.setQntEscovas(1);
 
-       
+            if (cartasMesa.isEmpty()) {
+                executante.setQntEscovas(1);
+            }
+
+
 
             return true;
 
         }
-        
+
         //caso jogada nao seja valida
         return false;
     }
@@ -288,18 +296,18 @@ public class Mesa implements Jogada {
         int todos2 = 0;
         int todosAses = 0;
         boolean seteOuros = false;
-        
-        
 
-        if(getJogadores().get(0).getMorto().size() > getJogadores().get(1).getMorto().size()){
-           getJogadores().get(0).setPontuacao(1);
-        }else if(getJogadores().get(0).getMorto().size() < getJogadores().get(1).getMorto().size()) {
+
+
+        if (getJogadores().get(0).getMorto().size() > getJogadores().get(1).getMorto().size()) {
+            getJogadores().get(0).setPontuacao(1);
+        } else if (getJogadores().get(0).getMorto().size() < getJogadores().get(1).getMorto().size()) {
             getJogadores().get(1).setPontuacao(1);
         }
-        
+
         for (Jogador jog : getJogadores()) {
 
-          
+
             for (Carta carta : jog.getMorto()) {
                 if (carta.getNumero() == 7) {
                     todos7++;
@@ -331,50 +339,50 @@ public class Mesa implements Jogada {
             if (todos7 == 4) {
                 jog.setPontuacao(14);
                 todos7 = 0;
-            }else{
+            } else {
                 todos7 = 0;
             }
             if (todos6 == 4) {
                 jog.setPontuacao(8);
                 todos6 = 0;
-            }else{
+            } else {
                 todos6 = 0;
             }
             if (todosAses == 4) {
                 jog.setPontuacao(6);
                 todosAses = 0;
-            }else{
+            } else {
                 todosAses = 0;
             }
             if (todos5 == 4) {
                 jog.setPontuacao(5);
                 todos5 = 0;
-            }else{
+            } else {
                 todos5 = 0;
             }
             if (todos4 == 4) {
                 jog.setPontuacao(4);
                 todos4 = 0;
-            }else{
+            } else {
                 todos4 = 0;
             }
             if (todos3 == 4) {
                 jog.setPontuacao(3);
                 todos3 = 0;
-            }else{
+            } else {
                 todos3 = 0;
             }
             if (todos2 == 4) {
                 jog.setPontuacao(2);
                 todos2 = 0;
-            }else{
+            } else {
                 todos2 = 0;
             }
             if (seteOuros) {
                 jog.setPontuacao(1);
                 seteOuros = false;
             }
-            
+
             jog.setPontuacao(jog.getQntEscovas());
 
 
@@ -462,23 +470,28 @@ public class Mesa implements Jogada {
             setStatus(Mesa.StatusMesa.MAOS_VAZIA);
         }
     }
-    
+
     public void verificarVencedor() {
-             if (avaliarFimDoBaralho()) {
-                calcularPontuacoes();
-                avaliarVencedor();
-            }
+        if (avaliarFimDoBaralho()) {
+            calcularPontuacoes();
+            avaliarVencedor();
+        }
     }
-    
-    public void iniciarNovaRodada(){
-        baralho.clear();
-        cartasMesa.clear();
-        jogadores.get(0).getMorto().clear();
-        jogadores.get(1).getMorto().clear();
-        jogadores.get(0).getMao().clear();
-        jogadores.get(1).getMao().clear();
-        this.montarBaralho();
-        this.distribuirCartasMesa();
-        this.distribuirCartasJogadores();
+
+    public void iniciarNovaRodada() {
+
+        if (posicaoNovaRodada == 1) {
+
+            baralho.clear();
+            cartasMesa.clear();
+            jogadores.get(0).getMorto().clear();
+            jogadores.get(1).getMorto().clear();
+            jogadores.get(0).getMao().clear();
+            jogadores.get(1).getMao().clear();
+            this.montarBaralho();
+            this.distribuirCartasMesa();
+            this.distribuirCartasJogadores();
+            posicaoNovaRodada++;
+        }
     }
 }
