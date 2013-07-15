@@ -469,6 +469,8 @@ public class Mesa implements Jogada {
     public void iniciarNovaRodada(){
         baralho.clear();
         cartasMesa.clear();
+        jogadores.get(0).getMorto().clear();
+        jogadores.get(1).getMorto().clear();
         jogadores.get(0).getMao().clear();
         jogadores.get(1).getMao().clear();
         this.montarBaralho();

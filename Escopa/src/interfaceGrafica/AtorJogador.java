@@ -637,6 +637,22 @@ public class AtorJogador extends javax.swing.JFrame {
 
         if (!jogadorAtual.getMorto().isEmpty()) {
             jMorto.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
+        } else {
+            jMorto.setIcon(null);
+        }
+
+        if (jogadorAtual == mesa.getJogadores().get(0)) {
+            if (!mesa.getJogadores().get(1).getMorto().isEmpty()) {
+                jMortoAdv.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
+            } else {
+                jMortoAdv.setIcon(null);
+            }
+        } else {
+            if (!mesa.getJogadores().get(0).getMorto().isEmpty()) {
+                jMortoAdv.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
+            } else {
+                jMortoAdv.setIcon(null);
+            }
         }
 
         if (jogadorAtual.isVezDeJogar()) {
@@ -677,10 +693,10 @@ public class AtorJogador extends javax.swing.JFrame {
         }
         jPontuacao.setText("Pontuação: " + jogador.getPontuacao());
         jPontuacaoAdv.setText("Pontuação: " + jogador2.getPontuacao());
-        
+
         jEscovas.setText("Escovas: " + jogador.getQntEscovas());
         jEscovasAdv.setText("Escovas: " + jogador2.getQntEscovas());
-        
+
 
     }
 
