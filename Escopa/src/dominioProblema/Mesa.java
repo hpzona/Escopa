@@ -248,7 +248,8 @@ public class Mesa implements Jogada {
             pontuacao += jogada.getCartas().get(i).getNumero();
 
         }
-
+        
+        
         if (pontuacao == 15) {
             //jogada valida
             executante.getMorto().add(jogada.getCartas().get(0)); //carta da mao
@@ -257,6 +258,9 @@ public class Mesa implements Jogada {
                 executante.getMorto().add(jogada.getCartas().get(j));
                 cartasMesa.remove(jogada.getCartas().get(j));
             }
+            
+            if(cartasMesa.isEmpty())
+               executante.setQntEscovas(1);
 
        
 
@@ -365,6 +369,8 @@ public class Mesa implements Jogada {
                 jog.setPontuacao(1);
                 seteOuros = false;
             }
+            
+            jog.setPontuacao(jog.getQntEscovas());
 
 
             System.out.println(jog.getPontuacao());
@@ -445,16 +451,11 @@ public class Mesa implements Jogada {
         if (cont == 2) {
             distribuirCartas = true;
         }
-
-
-
         if (distribuirCartas == true) {
 
             distribuirCartasJogadores();
             setStatus(Mesa.StatusMesa.MAOS_VAZIA);
         }
-
-
     }
     
     public void verificarVencedor() {

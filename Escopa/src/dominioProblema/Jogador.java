@@ -150,7 +150,7 @@ public class Jogador implements Jogada {
     }
 
     public void setQntEscovas(int qntEscovas) {
-        this.qntEscovas = qntEscovas;
+        this.qntEscovas += qntEscovas;
     }
 
     public void habilitar() {
