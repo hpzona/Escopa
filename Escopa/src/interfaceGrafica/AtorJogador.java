@@ -679,7 +679,7 @@ public class AtorJogador extends javax.swing.JFrame {
         jPontuacaoAdv.setText("Pontuação: " + jogador2.getPontuacao());
         
         jEscovas.setText("Escovas: " + jogador.getQntEscovas());
-        jEscovas.setText("Escovas: " + jogador2.getQntEscovas());
+        jEscovasAdv.setText("Escovas: " + jogador2.getQntEscovas());
         
 
     }
