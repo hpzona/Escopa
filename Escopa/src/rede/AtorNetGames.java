@@ -21,7 +21,6 @@ public class AtorNetGames implements OuvidorProxy {
 
     protected boolean minhaVez;
     private AtorJogador atorJogador;
-    private Mesa mesa;
     private Proxy proxy;
 
     public AtorNetGames(AtorJogador atorJogador) {
