@@ -152,6 +152,10 @@ public class Jogador implements Jogada {
     public void setQntEscovas(int qntEscovas) {
         this.qntEscovas += qntEscovas;
     }
+    
+    public boolean isVencedor(){
+        return vencedor;
+    }
 
     public void habilitar() {
     }

@@ -271,19 +271,21 @@ public class AtorJogador extends javax.swing.JFrame {
         return new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
-                boolean remover = false;
-                if (clicado.getIcon() != null) {
-                    //Verifica se a carta já havia sido selecionada
-                    if (mesaClicado.indexOf(clicado) >= 0) {
-                        clicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-                        remover = true;
-                        mesaClicado.remove(clicado);
-                    }
-                    if (!remover) {
-                        mesaClicado.add(clicado);
-                        clicado.setBorder(new LineBorder(Color.red, 2, true));
-                    }
+                if (atorNetGames.isMinhaVez()) {
+                    boolean remover = false;
+                    if (clicado.getIcon() != null) {
+                        //Verifica se a carta já havia sido selecionada
+                        if (mesaClicado.indexOf(clicado) >= 0) {
+                            clicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+                            remover = true;
+                            mesaClicado.remove(clicado);
+                        }
+                        if (!remover) {
+                            mesaClicado.add(clicado);
+                            clicado.setBorder(new LineBorder(Color.red, 2, true));
+                        }
 
+                    }
                 }
             }
         };
@@ -571,6 +573,21 @@ public class AtorJogador extends javax.swing.JFrame {
             mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
 
         }
+        if (mesa.getStatus().equals(Mesa.StatusMesa.FIM_PARTIDA)) {
+            String seuResultado;
+
+            if (jogadorAtual.isVencedor()) {
+                seuResultado = "Venceu";
+            } else {
+                seuResultado = "Perdeu";
+            }
+            JOptionPane.showMessageDialog(null, "Acabou e você " + seuResultado);
+
+            jConectarButton.setText("Conectar");
+            AtorJogador.this.atorNetGames.desconectar();
+            conectado = false;
+
+        }
 
     }
 
@@ -663,11 +680,6 @@ public class AtorJogador extends javax.swing.JFrame {
             jAviso.setText("VEZ DO ADVERSARIO");
         }
 
-//        for (int i = 0; i < cartasMao.size(); i++) {
-//            labelsMao.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMao.get(i) + ".png")));
-//        }
-
-
     }
 
     /**
@@ -722,10 +734,10 @@ public class AtorJogador extends javax.swing.JFrame {
             JMenuItem botao = (JMenuItem) evt.getSource();
             switch (botao.getText()) {
                 case "Conectar":
-                    conectar(); 
+                    conectar();
                     if (conectado) {
-                      botao.setText("Desconectar");
-                      mesa = new Mesa();
+                        botao.setText("Desconectar");
+                        mesa = new Mesa();
                     }
                     break;
                 case "Desconectar":
