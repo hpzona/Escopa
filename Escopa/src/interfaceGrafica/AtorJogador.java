@@ -96,7 +96,9 @@ public class AtorJogador extends javax.swing.JFrame {
         jNome = new javax.swing.JLabel();
         jNomeAdv = new javax.swing.JLabel();
         jPontuacao = new javax.swing.JLabel();
+        jEscovasAdv = new javax.swing.JLabel();
         jPontuacaoAdv = new javax.swing.JLabel();
+        jEscovas = new javax.swing.JLabel();
         jMao1 = new javax.swing.JLabel();
         jMao2 = new javax.swing.JLabel();
         jMao3 = new javax.swing.JLabel();
@@ -138,21 +140,29 @@ public class AtorJogador extends javax.swing.JFrame {
         jNome.setForeground(new java.awt.Color(255, 255, 255));
         jNome.setText("  ");
         jNome.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-        getContentPane().add(jNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 440, 90, 30));
+        getContentPane().add(jNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 430, 90, 30));
 
         jNomeAdv.setForeground(new java.awt.Color(255, 255, 255));
         jNomeAdv.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-        getContentPane().add(jNomeAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 90, 30));
+        getContentPane().add(jNomeAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 90, 30));
 
         jPontuacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jPontuacao.setForeground(new java.awt.Color(204, 204, 204));
         jPontuacao.setText("Pontuação: ");
-        getContentPane().add(jPontuacao, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 470, 90, 20));
+        getContentPane().add(jPontuacao, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 480, 90, 20));
+
+        jEscovasAdv.setForeground(new java.awt.Color(204, 204, 204));
+        jEscovasAdv.setText("Escovas:");
+        getContentPane().add(jEscovasAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 90, 20));
 
         jPontuacaoAdv.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jPontuacaoAdv.setForeground(new java.awt.Color(204, 204, 204));
         jPontuacaoAdv.setText("Pontuação: ");
-        getContentPane().add(jPontuacaoAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 90, 20));
+        getContentPane().add(jPontuacaoAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 90, 20));
+
+        jEscovas.setForeground(new java.awt.Color(204, 204, 204));
+        jEscovas.setText("Escovas:");
+        getContentPane().add(jEscovas, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 90, 20));
 
         jMao1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMao1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 390, 80, 100));
@@ -667,6 +677,10 @@ public class AtorJogador extends javax.swing.JFrame {
         }
         jPontuacao.setText("Pontuação: " + jogador.getPontuacao());
         jPontuacaoAdv.setText("Pontuação: " + jogador2.getPontuacao());
+        
+        jEscovas.setText("Escovas: " + jogador.getQntEscovas());
+        jEscovas.setText("Escovas: " + jogador2.getQntEscovas());
+        
 
     }
 
@@ -707,6 +721,8 @@ public class AtorJogador extends javax.swing.JFrame {
     private javax.swing.JLabel jBaralho;
     private javax.swing.JMenuItem jConectarButton;
     private javax.swing.JLabel jDescarte;
+    private javax.swing.JLabel jEscovas;
+    private javax.swing.JLabel jEscovasAdv;
     private javax.swing.JLabel jFundo;
     private javax.swing.JMenuItem jIniciarButton;
     private javax.swing.JLabel jMao1;

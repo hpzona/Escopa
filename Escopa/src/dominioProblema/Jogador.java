@@ -19,6 +19,8 @@ public class Jogador implements Jogada {
     protected JogadaEscopa jogada;
     protected int id;
     protected boolean maoVazia;
+    protected int qntEscovas;
+
 
     public Jogador(String nome, int id) {
 
@@ -26,6 +28,7 @@ public class Jogador implements Jogada {
         mao = new ArrayList<>();
         this.id = id;
         morto = new ArrayList();
+        qntEscovas = 0;
     }
 
     public Jogador(String nome) {
@@ -34,6 +37,7 @@ public class Jogador implements Jogada {
         mao = new ArrayList<>();
         morto = new ArrayList();
         vezDeJogar = false;
+        qntEscovas = 0;
 
     }
 
@@ -139,6 +143,14 @@ public class Jogador implements Jogada {
 
     public void receberAguarde() {
         throw new UnsupportedOperationException();
+    }
+    
+        public int getQntEscovas() {
+        return qntEscovas;
+    }
+
+    public void setQntEscovas(int qntEscovas) {
+        this.qntEscovas = qntEscovas;
     }
 
     public void habilitar() {
