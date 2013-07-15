@@ -74,28 +74,6 @@ public class Mesa implements Jogada {
         }
     }
 
-//    public Jogador definirOPrimeiro(int primeiro) {
-//        if (primeiro == 0) {
-//            return jogadorLocal;
-//        } else {
-//            return jogadorRemoto;
-//        }
-//    }
-//    public void posicionarJogadores(boolean minhaposicao, String nomeAdv, String nome) {
-//
-//        Jogador local = new Jogador(nome);
-//        Jogador remoto = new Jogador(nomeAdv);
-//
-//        if (minhaposicao == true) {
-//            this.jogadores.add(local);
-//            this.jogadores.add(remoto);
-//        } else {
-//            this.jogadores.add(remoto);
-//            this.jogadores.add(local);
-//        }
-//
-//
-//    }
     public void distribuirCartasMesa() {
         int cartaBaralho;
         cartasMesa = new ArrayList();
@@ -182,14 +160,6 @@ public class Mesa implements Jogada {
         }
     }
 
-//    public boolean avaliarFimCartasMao() { //troquei para boolean, me corrijam se eu estiver errado
-//        if (jogador.getQuantidadeCartasMao() == 0) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//
-//    }
     public void avaliarVencedor() {
 
         if (getJogadores().get(0).getPontuacao() > getJogadores().get(1).getPontuacao() && getJogadores().get(0).getPontuacao() > 21) {
@@ -231,14 +201,6 @@ public class Mesa implements Jogada {
 
     }
 
-    /**
-     *
-     * @param carta
-     */
-    /**
-     *
-     * @param carta
-     */
     public void exibirNovoEstado() {
         throw new UnsupportedOperationException();
     }

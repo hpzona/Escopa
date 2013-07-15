@@ -9,9 +9,6 @@ public class Jogador implements Jogada {
     protected List<Carta> mao;
     protected List<Carta> morto;
     protected String nome;
-    /**
-     * Identifica se � jogador local ou remoto
-     */
     protected int pontuacao;
     protected boolean vezDeJogar;
     protected int quantidadeCartasMao;
@@ -41,12 +38,6 @@ public class Jogador implements Jogada {
 
     }
 
-//    public int informarTipo() throws Exception {
-//        if (tipo == null) {
-//            throw new Exception("Jogador não criado");
-//        }
-//        return tipo;
-//    }
     public String getNome() {
         return nome;
     }
@@ -155,14 +146,5 @@ public class Jogador implements Jogada {
     
     public boolean isVencedor(){
         return vencedor;
-    }
-
-    public void habilitar() {
-    }
-
-    public void desabilitar() {
-    }
-
-    public void reiniciar() {
     }
 }

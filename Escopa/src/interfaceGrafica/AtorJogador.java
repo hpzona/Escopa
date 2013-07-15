@@ -9,8 +9,6 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -69,22 +67,6 @@ public class AtorJogador extends javax.swing.JFrame {
 
         //MouseListener do Descarte/FazerJogada
         jDescarte.addMouseListener(this.eventoDescartar());
-
-        /* //TESTES
-         String cart = "1_Ouro";
-         jMao1.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cart + ".png")));
-
-         //será um metodo 
-         boolean temCarta = true;
-         //QUANDO BARALHO TEM CARTA
-         if (temCarta) {
-         jBaralho.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
-         }
-
-         //QUANDO MORTO TIVER CARTAS
-         jMortoAdv.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
-         jMorto.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
-         */
 
     }
 
@@ -260,6 +242,343 @@ public class AtorJogador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public ArrayList<Integer> getIndexMesaClicado() {
+        ArrayList<Integer> index = new ArrayList();
+
+        for (JLabel m : mesaClicado) {
+            for (int i = 0; i < this.labelsMesa.size(); i++) {
+                if (m == labelsMesa.get(i)) {
+                    index.add(i);
+                }
+            }
+        }
+
+        return index;
+
+    }
+
+    public int getIndexMaoClicado() {
+        int index = -1;
+        if (maoClicado == jMao1) {
+            return 0;
+        }
+        int qnt = jogadorAtual.getMao().size();
+
+        switch (qnt) {
+            case 3:
+                if (maoClicado == jMao2) {
+                    index = 1;
+                } else {
+                    if (maoClicado == jMao3) {
+                        index = 2;
+                    }
+                }
+                break;
+
+            case 2:
+                if (maoClicado == jMao2) {
+                    if (jMao1.getIcon() == null) {
+                        index = 0;
+                    } else {
+                        index = 1;
+                    }
+                } else {
+                    if (maoClicado == jMao3) {
+                        index = 1;
+                    }
+                }
+                break;
+
+
+            case 1:
+                if (maoClicado == jMao2) {
+                    index = 0;
+                } else {
+                    if (maoClicado == jMao3) {
+                        index = 0;
+                    }
+                }
+                break;
+        }
+
+        return index;
+    }
+
+    public void addConectarButtonListener(ActionListener evt) {
+        jConectarButton.addActionListener(evt);
+    }
+
+    /* ACHO QUE ESSE METODO NAO VAI SER USADO, SE A CLASSE PAINEL PRINCIPAL FOR EXCLUÍDA ELE TAMBEM VAI
+     * 
+     * 
+     * private JPanel iniciarPainel() {
+     jPainel = new PainelPrincipal();
+     jPainel.setLayout(null);
+
+     //Add Labels na Mesa
+     labelsMesa = new ArrayList();
+     labelsMesa.add(jMesa1);
+     labelsMesa.add(jMesa2);
+     labelsMesa.add(jMesa3);
+     labelsMesa.add(jMesa4);
+     labelsMesa.add(jMesa5);
+     labelsMesa.add(jMesa6);
+     labelsMesa.add(jMesa7);
+     labelsMesa.add(jMesa8);
+     labelsMesa.add(jMesa9);
+     labelsMesa.add(jMesa10);
+     labelsMesa.add(jMesa11);
+     labelsMesa.add(jMesa12);
+
+     //Add Labels na Mao
+     labelsMao = new ArrayList();
+     labelsMao.add(jMao1);
+     labelsMao.add(jMao2);
+     labelsMao.add(jMao3);
+
+
+     //Add os Listener no Labels
+     jMao1.addMouseListener(this.eventoClickMao(jMao1));
+     jMao2.addMouseListener(this.eventoClickMao(jMao2));
+     jMao3.addMouseListener(this.eventoClickMao(jMao3));
+     jDescarte.addMouseListener(this.eventoDescartar());
+
+     for (JLabel mao : labelsMao) {
+     jPainel.add(mao);
+     }
+
+     for (JLabel mes : labelsMesa) {
+     jPainel.add(mes);
+     }
+
+     return jPainel;
+     }
+     */
+    public void conectar() {
+        PainelConectar p = new PainelConectar(this, true);
+        p.setVisible(true);
+        if (p.isConectado()) {
+            nome = p.getTextField();
+            String servidor = p.getServidor();
+            atorNetGames.conectarRede(nome, servidor);
+            criarJogadorAtual(nome);
+            conectado = true;
+        }
+    }
+
+    public void iniciarPartida() {
+
+        atorNetGames.iniciarPartidaRede();
+
+        List<Jogador> jogadores = atorNetGames.getJogadores();
+
+        if (jogadores.size() == 2) {
+            mesa.setJogadores(jogadores);
+            this.iniciarNovaPartida();
+        }
+
+    }
+
+    public void iniciarNovaPartida() {
+
+
+        mesa.iniciarMao();
+        mesa.setStatus(Mesa.StatusMesa.INICIAR_PARTIDA);
+        this.efetuarJogada(mesa);
+        this.receberJogada(mesa);
+        jNome.setText(nome);
+        jNomeAdv.setText(mesa.getJogadores().get(1).getNome());
+    }
+
+    public void efetuarJogada(Jogada jogada) {
+
+        jogadorAtual.setVezDeJogar(true);
+        atorNetGames.enviarJogadaRede(jogada);
+
+
+    }
+
+    public void receberJogada(Jogada jogada) {
+
+
+        if (jogada instanceof Mesa) {
+
+            this.mesa = (Mesa) jogada;
+
+            jogadorAtual.setVezDeJogar(false);
+
+            this.setJogadorAtualIniciarPartida(mesa);
+
+            exibirEstado();
+
+            exibirPontuacao();
+
+
+            if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_PARTIDA) || mesa.getStatus().equals(Mesa.StatusMesa.MAOS_VAZIA)) { // se eu nao coloco essa condição, ele fica atualizando a mão qdo eu descarto a carta, com dados falsos
+
+                atualizaCartasJogadorAtual(jogadorAtual);
+                mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
+                mesa.getJogadores().get(0).setVezDeJogar(true);
+            }
+
+        }
+        if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_NOVA_RODADA)) {
+            if (mesa.getPosicaoNovaRodada() != 1) {
+                JOptionPane.showMessageDialog(null, "rodada acabou e nenhum vencedor");
+                mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
+            } else {
+                mesa.iniciarNovaRodada();
+            }
+            atualizaCartasJogadorAtual(jogadorAtual);
+            this.exibirEstado();
+
+        }
+        if (mesa.getStatus().equals(Mesa.StatusMesa.FIM_PARTIDA)) {
+            String seuResultado;
+
+            if (jogadorAtual.isVencedor()) {
+                seuResultado = "Venceu";
+            } else {
+                seuResultado = "Perdeu";
+            }
+            JOptionPane.showMessageDialog(null, "Acabou e você " + seuResultado);
+
+            jConectarButton.setText("Conectar");
+            AtorJogador.this.atorNetGames.desconectar();
+            conectado = false;
+
+        }
+
+    }
+
+    public void exibirEstado() {
+
+        labelsMesa = new ArrayList();
+        labelsMesa.add(jMesa1);
+        labelsMesa.add(jMesa2);
+        labelsMesa.add(jMesa3);
+        labelsMesa.add(jMesa4);
+        labelsMesa.add(jMesa5);
+        labelsMesa.add(jMesa6);
+        labelsMesa.add(jMesa7);
+        labelsMesa.add(jMesa8);
+        labelsMesa.add(jMesa9);
+        labelsMesa.add(jMesa10);
+        labelsMesa.add(jMesa11);
+        labelsMesa.add(jMesa12);
+
+        if (jNome.getText().equalsIgnoreCase("") || jNomeAdv.getText().equalsIgnoreCase("")) {
+            jNome.setText(nome);
+            jNomeAdv.setText(mesa.getJogadores().get(0).getNome());
+        }
+        if (mesa.getStatus().equals(Mesa.StatusMesa.MESA_CHEIA)) {
+            for (int i = 0; i < 12; i++) {
+
+                labelsMesa.get(i).setIcon(null);
+                mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
+            }
+        } else {
+            ArrayList<String> cartasMesa = mesa.getCartaMesa_toString();
+
+
+
+            for (int i = 0; i < 12; i++) {
+                labelsMesa.get(i).setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+                if (i < cartasMesa.size()) {
+                    labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMesa.get(i) + ".png")));
+                } else {
+                    labelsMesa.get(i).setIcon(null);
+                }
+            }
+        }
+        if (!mesa.getBaralho().isEmpty()) {
+            jBaralho.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
+        } else {
+            jBaralho.setIcon(null);
+        }
+
+        if (!jogadorAtual.getMorto().isEmpty()) {
+            jMorto.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
+        } else {
+            jMorto.setIcon(null);
+        }
+
+        if (jogadorAtual == mesa.getJogadores().get(0)) {
+            if (!mesa.getJogadores().get(1).getMorto().isEmpty()) {
+                jMortoAdv.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
+            } else {
+                jMortoAdv.setIcon(null);
+            }
+        } else {
+            if (!mesa.getJogadores().get(0).getMorto().isEmpty()) {
+                jMortoAdv.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
+            } else {
+                jMortoAdv.setIcon(null);
+            }
+        }
+
+        if (jogadorAtual.isVezDeJogar()) {
+            jAviso.setText("SUA VEZ DE JOGAR");
+        } else {
+            jAviso.setText("VEZ DO ADVERSARIO");
+        }
+
+    }
+
+    private void exibirPontuacao() {
+        Jogador jogador = null;
+        Jogador jogador2 = null;
+
+        for (Jogador jog : mesa.getJogadores()) {
+            if (jog.getNome().equals(jogadorAtual.getNome())) {
+                jogador = jog;
+            } else {
+                jogador2 = jog;
+            }
+        }
+        jPontuacao.setText("Pontuação: " + jogador.getPontuacao());
+        jPontuacaoAdv.setText("Pontuação: " + jogador2.getPontuacao());
+
+        jEscovas.setText("Escovas: " + jogador.getQntEscovas());
+        jEscovasAdv.setText("Escovas: " + jogador2.getQntEscovas());
+
+
+    }
+
+    private void atualizaCartasJogadorAtual(Jogador joga) {
+
+        labelsMao = new ArrayList<>();
+        labelsMao.add(jMao1);
+        labelsMao.add(jMao2);
+        labelsMao.add(jMao3);
+
+        List<String> cartasMao = mesa.getCartaMao_toString(joga);
+
+        if (cartasMao.size() > 0) {
+            for (int i = 0; i < cartasMao.size(); i++) {
+                labelsMao.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMao.get(i) + ".png")));
+            }
+        }
+
+    }
+
+    protected void setJogadorAtualIniciarPartida(Mesa mesa) {
+        for (Jogador jog : mesa.getJogadores()) {
+            if (jog.getNome().equals(jogadorAtual.getNome())) {
+                jogadorAtual = jog;
+
+                if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_PARTIDA)) {
+
+                    mesa.getJogadores().get(1).setVezDeJogar(true);
+                } else {
+                }
+
+            }
+
+        }
+    }
+
+    //TODOS OS LISTENERS
     public final java.awt.event.MouseAdapter eventoClickMao(final JLabel clicado) {
         return new java.awt.event.MouseAdapter() {
             @Override
@@ -378,354 +697,6 @@ public class AtorJogador extends javax.swing.JFrame {
             }
         };
 
-    }
-
-    public ArrayList<Integer> getIndexMesaClicado() {
-        ArrayList<Integer> index = new ArrayList();
-
-        for (JLabel m : mesaClicado) {
-            for (int i = 0; i < this.labelsMesa.size(); i++) {
-                if (m == labelsMesa.get(i)) {
-                    index.add(i);
-                }
-            }
-        }
-
-        return index;
-
-    }
-
-    public int getIndexMaoClicado() {
-        int index = -1;
-        if (maoClicado == jMao1) {
-            return 0;
-        }
-        int qnt = jogadorAtual.getMao().size();
-
-        switch (qnt) {
-            case 3:
-                if (maoClicado == jMao2) {
-                    index = 1;
-                } else {
-                    if (maoClicado == jMao3) {
-                        index = 2;
-                    }
-                }
-                break;
-
-            case 2:
-                if (maoClicado == jMao2) {
-                    if (jMao1.getIcon() == null) {
-                        index = 0;
-                    } else {
-                        index = 1;
-                    }
-                } else {
-                    if (maoClicado == jMao3) {
-                        index = 1;
-                    }
-                }
-                break;
-
-
-            case 1:
-                if (maoClicado == jMao2) {
-                    index = 0;
-                } else {
-                    if (maoClicado == jMao3) {
-                        index = 0;
-                    }
-                }
-                break;
-        }
-
-        return index;
-    }
-
-    public void addConectarButtonListener(ActionListener evt) {
-        jConectarButton.addActionListener(evt);
-    }
-
-    private JPanel iniciarPainel() {
-        jPainel = new PainelPrincipal();
-        jPainel.setLayout(null);
-
-        //Add Labels na Mesa
-        labelsMesa = new ArrayList();
-        labelsMesa.add(jMesa1);
-        labelsMesa.add(jMesa2);
-        labelsMesa.add(jMesa3);
-        labelsMesa.add(jMesa4);
-        labelsMesa.add(jMesa5);
-        labelsMesa.add(jMesa6);
-        labelsMesa.add(jMesa7);
-        labelsMesa.add(jMesa8);
-        labelsMesa.add(jMesa9);
-        labelsMesa.add(jMesa10);
-        labelsMesa.add(jMesa11);
-        labelsMesa.add(jMesa12);
-
-        //Add Labels na Mao
-        labelsMao = new ArrayList();
-        labelsMao.add(jMao1);
-        labelsMao.add(jMao2);
-        labelsMao.add(jMao3);
-
-
-        //Add os Listener no Labels
-        jMao1.addMouseListener(this.eventoClickMao(jMao1));
-        jMao2.addMouseListener(this.eventoClickMao(jMao2));
-        jMao3.addMouseListener(this.eventoClickMao(jMao3));
-        jDescarte.addMouseListener(this.eventoDescartar());
-
-        for (JLabel mao : labelsMao) {
-            jPainel.add(mao);
-        }
-
-        for (JLabel mes : labelsMesa) {
-            jPainel.add(mes);
-        }
-
-        return jPainel;
-    }
-
-    public void conectar() {
-        PainelConectar p = new PainelConectar(this, true);
-        p.setVisible(true);
-        if (p.isConectado()) {
-            nome = p.getTextField();
-            String servidor = p.getServidor();
-            atorNetGames.conectarRede(nome, servidor);
-            criarJogadorAtual(nome);
-            conectado = true;
-        }
-    }
-
-    public void iniciarPartida() {
-
-        atorNetGames.iniciarPartidaRede();
-
-        List<Jogador> jogadores = atorNetGames.getJogadores();
-
-        if (jogadores.size() == 2) {
-            mesa.setJogadores(jogadores);
-            this.iniciarNovaPartida();
-        }
-
-    }
-
-    public void iniciarNovaPartida() {
-
-
-        mesa.iniciarMao();
-        mesa.setStatus(Mesa.StatusMesa.INICIAR_PARTIDA);
-        this.efetuarJogada(mesa);
-        this.receberJogada(mesa);
-        jNome.setText(nome);
-        jNomeAdv.setText(mesa.getJogadores().get(1).getNome());
-    }
-
-    public void efetuarJogada(Jogada jogada) {
-
-        jogadorAtual.setVezDeJogar(true);
-        atorNetGames.enviarJogadaRede(jogada);
-
-
-    }
-
-    protected void setJogadorAtualIniciarPartida(Mesa mesa) {
-        for (Jogador jog : mesa.getJogadores()) {
-            if (jog.getNome().equals(jogadorAtual.getNome())) {
-                jogadorAtual = jog;
-
-                if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_PARTIDA)) {
-
-                    mesa.getJogadores().get(1).setVezDeJogar(true);
-                } else {
-                }
-
-            }
-
-        }
-    }
-
-    public void receberJogada(Jogada jogada) {
-
-
-        if (jogada instanceof Mesa) {
-
-            this.mesa = (Mesa) jogada;
-
-            jogadorAtual.setVezDeJogar(false);
-
-            this.setJogadorAtualIniciarPartida(mesa);
-
-            exibirEstado();
-
-            exibirPontuacao();
-
-
-            if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_PARTIDA) || mesa.getStatus().equals(Mesa.StatusMesa.MAOS_VAZIA)) { // se eu nao coloco essa condição, ele fica atualizando a mão qdo eu descarto a carta, com dados falsos
-
-                atualizaCartasJogadorAtual(jogadorAtual);
-                mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
-                mesa.getJogadores().get(0).setVezDeJogar(true);
-            }
-
-        }
-        if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_NOVA_RODADA)) {
-            if (mesa.getPosicaoNovaRodada() != 1) {
-                JOptionPane.showMessageDialog(null, "rodada acabou e nenhum vencedor");
-                mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
-            }
-            mesa.iniciarNovaRodada();
-            atualizaCartasJogadorAtual(jogadorAtual);
-            this.exibirEstado();
-
-        }
-        if (mesa.getStatus().equals(Mesa.StatusMesa.FIM_PARTIDA)) {
-            String seuResultado;
-
-            if (jogadorAtual.isVencedor()) {
-                seuResultado = "Venceu";
-            } else {
-                seuResultado = "Perdeu";
-            }
-            JOptionPane.showMessageDialog(null, "Acabou e você " + seuResultado);
-
-            jConectarButton.setText("Conectar");
-            AtorJogador.this.atorNetGames.desconectar();
-            conectado = false;
-
-        }
-
-    }
-
-    private void atualizaCartasJogadorAtual(Jogador joga) {
-
-        labelsMao = new ArrayList<>();
-        labelsMao.add(jMao1);
-        labelsMao.add(jMao2);
-        labelsMao.add(jMao3);
-
-        List<String> cartasMao = mesa.getCartaMao_toString(joga);
-
-        if (cartasMao.size() > 0) {
-            for (int i = 0; i < cartasMao.size(); i++) {
-                labelsMao.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMao.get(i) + ".png")));
-            }
-        }
-
-    }
-
-    public void exibirEstado() {
-
-        labelsMesa = new ArrayList();
-        labelsMesa.add(jMesa1);
-        labelsMesa.add(jMesa2);
-        labelsMesa.add(jMesa3);
-        labelsMesa.add(jMesa4);
-        labelsMesa.add(jMesa5);
-        labelsMesa.add(jMesa6);
-        labelsMesa.add(jMesa7);
-        labelsMesa.add(jMesa8);
-        labelsMesa.add(jMesa9);
-        labelsMesa.add(jMesa10);
-        labelsMesa.add(jMesa11);
-        labelsMesa.add(jMesa12);
-
-        if (jNome.getText().equalsIgnoreCase("") || jNomeAdv.getText().equalsIgnoreCase("")) {
-            jNome.setText(nome);
-            jNomeAdv.setText(mesa.getJogadores().get(0).getNome());
-        }
-        if (mesa.getStatus().equals(Mesa.StatusMesa.MESA_CHEIA)) {
-            for (int i = 0; i < 12; i++) {
-
-                labelsMesa.get(i).setIcon(null);
-                mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
-            }
-        } else {
-            ArrayList<String> cartasMesa = mesa.getCartaMesa_toString();
-
-
-
-            for (int i = 0; i < 12; i++) {
-                labelsMesa.get(i).setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-                if (i < cartasMesa.size()) {
-                    labelsMesa.get(i).setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/" + cartasMesa.get(i) + ".png")));
-                } else {
-                    labelsMesa.get(i).setIcon(null);
-                }
-            }
-        }
-        if (!mesa.getBaralho().isEmpty()) {
-            jBaralho.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
-        } else {
-            jBaralho.setIcon(null);
-        }
-
-        if (!jogadorAtual.getMorto().isEmpty()) {
-            jMorto.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
-        } else {
-            jMorto.setIcon(null);
-        }
-
-        if (jogadorAtual == mesa.getJogadores().get(0)) {
-            if (!mesa.getJogadores().get(1).getMorto().isEmpty()) {
-                jMortoAdv.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
-            } else {
-                jMortoAdv.setIcon(null);
-            }
-        } else {
-            if (!mesa.getJogadores().get(0).getMorto().isEmpty()) {
-                jMortoAdv.setIcon(new ImageIcon(getClass().getResource("/imagens/imagensCartas/fundo.png")));
-            } else {
-                jMortoAdv.setIcon(null);
-            }
-        }
-
-        if (jogadorAtual.isVezDeJogar()) {
-            jAviso.setText("SUA VEZ DE JOGAR");
-        } else {
-            jAviso.setText("VEZ DO ADVERSARIO");
-        }
-
-    }
-
-    /**
-     *
-     * @param codigo
-     */
-    public void notificarIrregularidade(int codigo) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void selecionaCarta() {
-        throw new UnsupportedOperationException();
-    }
-
-    private void exibirPontuacao() {
-        Jogador jogador = null;
-        Jogador jogador2 = null;
-
-        for (Jogador jog : mesa.getJogadores()) {
-            if (jog.getNome().equals(jogadorAtual.getNome())) {
-                jogador = jog;
-            } else {
-                jogador2 = jog;
-            }
-        }
-        jPontuacao.setText("Pontuação: " + jogador.getPontuacao());
-        jPontuacaoAdv.setText("Pontuação: " + jogador2.getPontuacao());
-
-        jEscovas.setText("Escovas: " + jogador.getQntEscovas());
-        jEscovasAdv.setText("Escovas: " + jogador2.getQntEscovas());
-
-
-    }
-
-    public void terminarPartidaEmAndamento() {
-        throw new UnsupportedOperationException();
     }
 
     private void jIniciarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIniciarButtonActionPerformed
