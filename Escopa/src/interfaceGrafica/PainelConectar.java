@@ -1,12 +1,23 @@
 package interfaceGrafica;
 
+import javax.swing.JOptionPane;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
-
 public class PainelConectar extends javax.swing.JDialog {
+    
+    private boolean conectado;
+
+    public boolean isConectado() {
+        return conectado;
+    }
+
+    public void setConectado(boolean conectar) {
+        this.conectado = conectar;
+    }
 
     /**
      * Creates new form PainelCadastro
@@ -74,7 +85,13 @@ public class PainelConectar extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(!jNome.getText().equalsIgnoreCase("")){
             this.dispose();
+            setConectado(true);
         }
+        else {
+            JOptionPane.showMessageDialog(this,"Você deve escolher um nome de usuário", "Erro", JOptionPane.ERROR_MESSAGE, null);
+            setConectado(false);
+        }
+            
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jServidorActionPerformed

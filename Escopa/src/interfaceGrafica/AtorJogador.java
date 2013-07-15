@@ -482,11 +482,14 @@ public class AtorJogador extends javax.swing.JFrame {
     public void inicializar() {
         PainelConectar p = new PainelConectar(this, true);
         p.setVisible(true);
-        nome = p.getTextField();
-        String servidor = p.getServidor();
-        atorNetGames.conectarRede(nome, servidor);
-        criarJogadorAtual(nome);
-        conectado = true;
+        if (p.isConectado()) {
+            p.setVisible(true);
+            nome = p.getTextField();
+            String servidor = p.getServidor();
+            atorNetGames.conectarRede(nome, servidor);
+            criarJogadorAtual(nome);
+            conectado = true;
+        }
     }
 
     public void iniciarPartida() {
@@ -720,9 +723,11 @@ public class AtorJogador extends javax.swing.JFrame {
             JMenuItem botao = (JMenuItem) evt.getSource();
             switch (botao.getText()) {
                 case "Conectar":
-                    botao.setText("Desconectar");
-                    mesa = new Mesa();
-                    inicializar();
+                    inicializar(); 
+                    if (conectado) {
+                      botao.setText("Desconectar");
+                      mesa = new Mesa();
+                    }
                     break;
                 case "Desconectar":
                     JOptionPane.showMessageDialog(null, "DESCONECTADO"); //TESTE DE BOTAO
