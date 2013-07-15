@@ -21,7 +21,7 @@ public class Mesa implements Jogada {
     private StatusMesa status;
 
     public Mesa() {
-        baralho = new ArrayList();
+       
     }
 
     
@@ -49,7 +49,7 @@ public class Mesa implements Jogada {
 
     public void limparMesa() {
         baralho.addAll(cartasMesa);
-        setQuantidadeCartasBaralho(12);
+        addQuantidadeCartasBaralho(12);
         Collections.shuffle(baralho);
         cartasMesa.removeAll(cartasMesa);
     }
@@ -98,7 +98,7 @@ public class Mesa implements Jogada {
             cartaBaralho = (int) (getQuantidadeCartasBaralho() - 1);
             cartasMesa.add(baralho.get(cartaBaralho)); // vai adicionando os 4 slots da mesa
             baralho.remove(cartaBaralho);
-            setQuantidadeCartasBaralho(-1);
+            addQuantidadeCartasBaralho(-1);
         }
 
     }
@@ -115,7 +115,7 @@ public class Mesa implements Jogada {
                     listaDeCartasJogador.add(baralho.get(getQuantidadeCartasBaralho() - 1));
 
                     baralho.remove(getQuantidadeCartasBaralho() - 1);
-                    setQuantidadeCartasBaralho(-1);
+                    addQuantidadeCartasBaralho(-1);
 
                 }
             }
@@ -125,6 +125,7 @@ public class Mesa implements Jogada {
 
     public void montarBaralho() {
         setQuantidadeCartasBaralho(40);
+         baralho = new ArrayList();
         for (int i = 1; i < 11; i++) {
 
             baralho.add(new Carta(i, "Ouros"));
@@ -208,6 +209,9 @@ public class Mesa implements Jogada {
      * @param quantidade
      */
     public void setQuantidadeCartasBaralho(int quantidade) {
+        this.quantidadeCartasBaralho = quantidade;
+    }
+    public void addQuantidadeCartasBaralho(int quantidade) {
         this.quantidadeCartasBaralho += quantidade;
     }
 
@@ -427,7 +431,7 @@ public class Mesa implements Jogada {
 
                     listaDeCartasPorJogador.add(baralho.get(getQuantidadeCartasBaralho() - 1));
                     baralho.remove(getQuantidadeCartasBaralho() - 1);
-                    setQuantidadeCartasBaralho(-1);
+                    addQuantidadeCartasBaralho(-1);
                 } else {
                     System.out.print("Acabou baralho");
                 }
