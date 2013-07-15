@@ -479,7 +479,7 @@ public class AtorJogador extends javax.swing.JFrame {
         return jPainel;
     }
 
-    public void inicializar() {
+    public void conectar() {
         PainelConectar p = new PainelConectar(this, true);
         p.setVisible(true);
         if (p.isConectado()) {
@@ -722,7 +722,7 @@ public class AtorJogador extends javax.swing.JFrame {
             JMenuItem botao = (JMenuItem) evt.getSource();
             switch (botao.getText()) {
                 case "Conectar":
-                    inicializar(); 
+                    conectar(); 
                     if (conectado) {
                       botao.setText("Desconectar");
                       mesa = new Mesa();
@@ -732,6 +732,7 @@ public class AtorJogador extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "DESCONECTADO"); //TESTE DE BOTAO
                     botao.setText("Conectar");
                     AtorJogador.this.atorNetGames.desconectar();
+                    conectado = false;
                     break;
             }
         }
