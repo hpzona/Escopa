@@ -33,6 +33,7 @@ public class AtorJogador extends javax.swing.JFrame {
     protected int quantidadeMao = 6;
     protected int quantidadeExcluir;
     String nome;
+    protected boolean conectado = false;
 
     public void criarJogadorAtual(String nome) {
         jogadorAtual = new Jogador(nome);
@@ -119,7 +120,8 @@ public class AtorJogador extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jConectarButton = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jIniciarButton = new javax.swing.JMenuItem();
+        jSair = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImages(null);
@@ -210,8 +212,9 @@ public class AtorJogador extends javax.swing.JFrame {
         jFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/mesa.png"))); // NOI18N
         getContentPane().add(jFundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 500));
 
-        jMenu1.setText("Arquivo");
+        jMenu1.setText("Jogo");
 
+        jConectarButton.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
         jConectarButton.setText("Conectar");
         jConectarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,10 +223,19 @@ public class AtorJogador extends javax.swing.JFrame {
         });
         jMenu1.add(jConectarButton);
 
+        jIniciarButton.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        jIniciarButton.setText("Iniciar Partida");
+        jIniciarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jIniciarButtonActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jIniciarButton);
+
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Sair");
-        jMenuBar1.add(jMenu2);
+        jSair.setText("Sair");
+        jMenuBar1.add(jSair);
 
         setJMenuBar(jMenuBar1);
 
@@ -464,7 +476,7 @@ public class AtorJogador extends javax.swing.JFrame {
         String servidor = p.getServidor();
         atorNetGames.conectarRede(nome, servidor);
         criarJogadorAtual(nome);
-        iniciarPartida();
+        conectado = true;
     }
 
     public void iniciarPartida() {
@@ -482,22 +494,13 @@ public class AtorJogador extends javax.swing.JFrame {
 
     public void iniciarNovaPartida() {
 
-       
-            mesa.iniciarMao();
-            mesa.setStatus(Mesa.StatusMesa.INICAR_PARTIDA);
-            this.efetuarJogada(mesa);
-            this.receberJogada(mesa);
-            jNome.setText(nome);
-            jNomeAdv.setText(mesa.getJogadores().get(1).getNome());
-    }
-    
-    public void iniciarNovaRodada(){
-            
-            mesa.iniciarMao();
-            mesa.setStatus(Mesa.StatusMesa.INICAR_PARTIDA);
-            this.efetuarJogada(mesa);
-            this.receberJogada(mesa);
-        
+
+        mesa.iniciarMao();
+        mesa.setStatus(Mesa.StatusMesa.INICIAR_PARTIDA);
+        this.efetuarJogada(mesa);
+        this.receberJogada(mesa);
+        jNome.setText(nome);
+        jNomeAdv.setText(mesa.getJogadores().get(1).getNome());
     }
 
     public void efetuarJogada(Jogada jogada) {
@@ -513,7 +516,7 @@ public class AtorJogador extends javax.swing.JFrame {
             if (jog.getNome().equals(jogadorAtual.getNome())) {
                 jogadorAtual = jog;
 
-                if (mesa.getStatus().equals(Mesa.StatusMesa.INICAR_PARTIDA)) {
+                if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_PARTIDA)) {
 
                     mesa.getJogadores().get(1).setVezDeJogar(true);
                 } else {
@@ -540,7 +543,7 @@ public class AtorJogador extends javax.swing.JFrame {
             exibirPontuacao();
 
 
-            if (mesa.getStatus().equals(Mesa.StatusMesa.INICAR_PARTIDA) || mesa.getStatus().equals(Mesa.StatusMesa.MAOS_VAZIA)) { // se eu nao coloco essa condição, ele fica atualizando a mão qdo eu descarto a carta, com dados falsos
+            if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_PARTIDA) || mesa.getStatus().equals(Mesa.StatusMesa.MAOS_VAZIA)) { // se eu nao coloco essa condição, ele fica atualizando a mão qdo eu descarto a carta, com dados falsos
 
                 atualizaCartasJogadorAtual(jogadorAtual);
                 mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
@@ -550,7 +553,10 @@ public class AtorJogador extends javax.swing.JFrame {
         }
         if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_NOVA_RODADA)) {
             JOptionPane.showMessageDialog(null, "rodada acabou e nenhum vencedor");
-            this.iniciarNovaRodada();
+            mesa.iniciarNovaRodada();
+            this.exibirEstado();
+            atualizaCartasJogadorAtual(jogadorAtual);
+            mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
 
         }
 
@@ -668,9 +674,13 @@ public class AtorJogador extends javax.swing.JFrame {
         throw new UnsupportedOperationException();
     }
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        JOptionPane.showMessageDialog(this, "Botao clicado");
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void jIniciarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIniciarButtonActionPerformed
+        if (conectado) {
+            iniciarPartida();
+        } else {
+            JOptionPane.showMessageDialog(null, "SEM CONEXÃO");
+        }
+    }//GEN-LAST:event_jIniciarButtonActionPerformed
 
     private void temp(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_temp
     }//GEN-LAST:event_temp
@@ -698,11 +708,11 @@ public class AtorJogador extends javax.swing.JFrame {
     private javax.swing.JMenuItem jConectarButton;
     private javax.swing.JLabel jDescarte;
     private javax.swing.JLabel jFundo;
+    private javax.swing.JMenuItem jIniciarButton;
     private javax.swing.JLabel jMao1;
     private javax.swing.JLabel jMao2;
     private javax.swing.JLabel jMao3;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JLabel jMesa1;
     private javax.swing.JLabel jMesa10;
@@ -722,5 +732,6 @@ public class AtorJogador extends javax.swing.JFrame {
     private javax.swing.JLabel jNomeAdv;
     private javax.swing.JLabel jPontuacao;
     private javax.swing.JLabel jPontuacaoAdv;
+    private javax.swing.JMenu jSair;
     // End of variables declaration//GEN-END:variables
 }

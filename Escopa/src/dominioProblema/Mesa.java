@@ -28,7 +28,7 @@ public class Mesa implements Jogada {
 
     public enum StatusMesa {
 
-        INICAR_PARTIDA, INICIAR_RODADA, MESA_CHEIA, MAOS_VAZIA, INICIAR_NOVA_RODADA,FIM_PARTIDA;
+        INICIAR_PARTIDA, INICIAR_RODADA, MESA_CHEIA, MAOS_VAZIA, INICIAR_NOVA_RODADA, FIM_PARTIDA;
     }
 
     public ArrayList<Carta> getCartasMesa() {
@@ -462,5 +462,15 @@ public class Mesa implements Jogada {
                 calcularPontuacoes();
                 avaliarVencedor();
             }
+    }
+    
+    public void iniciarNovaRodada(){
+        baralho.clear();
+        cartasMesa.clear();
+        jogadores.get(0).getMao().clear();
+        jogadores.get(1).getMao().clear();
+        this.montarBaralho();
+        this.distribuirCartasMesa();
+        this.distribuirCartasJogadores();
     }
 }
