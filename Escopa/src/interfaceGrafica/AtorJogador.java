@@ -747,6 +747,8 @@ public class AtorJogador extends javax.swing.JFrame {
     }//GEN-LAST:event_jConectarButtonActionPerformed
 
     private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
+        if (conectado)
+            AtorJogador.this.atorNetGames.desconectar();
         System.exit(0);    // TODO add your handling code here:
     }//GEN-LAST:event_jSairActionPerformed
 
