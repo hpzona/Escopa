@@ -483,7 +483,6 @@ public class AtorJogador extends javax.swing.JFrame {
         PainelConectar p = new PainelConectar(this, true);
         p.setVisible(true);
         if (p.isConectado()) {
-            p.setVisible(true);
             nome = p.getTextField();
             String servidor = p.getServidor();
             atorNetGames.conectarRede(nome, servidor);

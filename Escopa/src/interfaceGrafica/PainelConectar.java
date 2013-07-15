@@ -84,8 +84,8 @@ public class PainelConectar extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(!jNome.getText().equalsIgnoreCase("")){
-            this.dispose();
             setConectado(true);
+            this.dispose();
         }
         else {
             JOptionPane.showMessageDialog(this,"Você deve escolher um nome de usuário", "Erro", JOptionPane.ERROR_MESSAGE, null);
