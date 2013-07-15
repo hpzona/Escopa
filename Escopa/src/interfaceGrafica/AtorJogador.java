@@ -123,7 +123,8 @@ public class AtorJogador extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jConectarButton = new javax.swing.JMenuItem();
         jIniciarButton = new javax.swing.JMenuItem();
-        jSair = new javax.swing.JMenu();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImages(null);
@@ -241,11 +242,18 @@ public class AtorJogador extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jIniciarButton);
+        jMenu1.add(jSeparator1);
+
+        jSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
+        jSair.setText("Sair");
+        jSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSairActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jSair);
 
         jMenuBar1.add(jMenu1);
-
-        jSair.setText("Sair");
-        jMenuBar1.add(jSair);
 
         setJMenuBar(jMenuBar1);
 
@@ -749,6 +757,13 @@ public class AtorJogador extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jConectarButtonActionPerformed
+
+    private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
+        if (conectado)
+            AtorJogador.this.atorNetGames.desconectar();
+        System.exit(0);    // TODO add your handling code here:
+    }//GEN-LAST:event_jSairActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jAviso;
     private javax.swing.JLabel jBaralho;
@@ -781,6 +796,7 @@ public class AtorJogador extends javax.swing.JFrame {
     private javax.swing.JLabel jNomeAdv;
     private javax.swing.JLabel jPontuacao;
     private javax.swing.JLabel jPontuacaoAdv;
-    private javax.swing.JMenu jSair;
+    private javax.swing.JMenuItem jSair;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }
