@@ -193,6 +193,8 @@ public class Mesa implements Jogada {
             setStatus(Mesa.StatusMesa.FIM_PARTIDA);
         }else{
             setStatus(Mesa.StatusMesa.INICIAR_NOVA_RODADA);
+            getJogadores().get(1).setQntEscovas(0);
+            getJogadores().get(0).setQntEscovas(0);
         }
         
     }
@@ -320,7 +322,6 @@ public class Mesa implements Jogada {
                     seteOuros = true;
                 }
             }
-
 
 
             if (todos7 == 4) {
