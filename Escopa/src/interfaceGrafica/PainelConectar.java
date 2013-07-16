@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 
 public class PainelConectar extends javax.swing.JDialog {
 
-    private boolean conectado;
+    private boolean confirmouPedidoConexao;
 
     public PainelConectar(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -57,11 +57,11 @@ public class PainelConectar extends javax.swing.JDialog {
 
     private void jConectarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConectarButtonActionPerformed
         if (!jNome.getText().equalsIgnoreCase("")) {
-            setConectado(true);
+            setConfirmouPedidoConexao(true);
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Você deve escolher um nome de usuário", "Erro", JOptionPane.ERROR_MESSAGE, null);
-            setConectado(false);
+            setConfirmouPedidoConexao(false);
         }
 
     }//GEN-LAST:event_jConectarButtonActionPerformed
@@ -74,12 +74,12 @@ public class PainelConectar extends javax.swing.JDialog {
         return jServidor.getText();
     }
 
-    public boolean isConectado() {
-        return conectado;
+    public boolean isConfirmouPedidoConexao() {
+        return confirmouPedidoConexao;
     }
 
-    public void setConectado(boolean conectar) {
-        this.conectado = conectar;
+    public void setConfirmouPedidoConexao(boolean conectar) {
+        this.confirmouPedidoConexao = conectar;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fundo;

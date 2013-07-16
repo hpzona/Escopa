@@ -92,7 +92,10 @@ public class Jogador implements Jogada {
         return qntEscovas;
     }
 
-    public void setQntEscovas(int qntEscovas) {
+    public void addQntEscovas(int qntEscovas) {
         this.qntEscovas += qntEscovas;
+    }
+    public void setQntEscovas(int qntEscovas) {
+        this.qntEscovas = qntEscovas;
     }
 }

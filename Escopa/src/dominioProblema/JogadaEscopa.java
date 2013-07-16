@@ -3,7 +3,7 @@ package dominioProblema;
 import br.ufsc.inf.leobr.cliente.Jogada;
 import java.util.List;
 
-public class JogadaEscopa implements Jogada {
+public class JogadaEscopa {
 
     protected List<Carta> jogada;
     protected Jogador executante;

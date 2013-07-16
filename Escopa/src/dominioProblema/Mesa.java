@@ -10,7 +10,6 @@ public class Mesa implements Jogada {
     private List<Jogador> jogadores;
     protected ArrayList<Carta> cartasMesa;
     protected List<Carta> baralho;
-    protected boolean partidaEmAndamento;
     protected StatusMesa status;
 
     public Mesa() {
@@ -18,14 +17,7 @@ public class Mesa implements Jogada {
 
     public enum StatusMesa {
 
-        INICIAR_PARTIDA, INICIAR_JOGADA, MESA_CHEIA, MAOS_VAZIA, INICIAR_NOVA_RODADA, FIM_PARTIDA;
-    }
-
-    public void iniciarMao() {
-        this.montarBaralho();
-        this.distribuirCartasMesa();
-        this.distribuirCartasJogador();
-        setPartidaEmAndamento(true);
+        INICIAR_RODADA, INICIAR_JOGADA, MESA_CHEIA, MAOS_VAZIA, INICIAR_NOVA_RODADA, FIM_PARTIDA;
     }
 
     public void montarBaralho() {
@@ -90,7 +82,7 @@ public class Mesa implements Jogada {
                 cartasMesa.remove(jogada.getCartas().get(j));
             }
             if (cartasMesa.isEmpty()) {
-                executante.setQntEscovas(1);
+                executante.addQntEscovas(1);
             }
             return true;
         }
@@ -123,7 +115,7 @@ public class Mesa implements Jogada {
     }
 
     public void verificarVencedor() {
-        if (verificarFimDoBaralho() && verificarFimCartasNaMao()) {
+      
             calcularPontuacoes();
             if (getJogadores().get(0).getPontuacao() > getJogadores().get(1).getPontuacao() && getJogadores().get(0).getPontuacao() >= 21) {
                 getJogadores().get(0).setVencedor(true);
@@ -136,7 +128,6 @@ public class Mesa implements Jogada {
                 getJogadores().get(1).setQntEscovas(0);
                 getJogadores().get(0).setQntEscovas(0);
             }
-        }
     }
 
     public void calcularPontuacoes() {
@@ -330,14 +321,6 @@ public class Mesa implements Jogada {
     public int nextPosicaoLivre() {
         int pos = cartasMesa.size();
         return pos;
-    }
-
-    public boolean isPartidaEmAndamento() {
-        return partidaEmAndamento;
-    }
-
-    public void setPartidaEmAndamento(boolean partidaEmAndamento) {
-        this.partidaEmAndamento = partidaEmAndamento;
     }
 
     public List<Carta> getBaralho() {
