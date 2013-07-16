@@ -450,13 +450,15 @@ public class AtorJogador extends javax.swing.JFrame {
                 jogadorAtual.getMorto().clear();
                 jMortoAdv.setIcon(null);
                 jMorto.setIcon(null);
-                JOptionPane.showMessageDialog(null, "Fim de rodada, sem vencedores");
+                PainelAviso mostrar = new PainelAviso(this, true, "FIM DA RODADA", "" + jogadorAtual.getPontuacao());
+                mostrar.setVisible(true);
             } else {
                 mesa.setStatus(Mesa.StatusMesa.INICIAR_JOGADA);
                 jogadorAtual.getMorto().clear();
                 jMortoAdv.setIcon(null);
                 jMorto.setIcon(null);
-                JOptionPane.showMessageDialog(null, "Fim de rodada, sem vencedores");
+                PainelAviso mostrar = new PainelAviso(this, true, "FIM DA RODADA", "" + jogadorAtual.getPontuacao());
+                mostrar.setVisible(true);
 
             }
         }
@@ -467,11 +469,13 @@ public class AtorJogador extends javax.swing.JFrame {
             String seuResultado;
 
             if (jogadorAtual.isVencedor()) {
-                seuResultado = "Venceu";
+                seuResultado = "VENCEU";
             } else {
-                seuResultado = "Perdeu";
+                seuResultado = "PERDEU";
             }
-            JOptionPane.showMessageDialog(null, "Acabou e você " + seuResultado);
+
+            PainelAviso mostrar = new PainelAviso(this, true, "FIM DE JOGO, VOCÊ " + seuResultado, "" + jogadorAtual.getPontuacao());
+            mostrar.setVisible(true);
 
             jConectarButton.setText("Conectar");
             AtorJogador.this.atorNetGames.desconectar();
