@@ -3,13 +3,10 @@ package interfaceGrafica;
 public class PainelAviso extends javax.swing.JDialog {
 
     public PainelAviso(java.awt.Frame parent, boolean modal, String titulo, String pontos) {
-        super(parent, modal);        
+        super(parent, modal);
         initComponents();
-        
-                
         jTitulo.setText(titulo);
         jPontos.setText(pontos);
-        
         this.setLocationRelativeTo(null);
     }
 
@@ -26,7 +23,7 @@ public class PainelAviso extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTitulo.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jTitulo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jTitulo.setForeground(new java.awt.Color(0, 102, 51));
         jTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jTitulo.setText("TITULO");
@@ -39,7 +36,7 @@ public class PainelAviso extends javax.swing.JDialog {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(435, 188, 45, 45));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 188, 60, 45));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -60,7 +57,6 @@ public class PainelAviso extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

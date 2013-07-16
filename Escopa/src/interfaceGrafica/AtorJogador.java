@@ -33,13 +33,9 @@ public class AtorJogador extends javax.swing.JFrame {
     String nome;
     protected boolean conectado = false;
 
-    public void criarJogadorAtual(String nome) {
-        jogadorAtual = new Jogador(nome);
-
-    }
-
     public AtorJogador() {
         initComponents();
+        jIniciarButton.setEnabled(false);
 
         atorNetGames = new AtorNetGames(this);
         maoClicado = null;
@@ -67,6 +63,10 @@ public class AtorJogador extends javax.swing.JFrame {
         //MouseListener do Descarte/FazerJogada
         jDescarte.addMouseListener(this.eventoDescartar());
 
+    }
+
+    public void criarJogadorAtual(String nome) {
+        jogadorAtual = new Jogador(nome);
     }
 
     @SuppressWarnings("unchecked")
@@ -263,73 +263,6 @@ public class AtorJogador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public ArrayList<Integer> getIndexMesaClicado() {
-        ArrayList<Integer> index = new ArrayList();
-
-        for (JLabel m : mesaClicado) {
-            for (int i = 0; i < this.labelsMesa.size(); i++) {
-                if (m == labelsMesa.get(i)) {
-                    index.add(i);
-                }
-            }
-        }
-
-        return index;
-
-    }
-
-    public int getIndexMaoClicado() {
-        int index = -1;
-        if (maoClicado == jMao1) {
-            return 0;
-        }
-        int qnt = jogadorAtual.getMao().size();
-
-        switch (qnt) {
-            case 3:
-                if (maoClicado == jMao2) {
-                    index = 1;
-                } else {
-                    if (maoClicado == jMao3) {
-                        index = 2;
-                    }
-                }
-                break;
-
-            case 2:
-                if (maoClicado == jMao2) {
-                    if (jMao1.getIcon() == null) {
-                        index = 0;
-                    } else {
-                        index = 1;
-                    }
-                } else {
-                    if (maoClicado == jMao3) {
-                        index = 1;
-                    }
-                }
-                break;
-
-
-            case 1:
-                if (maoClicado == jMao2) {
-                    index = 0;
-                } else {
-                    if (maoClicado == jMao3) {
-                        index = 0;
-                    }
-                }
-                break;
-        }
-
-        return index;
-    }
-
-    public void addConectarButtonListener(ActionListener evt) {
-        jConectarButton.addActionListener(evt);
-    }
-
-   
     public void conectar() {
         PainelConectar p = new PainelConectar(this, true);
         p.setVisible(true);
@@ -342,22 +275,17 @@ public class AtorJogador extends javax.swing.JFrame {
         }
     }
 
-    public void iniciarPartida() {
-
+    public void iniciarJogo() {
         atorNetGames.iniciarPartidaRede();
-
         List<Jogador> jogadores = atorNetGames.getJogadores();
 
         if (jogadores.size() == 2) {
             mesa.setJogadores(jogadores);
             this.iniciarNovaPartida();
         }
-
     }
 
     public void iniciarNovaPartida() {
-
-
         mesa.iniciarMao();
         mesa.setStatus(Mesa.StatusMesa.INICIAR_PARTIDA);
         this.efetuarJogada(mesa);
@@ -367,36 +295,26 @@ public class AtorJogador extends javax.swing.JFrame {
     }
 
     public void efetuarJogada(Jogada jogada) {
-
         jogadorAtual.setVezDeJogar(true);
         atorNetGames.enviarJogadaRede(jogada);
     }
 
     public void receberJogada(Jogada jogada) {
-
-
+        
         if (jogada instanceof Mesa) {
 
             this.mesa = (Mesa) jogada;
-
             jogadorAtual.setVezDeJogar(false);
-
             this.setJogadorAtualIniciarPartida(mesa);
-
             exibirEstado();
-
             exibirPontuacao();
-            
             mesa.verificarVencedor();
 
-
-            if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_PARTIDA) || mesa.getStatus().equals(Mesa.StatusMesa.MAOS_VAZIA)) { // se eu nao coloco essa condição, ele fica atualizando a mão qdo eu descarto a carta, com dados falsos
-
-                atualizaCartasJogadorAtual(jogadorAtual);
+            if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_PARTIDA) || mesa.getStatus().equals(Mesa.StatusMesa.MAOS_VAZIA)) {
+                atualizarCartasJogadorAtual(jogadorAtual);
                 mesa.setStatus(Mesa.StatusMesa.INICIAR_JOGADA);
                 mesa.getJogadores().get(0).setVezDeJogar(true);
             }
-
         }
         if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_NOVA_RODADA)) {
             if (jogadorAtual.getId() == 1) {
@@ -415,32 +333,22 @@ public class AtorJogador extends javax.swing.JFrame {
                 jMorto.setIcon(null);
                 PainelAviso mostrar = new PainelAviso(this, true, "FIM DA RODADA", "" + jogadorAtual.getPontuacao());
                 mostrar.setVisible(true);
-
             }
-
         }
-
-
-
         if (mesa.getStatus().equals(Mesa.StatusMesa.FIM_PARTIDA)) {
             String seuResultado;
-
             if (jogadorAtual.isVencedor()) {
                 seuResultado = "VENCEU";
             } else {
                 seuResultado = "PERDEU";
             }
-
             PainelAviso mostrar = new PainelAviso(this, true, "FIM DE JOGO, VOCÊ " + seuResultado, "" + jogadorAtual.getPontuacao());
             mostrar.setVisible(true);
             exibirPontuacao();
-
             jConectarButton.setText("Conectar");
             AtorJogador.this.atorNetGames.desconectar();
             conectado = false;
-
         }
-
     }
 
     public void exibirEstado() {
@@ -514,7 +422,7 @@ public class AtorJogador extends javax.swing.JFrame {
         } else {
             jAviso.setText("VEZ DO ADVERSARIO");
         }
-
+        jIniciarButton.setEnabled(false);
     }
 
     private void exibirPontuacao() {
@@ -533,12 +441,9 @@ public class AtorJogador extends javax.swing.JFrame {
 
         jEscovas.setText("Escovas: " + jogador.getQntEscovas());
         jEscovasAdv.setText("Escovas: " + jogador2.getQntEscovas());
-
-
     }
 
-    private void atualizaCartasJogadorAtual(Jogador joga) {
-
+    private void atualizarCartasJogadorAtual(Jogador joga) {
         labelsMao = new ArrayList<>();
         labelsMao.add(jMao1);
         labelsMao.add(jMao2);
@@ -558,18 +463,78 @@ public class AtorJogador extends javax.swing.JFrame {
         for (Jogador jog : mesa.getJogadores()) {
             if (jog.getNome().equals(jogadorAtual.getNome())) {
                 jogadorAtual = jog;
-
                 if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_PARTIDA)) {
-
                     mesa.getJogadores().get(1).setVezDeJogar(true);
-                } else {
                 }
-
             }
-
         }
     }
 
+    public ArrayList<Integer> getIndexMesaClicado() {
+        ArrayList<Integer> index = new ArrayList();
+
+        for (JLabel m : mesaClicado) {
+            for (int i = 0; i < this.labelsMesa.size(); i++) {
+                if (m == labelsMesa.get(i)) {
+                    index.add(i);
+                }
+            }
+        }
+
+        return index;
+
+    }
+
+    public int getIndexMaoClicado() {
+        int index = -1;
+        if (maoClicado == jMao1) {
+            return 0;
+        }
+        int qnt = jogadorAtual.getMao().size();
+
+        switch (qnt) {
+            case 3:
+                if (maoClicado == jMao2) {
+                    index = 1;
+                } else {
+                    if (maoClicado == jMao3) {
+                        index = 2;
+                    }
+                }
+                break;
+
+            case 2:
+                if (maoClicado == jMao2) {
+                    if (jMao1.getIcon() == null) {
+                        index = 0;
+                    } else {
+                        index = 1;
+                    }
+                } else {
+                    if (maoClicado == jMao3) {
+                        index = 1;
+                    }
+                }
+                break;
+
+
+            case 1:
+                if (maoClicado == jMao2) {
+                    index = 0;
+                } else {
+                    if (maoClicado == jMao3) {
+                        index = 0;
+                    }
+                }
+                break;
+        }
+
+        return index;
+    }
+
+    public void addConectarButtonListener(ActionListener evt) {
+        jConectarButton.addActionListener(evt);
+    }
     //TODOS OS LISTENERS
     public final java.awt.event.MouseAdapter eventoClickMao(final JLabel clicado) {
         return new java.awt.event.MouseAdapter() {
@@ -673,7 +638,7 @@ public class AtorJogador extends javax.swing.JFrame {
 
                         }
 
-                        mesa.verificarMaoVazia();
+                        mesa.verificarFimCartasNaMao();
                         maoClicado.setIcon(null);
                         maoClicado = null;
                         mesaClicado.clear();
@@ -691,11 +656,7 @@ public class AtorJogador extends javax.swing.JFrame {
     }
 
     private void jIniciarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIniciarButtonActionPerformed
-        if (conectado) {
-            iniciarPartida();
-        } else {
-            JOptionPane.showMessageDialog(null, "SEM CONEXÃO");
-        }
+        iniciarJogo();
     }//GEN-LAST:event_jIniciarButtonActionPerformed
 
     private void temp(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_temp
@@ -709,13 +670,14 @@ public class AtorJogador extends javax.swing.JFrame {
                     conectar();
                     if (conectado) {
                         botao.setText("Desconectar");
+                        jIniciarButton.setEnabled(true);
                         mesa = new Mesa();
                     }
                     break;
                 case "Desconectar":
-                    JOptionPane.showMessageDialog(null, "DESCONECTADO"); //TESTE DE BOTAO
                     botao.setText("Conectar");
                     AtorJogador.this.atorNetGames.desconectar();
+                    jIniciarButton.setEnabled(false);
                     conectado = false;
                     break;
             }

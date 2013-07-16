@@ -16,7 +16,6 @@ public class Jogador implements Jogada {
     protected int qntEscovas;
 
     public Jogador(String nome, int id) {
-
         this.nome = nome;
         mao = new ArrayList<>();
         this.id = id;
@@ -25,13 +24,11 @@ public class Jogador implements Jogada {
     }
 
     public Jogador(String nome) {
-
         this.nome = nome;
         mao = new ArrayList<>();
         morto = new ArrayList();
         vezDeJogar = false;
         qntEscovas = 0;
-
     }
 
     public String getNome() {
@@ -62,6 +59,10 @@ public class Jogador implements Jogada {
         return this.pontuacao;
     }
 
+    public void setPontuacao(int pontuacao) {
+        this.pontuacao += pontuacao;
+    }
+
     public List<Carta> getMao() {
         return mao;
     }
@@ -70,18 +71,10 @@ public class Jogador implements Jogada {
         this.mao = mao;
     }
 
-    public void setPontuacao(int pontuacao) {
-        this.pontuacao += pontuacao;
-    }
-
     public boolean isVezDeJogar() {
         return this.vezDeJogar;
     }
 
-    /**
-     *
-     * @param valor
-     */
     public void setVezDeJogar(boolean valor) {
         this.vezDeJogar = valor;
     }

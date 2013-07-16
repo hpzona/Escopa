@@ -6,20 +6,13 @@ import java.util.List;
 public class JogadaEscopa implements Jogada {
 
     protected List<Carta> jogada;
-    protected Jogador executante; 
+    protected Jogador executante;
 
-    public JogadaEscopa() {
-    }
-
-    /**
-     *
-     * @param carta
-     */
     public void JogadaEscopa(List<Carta> jogada) {
         this.jogada = jogada;
     }
-    
-        public Jogador getExecutante() {
+
+    public Jogador getExecutante() {
         return executante;
     }
 
@@ -34,5 +27,4 @@ public class JogadaEscopa implements Jogada {
     public void setCartas(List<Carta> jogada) {
         this.jogada = jogada;
     }
-
 }

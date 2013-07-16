@@ -8,14 +8,11 @@ import br.ufsc.inf.leobr.cliente.exception.JahConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoJogandoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
-import dominioProblema.JogadaEscopa;
 import dominioProblema.Jogador;
-import dominioProblema.Mesa;
 import interfaceGrafica.AtorJogador;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class AtorNetGames implements OuvidorProxy {
 
@@ -24,116 +21,110 @@ public class AtorNetGames implements OuvidorProxy {
     private Proxy proxy;
 
     public AtorNetGames(AtorJogador atorJogador) {
-//        this.minhaVez = minhaVez;
         this.atorJogador = atorJogador;
         this.proxy = proxy.getInstance();
         proxy.addOuvinte(this);
-//        this.mesa = mesa;
-
-    }
-
-    public void desconectar() {
-        try {
-            proxy.desconectar();
-        } catch (NaoConectadoException ex) {
-            Logger.getLogger(AtorNetGames.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public void conectarRede(String nome, String servidor) {
         try {
             proxy.conectar(servidor, nome);
-        } catch (JahConectadoException ex) {
-            Logger.getLogger(AtorNetGames.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NaoPossivelConectarException ex) {
-            Logger.getLogger(AtorNetGames.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ArquivoMultiplayerException ex) {
-            Logger.getLogger(AtorNetGames.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JahConectadoException e) {
+            JOptionPane.showMessageDialog(atorJogador, e.getMessage());
+        } catch (NaoPossivelConectarException e) {
+            JOptionPane.showMessageDialog(atorJogador, "Erro: "
+                    + e.getMessage());
+        } catch (ArquivoMultiplayerException e) {
+            JOptionPane.showMessageDialog(atorJogador, "Erro: "
+                    + e.getMessage());
         }
     }
 
-    /**
-     *
-     * @param nome
-     * @param ipServidor
-     */
-    public void enviarJogadaRede(Jogada jogada) {
+    public void desconectar() {
         try {
-            proxy.enviaJogada(jogada);
-            minhaVez = false;
-        } catch (NaoJogandoException ex) {
-            Logger.getLogger(AtorNetGames.class.getName()).log(Level.SEVERE, null, ex);
+            proxy.desconectar();
+        } catch (NaoConectadoException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(atorJogador, "Erro: "
+                    + e.getMessage());
         }
-    }
-
-    @Override
-    public void receberJogada(Jogada jogada) {
-        atorJogador.receberJogada(jogada);
-        minhaVez = true;
     }
 
     public void iniciarPartidaRede() {
         try {
             proxy.iniciarPartida(2);
-        } catch (NaoConectadoException ex) {
-            Logger.getLogger(AtorNetGames.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NaoConectadoException e) {
+           JOptionPane.showMessageDialog(atorJogador, "Erro: "
+                    + e.getMessage());
         }
     }
 
     @Override
     public void iniciarNovaPartida(Integer posicao) {
         if (posicao == 1) {
-            minhaVez = true;
-       } else if (posicao == 2) {
-            minhaVez = false;
+            setMinhaVez(true);
+        } else if (posicao == 2) {
+            setMinhaVez(false);
         }
     }
 
-    public AtorNetGames() {
+    public void enviarJogadaRede(Jogada jogada) {
+        try {
+            proxy.enviaJogada(jogada);
+            setMinhaVez(false);
+        } catch (NaoJogandoException e) {
+            JOptionPane.showMessageDialog(atorJogador, "Erro: "
+                    + e.getMessage());
+        }
     }
 
-    public void setMinhaVez() {
-    }
-
-    public boolean isMinhaVez() {
-        return this.minhaVez;
+    @Override
+    public void receberJogada(Jogada jogada) {
+        atorJogador.receberJogada(jogada);
+        setMinhaVez(true);
     }
 
     public List<Jogador> getJogadores() {
         List<Jogador> jogadores = new ArrayList<Jogador>();
 
-
         for (int i = 1; i < 3; i++) {
-
-            Jogador j = null;
-            try {
-                j = new Jogador(proxy.obterNomeAdversario(i), i);
-
-                System.out.println("NOME" + j.getNome() + " ID " + i);
-                jogadores.add(j);
-            } catch (Exception e) {
-                System.out.println("Sem Jogadores Suficientes");
-            }
-
+            Jogador j;
+            j = new Jogador(proxy.obterNomeAdversario(i), i);
+            jogadores.add(j);
         }
-
         return jogadores;
-
     }
 
     @Override
     public void finalizarPartidaComErro(String message) {
-    }
-
-    @Override
-    public void receberMensagem(String message) {
+        JOptionPane.showMessageDialog(atorJogador, message);
     }
 
     @Override
     public void tratarConexaoPerdida() {
+        JOptionPane
+                .showMessageDialog(atorJogador,
+                "A conexão com o servidor foi perdida, por favor tente novamente mais tarde.");
     }
 
     @Override
     public void tratarPartidaNaoIniciada(String message) {
+        JOptionPane.showMessageDialog(atorJogador,
+                "A partida não pode ser iniciada devido ao seguinte erro: "
+                + message);
+    }
+
+    @Override
+    public void receberMensagem(String msg) {
+        JOptionPane.showMessageDialog(atorJogador,
+                "Mensagem recebida do servidor:" + msg);
+    }
+
+    public void setMinhaVez(boolean minhaVez) {
+        this.minhaVez = minhaVez;
+    }
+
+    public boolean isMinhaVez() {
+        return this.minhaVez;
     }
 }
