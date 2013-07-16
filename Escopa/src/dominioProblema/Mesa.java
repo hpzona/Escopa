@@ -1,33 +1,17 @@
 package dominioProblema;
 
 import br.ufsc.inf.leobr.cliente.Jogada;
-import interfaceGrafica.AtorJogador;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Mesa implements Jogada {
 
     private List<Jogador> jogadores;
     protected ArrayList<Carta> cartasMesa;
     protected List<Carta> baralho;
-    protected Jogador jogador;
-    protected AtorJogador ator;
     protected boolean partidaEmAndamento;
-    protected int quantidadeCartasBaralho;
     private StatusMesa status;
-    protected int posicaoNovaRodada = 1;
-
-    public int getPosicaoNovaRodada() {
-        return posicaoNovaRodada;
-    }
-
-    public void setPosicaoNovaRodada(int posicaoNovaRodada) {
-        this.posicaoNovaRodada = posicaoNovaRodada;
-    }
 
     public Mesa() {
     }
@@ -55,23 +39,8 @@ public class Mesa implements Jogada {
 
     public void limparMesa() {
         baralho.addAll(cartasMesa);
-        addQuantidadeCartasBaralho(12);
         Collections.shuffle(baralho);
         cartasMesa.removeAll(cartasMesa);
-    }
-
-    /**
-     *
-     * @param nome
-     * @param tipo
-     */
-    public void criarJogador(String nome) {
-        jogador = new Jogador(nome);
-        try {
-            distribuirCartasJogador(jogador);
-        } catch (Exception ex) {
-            Logger.getLogger(Mesa.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public void distribuirCartasMesa() {
@@ -79,36 +48,15 @@ public class Mesa implements Jogada {
         cartasMesa = new ArrayList();
 
         for (int i = 0; i < 4; i++) {
-            cartaBaralho = (int) (getQuantidadeCartasBaralho() - 1);
+            cartaBaralho = (int) (baralho.size() - 1);
             cartasMesa.add(baralho.get(cartaBaralho)); // vai adicionando os 4 slots da mesa
             baralho.remove(cartaBaralho);
-            addQuantidadeCartasBaralho(-1);
         }
 
-    }
-
-    public void distribuirCartasJogador(Jogador jogador) {
-
-        List<Carta> listaDeCartasJogador = new ArrayList<>();
-
-
-
-        for (int i = 0; i < jogadores.size(); i++) {
-            if (jogadores.get(i).getNome().equals(jogador.getNome())) {
-                for (int j = 0; j < 3; j++) {
-                    listaDeCartasJogador.add(baralho.get(getQuantidadeCartasBaralho() - 1));
-
-                    baralho.remove(getQuantidadeCartasBaralho() - 1);
-                    addQuantidadeCartasBaralho(-1);
-
-                }
-            }
-        }
-        jogador.setMao(listaDeCartasJogador);
     }
 
     public void montarBaralho() {
-        setQuantidadeCartasBaralho(40);
+        
         baralho = new ArrayList();
         for (int i = 1; i < 11; i++) {
 
@@ -152,8 +100,8 @@ public class Mesa implements Jogada {
         return pos;
     }
 
-    public boolean avaliarFimDoBaralho() { //troquei para boolean, me corrijam se eu estiver errado
-        if (getQuantidadeCartasBaralho() == 0) {
+    public boolean avaliarFimDoBaralho() { 
+        if (baralho.isEmpty()) {
             return true;
         } else {
             return false;
@@ -162,10 +110,10 @@ public class Mesa implements Jogada {
 
     public void avaliarVencedor() {
 
-        if (getJogadores().get(0).getPontuacao() > getJogadores().get(1).getPontuacao() && getJogadores().get(0).getPontuacao() > 21) {
+        if (getJogadores().get(0).getPontuacao() > getJogadores().get(1).getPontuacao() && getJogadores().get(0).getPontuacao() >= 21) {
             getJogadores().get(0).setVencedor(true);
             setStatus(Mesa.StatusMesa.FIM_PARTIDA);
-        } else if (getJogadores().get(0).getPontuacao() < getJogadores().get(1).getPontuacao() && getJogadores().get(1).getPontuacao() > 21) {
+        } else if (getJogadores().get(0).getPontuacao() < getJogadores().get(1).getPontuacao() && getJogadores().get(1).getPontuacao() >= 21) {
             getJogadores().get(1).setVencedor(true);
             setStatus(Mesa.StatusMesa.FIM_PARTIDA);
         } else {
@@ -174,38 +122,6 @@ public class Mesa implements Jogada {
             getJogadores().get(0).setQntEscovas(0);
         }
 
-    }
-
-    public int getQuantidadeCartasBaralho() {
-        return this.quantidadeCartasBaralho;
-    }
-
-    /**
-     *
-     * @param quantidade
-     */
-    public void setQuantidadeCartasBaralho(int quantidade) {
-        this.quantidadeCartasBaralho = quantidade;
-    }
-
-    public void addQuantidadeCartasBaralho(int quantidade) {
-        this.quantidadeCartasBaralho += quantidade;
-    }
-
-    public void terminarPartidaEmAndamento() { // Esse método fica aqui msm?
-        if (baralho.isEmpty()) {
-            if (isPartidaEmAndamento()) {
-                //partida encerrada
-            }
-        }
-
-    }
-
-    public void exibirNovoEstado() {
-        throw new UnsupportedOperationException();
-    }
-
-    public void receberJogada(Jogada jogada) {
     }
 
     public void fazerJogada() {
@@ -257,7 +173,10 @@ public class Mesa implements Jogada {
         int todos3 = 0;
         int todos2 = 0;
         int todosAses = 0;
+        int cartasOuro = 0;
+        boolean maioriaOuros = false;
         boolean seteOuros = false;
+        boolean maioria7 = false;
 
 
 
@@ -295,14 +214,41 @@ public class Mesa implements Jogada {
                 if (carta.getNumero() == 7 && carta.getNaipe().equals("Ouros")) {
                     seteOuros = true;
                 }
+                
+                if(carta.getNaipe().equals("Ouros")){
+                    cartasOuro++;
+                }
             }
 
-
+            if(cartasOuro == 10){
+                jog.setPontuacao(2);
+                maioriaOuros = true;
+                cartasOuro = 0;
+            }
+            if(cartasOuro > 5){
+                maioriaOuros = true;
+                cartasOuro = 0;
+            }else{
+                cartasOuro = 0;
+            }
+            if(maioriaOuros){
+                jog.setPontuacao(1);
+                maioriaOuros = false;
+            }
             if (todos7 == 4) {
                 jog.setPontuacao(14);
+                maioria7 = true;
                 todos7 = 0;
-            } else {
+            }
+            if(todos7 == 3) {
+                maioria7 = true;
                 todos7 = 0;
+            }else{
+                todos7 = 0;
+            }
+            if(maioria7){ //maioria dos 7
+                 jog.setPontuacao(1);
+                 maioria7 = false;
             }
             if (todos6 == 4) {
                 jog.setPontuacao(8);
@@ -344,7 +290,10 @@ public class Mesa implements Jogada {
                 jog.setPontuacao(1);
                 seteOuros = false;
             }
-
+            if(jog.getMorto().size() < 10){
+                jog.setPontuacao(2);
+            }
+            
             jog.setPontuacao(jog.getQntEscovas());
 
 
@@ -376,11 +325,11 @@ public class Mesa implements Jogada {
         setPartidaEmAndamento(true);
     }
 
-    public StatusMesa getStatus() {
+    public Mesa.StatusMesa getStatus() {
         return status;
     }
 
-    public void setStatus(StatusMesa status) {
+    public void setStatus(Mesa.StatusMesa status) {
         this.status = status;
     }
 
@@ -397,19 +346,17 @@ public class Mesa implements Jogada {
             List<Carta> listaDeCartasPorJogador = new ArrayList<Carta>();
 
             for (int b = ultimoValor; b < posicoes[i]; b++) {
-                if (getQuantidadeCartasBaralho() > 0) {
+                if (baralho.size() > 0) {
+                    
 
-                    listaDeCartasPorJogador.add(baralho.get(getQuantidadeCartasBaralho() - 1));
-                    baralho.remove(getQuantidadeCartasBaralho() - 1);
-                    addQuantidadeCartasBaralho(-1);
+                    listaDeCartasPorJogador.add(baralho.get(baralho.size() - 1));
+                    baralho.remove(baralho.size() - 1);
                 } else {
                     System.out.print("Acabou baralho");
                 }
             }
 
-
             joga.setMao(listaDeCartasPorJogador);
-            joga.setMaoVazia(false);
             ultimoValor = valorAtual;
         }
 
@@ -417,43 +364,36 @@ public class Mesa implements Jogada {
 
     public void verificarMaoVazia() {
         int cont = 0;
-        boolean distribuirCartas = false;
         for (Jogador jog : getJogadores()) {
             if (jog.getMao().isEmpty()) {
                 cont++;
             }
         }
         if (cont == 2) {
-            distribuirCartas = true;
-        }
-        if (distribuirCartas == true) {
-
             distribuirCartasJogadores();
             setStatus(Mesa.StatusMesa.MAOS_VAZIA);
         }
+        
     }
 
     public void verificarVencedor() {
-        if (avaliarFimDoBaralho()) {
+        if (avaliarFimDoBaralho() && avaliarMaosVazias()) {
             calcularPontuacoes();
             avaliarVencedor();
         }
     }
-
-    public void iniciarNovaRodada() {
-
-        if (posicaoNovaRodada == 1) {
-
-            baralho.clear();
-            cartasMesa.clear();
-            jogadores.get(0).getMorto().clear();
-            jogadores.get(1).getMorto().clear();
-            jogadores.get(0).getMao().clear();
-            jogadores.get(1).getMao().clear();
-            this.montarBaralho();
-            this.distribuirCartasMesa();
-            this.distribuirCartasJogadores();
-            posicaoNovaRodada++;
+    
+    private boolean avaliarMaosVazias(){
+         int cont = 0;
+        for (Jogador jog : getJogadores()) {
+            if (jog.getMao().isEmpty()) {
+                cont++;
+            }
+        }
+        if(cont == 2){
+            return true;
+        }else{
+            return false;
         }
     }
 }

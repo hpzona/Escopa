@@ -9,7 +9,7 @@ import interfaceGrafica.PainelPrincipal;
 import javax.swing.JFrame;
 
 
-public class TesteMain {
+public class Escopa {
 
 	public static void main(String args[]){
 		AtorJogador janela;

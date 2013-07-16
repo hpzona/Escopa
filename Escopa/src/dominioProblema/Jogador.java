@@ -11,13 +11,9 @@ public class Jogador implements Jogada {
     protected String nome;
     protected int pontuacao;
     protected boolean vezDeJogar;
-    protected int quantidadeCartasMao;
     protected boolean vencedor;
-    protected JogadaEscopa jogada;
     protected int id;
-    protected boolean maoVazia;
     protected int qntEscovas;
-
 
     public Jogador(String nome, int id) {
 
@@ -90,61 +86,20 @@ public class Jogador implements Jogada {
         this.vezDeJogar = valor;
     }
 
-    public int getQuantidadeCartasMao() {
-        return this.quantidadeCartasMao;
-    }
-
-    /**
-     *
-     * @param quantidade
-     */
-    public void setQuantidadeCartasMao(int quantidade) {
-        this.quantidadeCartasMao += quantidade;
+    public boolean isVencedor() {
+        return vencedor;
     }
 
     public void setVencedor(boolean vencedor) {
         this.vencedor = vencedor;
-        
+
     }
 
-    public void adicionarCartaMao(Carta carta) throws Exception {
-
-        if (this.mao.size() < 3) {
-            this.mao.add(carta);
-        } else {
-            throw new Exception("Jogador ja com 3 cartas na mão");
-        }
-    }
-
-    public boolean isMaoVazia() {
-        return maoVazia;
-    }
-
-    public void setMaoVazia(boolean maoVazia) {
-        this.maoVazia = maoVazia;
-    }
-
-    public JogadaEscopa getJogada() {
-        return jogada;
-    }
-
-    public void setJogada(JogadaEscopa jogada) {
-        this.jogada = jogada;
-    }
-
-    public void receberAguarde() {
-        throw new UnsupportedOperationException();
-    }
-    
-        public int getQntEscovas() {
+    public int getQntEscovas() {
         return qntEscovas;
     }
 
     public void setQntEscovas(int qntEscovas) {
         this.qntEscovas += qntEscovas;
-    }
-    
-    public boolean isVencedor(){
-        return vencedor;
     }
 }

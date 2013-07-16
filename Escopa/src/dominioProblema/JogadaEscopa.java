@@ -6,7 +6,6 @@ import java.util.List;
 public class JogadaEscopa implements Jogada {
 
     protected List<Carta> jogada;
-    protected int quantidadeParaExcluir;
     protected Jogador executante; 
 
     public JogadaEscopa() {
@@ -26,14 +25,6 @@ public class JogadaEscopa implements Jogada {
 
     public void setExecutante(Jogador executante) {
         this.executante = executante;
-    }
-
-    public int getQuantidadeParaExcluir() {
-        return quantidadeParaExcluir;
-    }
-
-    public void setQuantidadeParaExcluir(int quantidadeParaExcluir) {
-        this.quantidadeParaExcluir = quantidadeParaExcluir;
     }
 
     public List<Carta> getCartas() {

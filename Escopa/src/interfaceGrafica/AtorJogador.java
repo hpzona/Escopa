@@ -35,7 +35,6 @@ public class AtorJogador extends javax.swing.JFrame {
 
     public void criarJogadorAtual(String nome) {
         jogadorAtual = new Jogador(nome);
-        jogadorAtual.setQuantidadeCartasMao(6);
 
     }
 
@@ -330,52 +329,7 @@ public class AtorJogador extends javax.swing.JFrame {
         jConectarButton.addActionListener(evt);
     }
 
-    /* ACHO QUE ESSE METODO NAO VAI SER USADO, SE A CLASSE PAINEL PRINCIPAL FOR EXCLUÍDA ELE TAMBEM VAI
-     * 
-     * 
-     * private JPanel iniciarPainel() {
-     jPainel = new PainelPrincipal();
-     jPainel.setLayout(null);
-
-     //Add Labels na Mesa
-     labelsMesa = new ArrayList();
-     labelsMesa.add(jMesa1);
-     labelsMesa.add(jMesa2);
-     labelsMesa.add(jMesa3);
-     labelsMesa.add(jMesa4);
-     labelsMesa.add(jMesa5);
-     labelsMesa.add(jMesa6);
-     labelsMesa.add(jMesa7);
-     labelsMesa.add(jMesa8);
-     labelsMesa.add(jMesa9);
-     labelsMesa.add(jMesa10);
-     labelsMesa.add(jMesa11);
-     labelsMesa.add(jMesa12);
-
-     //Add Labels na Mao
-     labelsMao = new ArrayList();
-     labelsMao.add(jMao1);
-     labelsMao.add(jMao2);
-     labelsMao.add(jMao3);
-
-
-     //Add os Listener no Labels
-     jMao1.addMouseListener(this.eventoClickMao(jMao1));
-     jMao2.addMouseListener(this.eventoClickMao(jMao2));
-     jMao3.addMouseListener(this.eventoClickMao(jMao3));
-     jDescarte.addMouseListener(this.eventoDescartar());
-
-     for (JLabel mao : labelsMao) {
-     jPainel.add(mao);
-     }
-
-     for (JLabel mes : labelsMesa) {
-     jPainel.add(mes);
-     }
-
-     return jPainel;
-     }
-     */
+   
     public void conectar() {
         PainelConectar p = new PainelConectar(this, true);
         p.setVisible(true);
@@ -416,8 +370,6 @@ public class AtorJogador extends javax.swing.JFrame {
 
         jogadorAtual.setVezDeJogar(true);
         atorNetGames.enviarJogadaRede(jogada);
-
-
     }
 
     public void receberJogada(Jogada jogada) {
@@ -434,6 +386,8 @@ public class AtorJogador extends javax.swing.JFrame {
             exibirEstado();
 
             exibirPontuacao();
+            
+            mesa.verificarVencedor();
 
 
             if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_PARTIDA) || mesa.getStatus().equals(Mesa.StatusMesa.MAOS_VAZIA)) { // se eu nao coloco essa condição, ele fica atualizando a mão qdo eu descarto a carta, com dados falsos
@@ -463,6 +417,7 @@ public class AtorJogador extends javax.swing.JFrame {
                 mostrar.setVisible(true);
 
             }
+
         }
 
 
@@ -478,6 +433,7 @@ public class AtorJogador extends javax.swing.JFrame {
 
             PainelAviso mostrar = new PainelAviso(this, true, "FIM DE JOGO, VOCÊ " + seuResultado, "" + jogadorAtual.getPontuacao());
             mostrar.setVisible(true);
+            exibirPontuacao();
 
             jConectarButton.setText("Conectar");
             AtorJogador.this.atorNetGames.desconectar();
@@ -718,7 +674,6 @@ public class AtorJogador extends javax.swing.JFrame {
                         }
 
                         mesa.verificarMaoVazia();
-                        mesa.verificarVencedor();
                         maoClicado.setIcon(null);
                         maoClicado = null;
                         mesaClicado.clear();
