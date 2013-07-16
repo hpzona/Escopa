@@ -448,10 +448,14 @@ public class AtorJogador extends javax.swing.JFrame {
             if (jogadorAtual.getId() == 1) {
                 this.iniciarNovaPartida();
                 jogadorAtual.getMorto().clear();
+                jMortoAdv.setIcon(null);
+                jMorto.setIcon(null);
                 JOptionPane.showMessageDialog(null, "Fim de rodada, sem vencedores");
             } else {
                 mesa.setStatus(Mesa.StatusMesa.INICIAR_JOGADA);
                 jogadorAtual.getMorto().clear();
+                jMortoAdv.setIcon(null);
+                jMorto.setIcon(null);
                 JOptionPane.showMessageDialog(null, "Fim de rodada, sem vencedores");
 
             }
