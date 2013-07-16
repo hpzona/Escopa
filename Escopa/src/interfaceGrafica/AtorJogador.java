@@ -448,6 +448,7 @@ public class AtorJogador extends javax.swing.JFrame {
             if (jogadorAtual.getId() == 1) {
                 this.iniciarNovaPartida();
                 jogadorAtual.getMorto().clear();
+                mesa.getJogadores().get(1).getMorto().clear();
                 jMortoAdv.setIcon(null);
                 jMorto.setIcon(null);
                 PainelAviso mostrar = new PainelAviso(this, true, "FIM DA RODADA", "" + jogadorAtual.getPontuacao());
@@ -455,6 +456,7 @@ public class AtorJogador extends javax.swing.JFrame {
             } else {
                 mesa.setStatus(Mesa.StatusMesa.INICIAR_JOGADA);
                 jogadorAtual.getMorto().clear();
+                mesa.getJogadores().get(0).getMorto().clear();
                 jMortoAdv.setIcon(null);
                 jMorto.setIcon(null);
                 PainelAviso mostrar = new PainelAviso(this, true, "FIM DA RODADA", "" + jogadorAtual.getPontuacao());

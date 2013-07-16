@@ -9,6 +9,8 @@ public class PainelAviso extends javax.swing.JDialog {
                 
         jTitulo.setText(titulo);
         jPontos.setText(pontos);
+        
+        this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -16,6 +18,7 @@ public class PainelAviso extends javax.swing.JDialog {
     private void initComponents() {
 
         jTitulo = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jPontos = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -28,6 +31,15 @@ public class PainelAviso extends javax.swing.JDialog {
         jTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jTitulo.setText("TITULO");
         getContentPane().add(jTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 500, 50));
+
+        jButton1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jButton1.setText("►");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(435, 188, 45, 45));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -45,7 +57,12 @@ public class PainelAviso extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jPontos;
