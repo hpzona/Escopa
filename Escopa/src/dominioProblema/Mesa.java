@@ -34,7 +34,7 @@ public class Mesa implements Jogada {
 
     public enum StatusMesa {
 
-        INICIAR_PARTIDA, INICIAR_RODADA, MESA_CHEIA, MAOS_VAZIA, INICIAR_NOVA_RODADA, FIM_PARTIDA;
+        INICIAR_PARTIDA, INICIAR_JOGADA, MESA_CHEIA, MAOS_VAZIA, INICIAR_NOVA_RODADA, FIM_PARTIDA;
     }
 
     public ArrayList<Carta> getCartasMesa() {

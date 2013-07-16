@@ -417,22 +417,26 @@ public class AtorJogador extends javax.swing.JFrame {
             if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_PARTIDA) || mesa.getStatus().equals(Mesa.StatusMesa.MAOS_VAZIA)) { // se eu nao coloco essa condição, ele fica atualizando a mão qdo eu descarto a carta, com dados falsos
 
                 atualizaCartasJogadorAtual(jogadorAtual);
-                mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
+                mesa.setStatus(Mesa.StatusMesa.INICIAR_JOGADA);
                 mesa.getJogadores().get(0).setVezDeJogar(true);
             }
 
         }
         if (mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_NOVA_RODADA)) {
-            if (mesa.getPosicaoNovaRodada() != 1) {
-                JOptionPane.showMessageDialog(null, "rodada acabou e nenhum vencedor");
-                mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
+            if (jogadorAtual.getId() == 1) {
+                this.iniciarNovaPartida();
+                jogadorAtual.getMorto().clear();
+                JOptionPane.showMessageDialog(null, "Fim de rodada, sem vencedores");
             } else {
-                mesa.iniciarNovaRodada();
-            }
-            atualizaCartasJogadorAtual(jogadorAtual);
-            this.exibirEstado();
+                mesa.setStatus(Mesa.StatusMesa.INICIAR_JOGADA);
+                jogadorAtual.getMorto().clear();
+                JOptionPane.showMessageDialog(null, "Fim de rodada, sem vencedores");
 
+            }
         }
+
+
+
         if (mesa.getStatus().equals(Mesa.StatusMesa.FIM_PARTIDA)) {
             String seuResultado;
 
@@ -475,7 +479,7 @@ public class AtorJogador extends javax.swing.JFrame {
             for (int i = 0; i < 12; i++) {
 
                 labelsMesa.get(i).setIcon(null);
-                mesa.setStatus(Mesa.StatusMesa.INICIAR_RODADA);
+                mesa.setStatus(Mesa.StatusMesa.INICIAR_JOGADA);
             }
         } else {
             ArrayList<String> cartasMesa = mesa.getCartaMesa_toString();
