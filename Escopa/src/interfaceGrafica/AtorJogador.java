@@ -121,11 +121,12 @@ public class AtorJogador extends javax.swing.JFrame {
         getContentPane().add(jAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 20, 280, 30));
 
         jNome.setForeground(new java.awt.Color(255, 255, 255));
-        jNome.setText("  ");
+        jNome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jNome.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 430, 90, 30));
 
         jNomeAdv.setForeground(new java.awt.Color(255, 255, 255));
+        jNomeAdv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jNomeAdv.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jNomeAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 90, 30));
 
@@ -147,48 +148,63 @@ public class AtorJogador extends javax.swing.JFrame {
         jEscovas.setText("Escovas:");
         getContentPane().add(jEscovas, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 90, 20));
 
+        jMao1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMao1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMao1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 390, 80, 100));
 
+        jMao2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMao2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMao2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 390, 80, 100));
 
+        jMao3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMao3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMao3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 390, 80, 100));
 
+        jMesa1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMesa1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMesa1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 80, 100));
 
+        jMesa2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMesa2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMesa2, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 140, 80, 100));
 
+        jMesa3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMesa3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMesa3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, 80, 100));
 
+        jMesa4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMesa4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMesa4, new org.netbeans.lib.awtextra.AbsoluteConstraints(415, 140, 80, 100));
 
+        jMesa5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMesa5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMesa5, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 140, 80, 100));
 
+        jMesa6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMesa6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMesa6, new org.netbeans.lib.awtextra.AbsoluteConstraints(585, 140, 80, 100));
 
+        jMesa7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMesa7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMesa7, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 260, 80, 100));
 
+        jMesa8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMesa8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMesa8, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 260, 80, 100));
 
+        jMesa9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMesa9.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMesa9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 260, 80, 100));
 
+        jMesa10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMesa10.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMesa10, new org.netbeans.lib.awtextra.AbsoluteConstraints(415, 260, 80, 100));
 
+        jMesa11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMesa11.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMesa11, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 260, 80, 100));
 
+        jMesa12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMesa12.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(135, 136, 32), 2, true));
         getContentPane().add(jMesa12, new org.netbeans.lib.awtextra.AbsoluteConstraints(585, 260, 80, 100));
 
@@ -198,9 +214,15 @@ public class AtorJogador extends javax.swing.JFrame {
         jDescarte.setText("  FAZER JOGADA / DESCARTAR");
         jDescarte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
         getContentPane().add(jDescarte, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 450, 180, 30));
-        getContentPane().add(jBaralho, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 80, 100));
-        getContentPane().add(jMortoAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 110, 80, 100));
-        getContentPane().add(jMorto, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 290, 80, 100));
+
+        jBaralho.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(jBaralho, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 200, 80, 100));
+
+        jMortoAdv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(jMortoAdv, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 111, 80, 100));
+
+        jMorto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(jMorto, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 286, 80, 100));
 
         jFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/mesa.png"))); // NOI18N
         getContentPane().add(jFundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 500));
