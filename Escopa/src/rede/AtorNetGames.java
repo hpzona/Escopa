@@ -17,8 +17,8 @@ import javax.swing.JOptionPane;
 public class AtorNetGames implements OuvidorProxy {
 
     protected boolean minhaVez;
-    private AtorJogador atorJogador;
-    private Proxy proxy;
+    protected AtorJogador atorJogador;
+    protected Proxy proxy;
 
     public AtorNetGames(AtorJogador atorJogador) {
         this.atorJogador = atorJogador;

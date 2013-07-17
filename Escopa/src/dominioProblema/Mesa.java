@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Mesa implements Jogada {
 
-    private List<Jogador> jogadores;
+    protected List<Jogador> jogadores;
     protected ArrayList<Carta> cartasMesa;
     protected List<Carta> baralho;
     protected StatusMesa status;

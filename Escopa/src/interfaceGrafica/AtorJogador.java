@@ -23,17 +23,20 @@ public class AtorJogador extends javax.swing.JFrame {
     protected ArrayList<JLabel> mesaClicado;
     protected ArrayList<JLabel> labelsMesa;
     protected ArrayList<JLabel> labelsMao;
-    protected JPanel jPainel = null;
+    protected JPanel jPainel;
     protected Mesa mesa;
     protected Jogador jogadorAtual;
     protected JLabel slot;
     protected AtorNetGames atorNetGames;
-    String nome;
-    protected boolean conectado = false;
+    protected String nome;
+    protected boolean conectado;
 
     public AtorJogador() {
         initComponents();
+        conectado = false;
+        jPainel = null;
         jIniciarButton.setEnabled(false);
+        
 
         atorNetGames = new AtorNetGames(this);
         maoClicado = null;
@@ -63,7 +66,7 @@ public class AtorJogador extends javax.swing.JFrame {
 
     }
 
-    public void criarJogadorAtual(String nome) {
+    private void criarJogadorAtual(String nome) {
         jogadorAtual = new Jogador(nome);
     }
 
@@ -261,7 +264,7 @@ public class AtorJogador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void conectar() {
+    private void conectar() {
         PainelConectar p = new PainelConectar(this, true);
         p.setVisible(true);
         if (p.isConfirmouPedidoConexao()) {
@@ -273,13 +276,13 @@ public class AtorJogador extends javax.swing.JFrame {
         }
     }
     
-    public void desconectar() {
+    private void desconectar() {
         AtorJogador.this.atorNetGames.desconectar();
         jIniciarButton.setEnabled(false);
         conectado = false;
     }
     
-    public void iniciarPartida() {
+    private void iniciarPartida() {
         atorNetGames.iniciarPartidaRede();
         List<Jogador> jogadores = atorNetGames.getJogadores();
 
@@ -289,7 +292,7 @@ public class AtorJogador extends javax.swing.JFrame {
         }
     }
 
-    public void iniciarRodada() {
+    private void iniciarRodada() {
         mesa.montarBaralho();
         mesa.distribuirCartasMesa();
         mesa.distribuirCartasJogador();
@@ -305,7 +308,7 @@ public class AtorJogador extends javax.swing.JFrame {
         jNomeAdv.setText(mesa.getJogadores().get(1).getNome());
     }
 
-    public void enviarJogada(Jogada jogada) {
+    private void enviarJogada(Jogada jogada) {
         jogadorAtual.setVezDeJogar(true);
         atorNetGames.enviarJogadaRede(jogada);
     }
@@ -365,7 +368,7 @@ public class AtorJogador extends javax.swing.JFrame {
         }
     }
     
-    public void limparMorto(int jogador) {
+    private void limparMorto(int jogador) {
         
          jogadorAtual.getMorto().clear();
          mesa.getJogadores().get(jogador).getMorto().clear();
@@ -373,7 +376,7 @@ public class AtorJogador extends javax.swing.JFrame {
          jMorto.setIcon(null);
     }
 
-    public void exibirEstado() {
+    private void exibirEstado() {
 
         labelsMesa = new ArrayList();
         labelsMesa.add(jMesa1);
@@ -481,7 +484,7 @@ public class AtorJogador extends javax.swing.JFrame {
 
     }
 
-    protected void setJogadorAtualIniciarPartida(Mesa mesa) {
+    private void setJogadorAtualIniciarPartida(Mesa mesa) {
         for (Jogador jog : mesa.getJogadores()) {
             if (jog.getNome().equals(jogadorAtual.getNome())) {
                 jogadorAtual = jog;
@@ -492,7 +495,7 @@ public class AtorJogador extends javax.swing.JFrame {
         }
     }
 
-    public ArrayList<Integer> getIndexMesaClicado() {
+    private ArrayList<Integer> getIndexMesaClicado() {
         ArrayList<Integer> index = new ArrayList();
 
         for (JLabel m : mesaClicado) {
@@ -507,7 +510,7 @@ public class AtorJogador extends javax.swing.JFrame {
 
     }
 
-    public int getIndexMaoClicado() {
+    private int getIndexMaoClicado() {
         int index = -1;
         if (maoClicado == jMao1) {
             return 0;
@@ -554,7 +557,7 @@ public class AtorJogador extends javax.swing.JFrame {
         return index;
     }
 
-    public void addConectarButtonListener(ActionListener evt) {
+    private void addConectarButtonListener(ActionListener evt) {
         jConectarButton.addActionListener(evt);
     }
     //TODOS OS LISTENERS

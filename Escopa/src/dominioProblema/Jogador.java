@@ -85,7 +85,6 @@ public class Jogador implements Jogada {
 
     public void setVencedor(boolean vencedor) {
         this.vencedor = vencedor;
-
     }
 
     public int getQntEscovas() {
