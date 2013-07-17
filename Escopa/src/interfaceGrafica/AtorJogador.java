@@ -36,7 +36,7 @@ public class AtorJogador extends javax.swing.JFrame {
         conectado = false;
         jPainel = null;
         jIniciarButton.setEnabled(false);
-        
+
 
         atorNetGames = new AtorNetGames(this);
         maoClicado = null;
@@ -275,13 +275,13 @@ public class AtorJogador extends javax.swing.JFrame {
             conectado = true;
         }
     }
-    
+
     private void desconectar() {
         AtorJogador.this.atorNetGames.desconectar();
         jIniciarButton.setEnabled(false);
         conectado = false;
     }
-    
+
     private void iniciarPartida() {
         atorNetGames.iniciarPartidaRede();
         List<Jogador> jogadores = atorNetGames.getJogadores();
@@ -314,23 +314,24 @@ public class AtorJogador extends javax.swing.JFrame {
     }
 
     public void receberJogada(Jogada jogada) {
-        
+
         boolean statusIniciarRodada;
         boolean statusMaosVazias;
         boolean statusIniciaNovaRodada;
         boolean statusFimPartida;
-        
+
         mesa = (Mesa) jogada;
         jogadorAtual.setVezDeJogar(false);
         setJogadorAtualIniciarPartida(mesa);
         exibirEstado();
         exibirPontuacao();
-        if (mesa.verificarFimDoBaralho() && mesa.verificarFimCartasNaMao())
+        if (mesa.verificarFimDoBaralho() && mesa.verificarFimCartasNaMao()) {
             mesa.verificarVencedor();
-        
+        }
+
         statusIniciarRodada = mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_RODADA);
         statusMaosVazias = mesa.getStatus().equals(Mesa.StatusMesa.MAOS_VAZIA);
-        
+
         if (statusIniciarRodada || statusMaosVazias) {
             atualizarCartasJogadorAtual(jogadorAtual);
             mesa.setStatus(Mesa.StatusMesa.INICIAR_JOGADA);
@@ -338,19 +339,20 @@ public class AtorJogador extends javax.swing.JFrame {
         }
         statusIniciaNovaRodada = mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_NOVA_RODADA);
         if (statusIniciaNovaRodada) {
-            if (jogadorAtual.getId() == 1) {
-                this.iniciarRodada();
-                limparMorto(0);
-                PainelAviso mostrar = new PainelAviso(this, true, "FIM DA RODADA", "" + jogadorAtual.getPontuacao());
-                mostrar.setVisible(true);
-            } else {
-                mesa.setStatus(Mesa.StatusMesa.INICIAR_JOGADA);
-                limparMorto(1);
-                PainelAviso mostrar = new PainelAviso(this, true, "FIM DA RODADA", "" + jogadorAtual.getPontuacao());
-                mostrar.setVisible(true);
+            if (statusIniciaNovaRodada) {
+                limparMorto();
+                if (jogadorAtual.getId() == 1) {
+                    this.iniciarRodada();
+                    PainelAviso mostrar = new PainelAviso(this, true, "FIM DA RODADA", "" + jogadorAtual.getPontuacao());
+                    mostrar.setVisible(true);
+                } else {
+                    mesa.setStatus(Mesa.StatusMesa.INICIAR_JOGADA);
+                    PainelAviso mostrar = new PainelAviso(this, true, "FIM DA RODADA", "" + jogadorAtual.getPontuacao());
+                    mostrar.setVisible(true);
+                }
             }
         }
-        
+
         statusFimPartida = mesa.getStatus().equals(Mesa.StatusMesa.FIM_PARTIDA);
         if (statusFimPartida) {
             String seuResultado;
@@ -367,13 +369,13 @@ public class AtorJogador extends javax.swing.JFrame {
             conectado = false;
         }
     }
-    
-    private void limparMorto(int jogador) {
-        
-         jogadorAtual.getMorto().clear();
-         mesa.getJogadores().get(jogador).getMorto().clear();
-         jMortoAdv.setIcon(null);
-         jMorto.setIcon(null);
+
+    private void limparMorto() {
+        jogadorAtual.getMorto().clear();
+        mesa.getJogadores().get(0).getMorto().clear();
+        mesa.getJogadores().get(1).getMorto().clear();
+        jMortoAdv.setIcon(null);
+        jMorto.setIcon(null);
     }
 
     private void exibirEstado() {
