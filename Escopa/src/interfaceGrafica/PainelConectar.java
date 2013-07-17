@@ -78,7 +78,7 @@ public class PainelConectar extends javax.swing.JDialog {
         return confirmouPedidoConexao;
     }
 
-    public void setConfirmouPedidoConexao(boolean conectar) {
+    private void setConfirmouPedidoConexao(boolean conectar) {
         this.confirmouPedidoConexao = conectar;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

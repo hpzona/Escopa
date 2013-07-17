@@ -44,7 +44,6 @@ public class AtorNetGames implements OuvidorProxy {
         try {
             proxy.desconectar();
         } catch (NaoConectadoException e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(atorJogador, "Erro: "
                     + e.getMessage());
         }

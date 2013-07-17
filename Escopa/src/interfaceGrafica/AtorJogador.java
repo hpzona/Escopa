@@ -26,14 +26,13 @@ public class AtorJogador extends javax.swing.JFrame {
     protected JPanel jPainel;
     protected Mesa mesa;
     protected Jogador jogadorAtual;
-    protected JLabel slot;
     protected AtorNetGames atorNetGames;
     protected String nome;
     protected boolean conectado;
 
     public AtorJogador() {
         initComponents();
-        conectado = false;
+        setConectado(false);
         jPainel = null;
         jIniciarButton.setEnabled(false);
 
@@ -62,7 +61,7 @@ public class AtorJogador extends javax.swing.JFrame {
         jMesa12.addMouseListener(this.eventoClickMesa(jMesa12));
 
         //MouseListener do Descarte/FazerJogada
-        jDescarte.addMouseListener(this.listenerJogada());
+        jDescarte.addMouseListener(this.eventoDescartar());
 
     }
 
@@ -265,26 +264,32 @@ public class AtorJogador extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void conectar() {
+        boolean confirmou;
         PainelConectar p = new PainelConectar(this, true);
+        String servidor;
+        
         p.setVisible(true);
-        if (p.isConfirmouPedidoConexao()) {
+        confirmou = p.isConfirmouPedidoConexao();
+        if (confirmou) {
             nome = p.getTextField();
-            String servidor = p.getServidor();
+            servidor = p.getServidor();
             atorNetGames.conectarRede(nome, servidor);
             criarJogadorAtual(nome);
-            conectado = true;
+            setConectado(true);
         }
     }
 
     private void desconectar() {
         AtorJogador.this.atorNetGames.desconectar();
         jIniciarButton.setEnabled(false);
-        conectado = false;
+        setConectado(false);
     }
 
     private void iniciarPartida() {
+        List<Jogador> jogadores;
+        
         atorNetGames.iniciarPartidaRede();
-        List<Jogador> jogadores = atorNetGames.getJogadores();
+        jogadores = atorNetGames.getJogadores();
 
         if (jogadores.size() == 2) {
             mesa.setJogadores(jogadores);
@@ -325,7 +330,9 @@ public class AtorJogador extends javax.swing.JFrame {
         setJogadorAtualIniciarPartida(mesa);
         exibirEstado();
         exibirPontuacao();
-        if (mesa.verificarFimDoBaralho() && mesa.verificarFimCartasNaMao()) {
+        boolean temCartaBaralho = mesa.verificarFimDoBaralho();
+        boolean temCartaMao = mesa.verificarFimCartasNaMao();
+        if (temCartaBaralho && temCartaMao) {
             mesa.verificarVencedor();
         }
 
@@ -339,24 +346,24 @@ public class AtorJogador extends javax.swing.JFrame {
         }
         statusIniciaNovaRodada = mesa.getStatus().equals(Mesa.StatusMesa.INICIAR_NOVA_RODADA);
         if (statusIniciaNovaRodada) {
-            if (statusIniciaNovaRodada) {
-                limparMorto();
-                if (jogadorAtual.getId() == 1) {
-                    this.iniciarRodada();
-                    PainelAviso mostrar = new PainelAviso(this, true, "FIM DA RODADA", "" + jogadorAtual.getPontuacao());
-                    mostrar.setVisible(true);
-                } else {
-                    mesa.setStatus(Mesa.StatusMesa.INICIAR_JOGADA);
-                    PainelAviso mostrar = new PainelAviso(this, true, "FIM DA RODADA", "" + jogadorAtual.getPontuacao());
-                    mostrar.setVisible(true);
-                }
+            limparMorto();
+            int idJogadaorAtual = jogadorAtual.getId();
+            if (idJogadaorAtual == 1) {
+                this.iniciarRodada();
+                PainelAviso mostrar = new PainelAviso(this, true, "FIM DA RODADA", "" + jogadorAtual.getPontuacao());
+                mostrar.setVisible(true);
+            } else {
+                mesa.setStatus(Mesa.StatusMesa.INICIAR_JOGADA);
+                PainelAviso mostrar = new PainelAviso(this, true, "FIM DA RODADA", "" + jogadorAtual.getPontuacao());
+                mostrar.setVisible(true);
             }
         }
 
         statusFimPartida = mesa.getStatus().equals(Mesa.StatusMesa.FIM_PARTIDA);
         if (statusFimPartida) {
             String seuResultado;
-            if (jogadorAtual.isVencedor()) {
+            boolean vencedor = jogadorAtual.isVencedor();
+            if (vencedor) {
                 seuResultado = "VENCEU";
             } else {
                 seuResultado = "PERDEU";
@@ -365,8 +372,7 @@ public class AtorJogador extends javax.swing.JFrame {
             mostrar.setVisible(true);
             exibirPontuacao();
             jConectarButton.setText("Conectar");
-            jIniciarButton.setEnabled(false);
-            conectado = false;
+            jIniciarButton.setEnabled(true);
         }
     }
 
@@ -497,9 +503,12 @@ public class AtorJogador extends javax.swing.JFrame {
         }
     }
 
-    public void fazerJogada() {
-        if (atorNetGames.isMinhaVez()) {
-            if (maoClicado != null) {
+    private void fazerJogada() {
+        boolean resultado = atorNetGames.isMinhaVez();
+
+        if (resultado) {
+            JLabel jMaoClicado = getMaoClicado();
+            if (jMaoClicado != null) {
                 boolean valida = false;
                 if (!mesaClicado.isEmpty()) {
                     //AQUI TRATA A JOGADA
@@ -537,7 +546,8 @@ public class AtorJogador extends javax.swing.JFrame {
                     JLabel pos = labelsMesa.get(livre);
                     pos.setIcon(maoClicado.getIcon());
 
-                    if (mesa.getCartasMesa().size() == 12) {
+                    int tamanho = mesa.getCartasMesa().size();
+                    if (tamanho == 12) {
                         mesa.setStatus(Mesa.StatusMesa.MESA_CHEIA);
                         mesa.limparMesa();
                     }
@@ -553,7 +563,7 @@ public class AtorJogador extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Aguarde sua Vez");
         }
     }
-    
+
     private ArrayList<Integer> getIndexMesaClicado() {
         ArrayList<Integer> index = new ArrayList();
 
@@ -616,15 +626,26 @@ public class AtorJogador extends javax.swing.JFrame {
         return index;
     }
 
+    public JLabel getMaoClicado() {
+        return maoClicado;
+    }
+
+    public boolean isConectado() {
+        return conectado;
+    }
+
+    public void setConectado(boolean conectado) {
+        this.conectado = conectado;
+    }
+    
     private void addConectarButtonListener(ActionListener evt) {
         jConectarButton.addActionListener(evt);
     }
     //TODOS OS LISTENERS
-
     public final java.awt.event.MouseAdapter eventoClickMao(final JLabel clicado) {
         return new java.awt.event.MouseAdapter() {
             @Override
-        public void mouseClicked(java.awt.event.MouseEvent e) {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (clicado.getIcon() != null) {
                     if (maoClicado != null) {
                         maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
@@ -639,7 +660,7 @@ public class AtorJogador extends javax.swing.JFrame {
     public final java.awt.event.MouseAdapter eventoClickMesa(final JLabel clicado) {
         return new java.awt.event.MouseAdapter() {
             @Override
-        public void mouseClicked(java.awt.event.MouseEvent e) {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (atorNetGames.isMinhaVez()) {
                     boolean remover = false;
                     if (clicado.getIcon() != null) {
@@ -660,22 +681,22 @@ public class AtorJogador extends javax.swing.JFrame {
         };
     }
 
-    public final java.awt.event.MouseAdapter listenerJogada() {
+    public final java.awt.event.MouseAdapter eventoDescartar() {
         return new java.awt.event.MouseAdapter() {
             @Override
-        public void mouseEntered(java.awt.event.MouseEvent e) {
+            public void mouseEntered(java.awt.event.MouseEvent e) {
                 jDescarte.setOpaque(true);
                 jDescarte.setBorder(new LineBorder(new java.awt.Color(204, 204, 204), 2, false));
             }
 
             @Override
-        public void mouseExited(java.awt.event.MouseEvent e) {
+            public void mouseExited(java.awt.event.MouseEvent e) {
                 jDescarte.setOpaque(false);
                 jDescarte.setBorder(new LineBorder(new java.awt.Color(204, 204, 204), 2, false));
             }
 
             @Override
-        public void mouseClicked(java.awt.event.MouseEvent e) {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
                 fazerJogada();
             }
         };
@@ -694,7 +715,7 @@ public class AtorJogador extends javax.swing.JFrame {
             switch (botao.getText()) {
                 case "Conectar":
                     conectar();
-                    if (conectado) {
+                    if (isConectado()) {
                         botao.setText("Desconectar");
                         jIniciarButton.setEnabled(true);
                         mesa = new Mesa();
@@ -709,7 +730,7 @@ public class AtorJogador extends javax.swing.JFrame {
     }//GEN-LAST:event_jConectarButtonActionPerformed
 
     private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
-        if (conectado) {
+        if (isConectado()) {
             AtorJogador.this.atorNetGames.desconectar();
         }
         System.exit(0);    // TODO add your handling code here:

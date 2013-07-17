@@ -81,7 +81,8 @@ public class Mesa implements Jogada {
                 executante.getMorto().add(jogada.getCartas().get(j));
                 cartasMesa.remove(jogada.getCartas().get(j));
             }
-            if (cartasMesa.isEmpty()) {
+            boolean vazio = cartasMesa.isEmpty();
+            if (vazio) {
                 executante.addQntEscovas(1);
             }
             return true;
@@ -92,8 +93,11 @@ public class Mesa implements Jogada {
 
     public boolean verificarFimCartasNaMao() {
         int cont = 0;
+        boolean vazio;
+        
         for (Jogador jog : getJogadores()) {
-            if (jog.getMao().isEmpty()) {
+            vazio = jog.getMao().isEmpty();
+            if (vazio) {
                 cont++;
             }
         }
@@ -117,10 +121,13 @@ public class Mesa implements Jogada {
     public void verificarVencedor() {
       
             calcularPontuacoes();
-            if (getJogadores().get(0).getPontuacao() > getJogadores().get(1).getPontuacao() && getJogadores().get(0).getPontuacao() >= 21) {
+            int pontJog1 = getJogadores().get(0).getPontuacao();
+            int pontJog2 = getJogadores().get(1).getPontuacao(); 
+            
+            if ( (pontJog1 > pontJog2) && (pontJog1 >= 21) ) {
                 getJogadores().get(0).setVencedor(true);
                 setStatus(Mesa.StatusMesa.FIM_PARTIDA);
-            } else if (getJogadores().get(0).getPontuacao() < getJogadores().get(1).getPontuacao() && getJogadores().get(1).getPontuacao() >= 21) {
+            } else if ( (pontJog1 < pontJog2) && (pontJog2 >= 21) ) {
                 getJogadores().get(1).setVencedor(true);
                 setStatus(Mesa.StatusMesa.FIM_PARTIDA);
             } else {
