@@ -371,8 +371,6 @@ public class AtorJogador extends javax.swing.JFrame {
             PainelAviso mostrar = new PainelAviso(this, true, "FIM DE JOGO, VOCÊ " + seuResultado, "" + jogadorAtual.getPontuacao());
             mostrar.setVisible(true);
             exibirPontuacao();
-            jConectarButton.setText("Conectar");
-            jIniciarButton.setEnabled(true);
         }
     }
 
@@ -552,7 +550,6 @@ public class AtorJogador extends javax.swing.JFrame {
                         mesa.limparMesa();
                     }
                 }
-                mesa.verificarFimCartasNaMao();
                 maoClicado.setIcon(null);
                 maoClicado = null;
                 mesaClicado.clear();
