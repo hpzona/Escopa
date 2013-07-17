@@ -62,7 +62,7 @@ public class AtorJogador extends javax.swing.JFrame {
         jMesa12.addMouseListener(this.eventoClickMesa(jMesa12));
 
         //MouseListener do Descarte/FazerJogada
-        jDescarte.addMouseListener(this.fazerJogada());
+        jDescarte.addMouseListener(this.listenerJogada());
 
     }
 
@@ -365,7 +365,7 @@ public class AtorJogador extends javax.swing.JFrame {
             mostrar.setVisible(true);
             exibirPontuacao();
             jConectarButton.setText("Conectar");
-            jIniciarButton.setEnabled(true);
+            jIniciarButton.setEnabled(false);
             conectado = false;
         }
     }
@@ -497,6 +497,63 @@ public class AtorJogador extends javax.swing.JFrame {
         }
     }
 
+    public void fazerJogada() {
+        if (atorNetGames.isMinhaVez()) {
+            if (maoClicado != null) {
+                boolean valida = false;
+                if (!mesaClicado.isEmpty()) {
+                    //AQUI TRATA A JOGADA
+                    maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+
+                    int indexMao = getIndexMaoClicado();
+                    ArrayList<Integer> indexMesa = getIndexMesaClicado();
+
+                    JogadaEscopa jogada = new JogadaEscopa();
+                    ArrayList<Carta> cartasDaJogada = new ArrayList();
+
+                    cartasDaJogada.add(jogadorAtual.getMao().get(indexMao));
+
+                    for (Integer i : indexMesa) {
+                        cartasDaJogada.add(mesa.getCarta(i));
+                    }
+
+                    jogada.setCartas(cartasDaJogada);
+                    jogada.setExecutante(jogadorAtual);
+
+                    valida = mesa.tratarJogada(jogada);
+                }
+
+                if (!valida) {
+                    //AQUI DESCARTA A CARTA
+
+                    maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
+
+                    int livre = mesa.nextPosicaoLivre();
+                    mesa.addCartaMesa(jogadorAtual.getMao().get(getIndexMaoClicado()));
+
+                    jogadorAtual.getMao().remove(getIndexMaoClicado());
+
+
+                    JLabel pos = labelsMesa.get(livre);
+                    pos.setIcon(maoClicado.getIcon());
+
+                    if (mesa.getCartasMesa().size() == 12) {
+                        mesa.setStatus(Mesa.StatusMesa.MESA_CHEIA);
+                        mesa.limparMesa();
+                    }
+                }
+                mesa.verificarFimCartasNaMao();
+                maoClicado.setIcon(null);
+                maoClicado = null;
+                mesaClicado.clear();
+                enviarJogada(mesa);
+                receberJogada(mesa);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Aguarde sua Vez");
+        }
+    }
+    
     private ArrayList<Integer> getIndexMesaClicado() {
         ArrayList<Integer> index = new ArrayList();
 
@@ -567,7 +624,7 @@ public class AtorJogador extends javax.swing.JFrame {
     public final java.awt.event.MouseAdapter eventoClickMao(final JLabel clicado) {
         return new java.awt.event.MouseAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
+        public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (clicado.getIcon() != null) {
                     if (maoClicado != null) {
                         maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
@@ -582,7 +639,7 @@ public class AtorJogador extends javax.swing.JFrame {
     public final java.awt.event.MouseAdapter eventoClickMesa(final JLabel clicado) {
         return new java.awt.event.MouseAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
+        public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (atorNetGames.isMinhaVez()) {
                     boolean remover = false;
                     if (clicado.getIcon() != null) {
@@ -603,82 +660,25 @@ public class AtorJogador extends javax.swing.JFrame {
         };
     }
 
-    public final java.awt.event.MouseAdapter fazerJogada() {
+    public final java.awt.event.MouseAdapter listenerJogada() {
         return new java.awt.event.MouseAdapter() {
             @Override
-            public void mouseEntered(java.awt.event.MouseEvent e) {
+        public void mouseEntered(java.awt.event.MouseEvent e) {
                 jDescarte.setOpaque(true);
                 jDescarte.setBorder(new LineBorder(new java.awt.Color(204, 204, 204), 2, false));
             }
 
             @Override
-            public void mouseExited(java.awt.event.MouseEvent e) {
+        public void mouseExited(java.awt.event.MouseEvent e) {
                 jDescarte.setOpaque(false);
                 jDescarte.setBorder(new LineBorder(new java.awt.Color(204, 204, 204), 2, false));
             }
 
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                if (atorNetGames.isMinhaVez()) {
-
-                    if (maoClicado != null) {
-                        boolean valida = false;
-                        if (!mesaClicado.isEmpty()) {
-                            //AQUI TRATA A JOGADA
-                            maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-
-                            int indexMao = getIndexMaoClicado();
-                            ArrayList<Integer> indexMesa = getIndexMesaClicado();
-
-                            JogadaEscopa jogada = new JogadaEscopa();
-                            ArrayList<Carta> cartasDaJogada = new ArrayList();
-
-                            cartasDaJogada.add(jogadorAtual.getMao().get(indexMao));
-
-                            for (Integer i : indexMesa) {
-                                cartasDaJogada.add(mesa.getCarta(i));
-                            }
-
-                            jogada.setCartas(cartasDaJogada);
-                            jogada.setExecutante(jogadorAtual);
-
-                            valida = mesa.tratarJogada(jogada);
-                        }
-
-                        if (!valida) {
-                            //AQUI DESCARTA A CARTA
-
-                            maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-
-                            int livre = mesa.nextPosicaoLivre();
-                            mesa.addCartaMesa(jogadorAtual.getMao().get(getIndexMaoClicado()));
-
-                            jogadorAtual.getMao().remove(getIndexMaoClicado());
-
-
-                            JLabel pos = labelsMesa.get(livre);
-                            pos.setIcon(maoClicado.getIcon());
-
-                            if (mesa.getCartasMesa().size() == 12) {
-                                mesa.setStatus(Mesa.StatusMesa.MESA_CHEIA);
-                                mesa.limparMesa();
-                            }
-
-                        }
-
-                        mesa.verificarFimCartasNaMao();
-                        maoClicado.setIcon(null);
-                        maoClicado = null;
-                        mesaClicado.clear();
-                        enviarJogada(mesa);
-                        receberJogada(mesa);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Aguarde sua Vez");
-                }
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+                fazerJogada();
             }
         };
-
     }
 
     private void jIniciarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIniciarButtonActionPerformed
