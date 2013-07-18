@@ -503,7 +503,6 @@ public class AtorJogador extends javax.swing.JFrame {
 
     private void fazerJogada() {
         boolean resultado = atorNetGames.isMinhaVez();
-
         if (resultado) {
             JLabel jMaoClicado = getMaoClicado();
             if (jMaoClicado != null) {
@@ -511,35 +510,24 @@ public class AtorJogador extends javax.swing.JFrame {
                 if (!mesaClicado.isEmpty()) {
                     //AQUI TRATA A JOGADA
                     maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-
                     int indexMao = getIndexMaoClicado();
                     ArrayList<Integer> indexMesa = getIndexMesaClicado();
-
                     JogadaEscopa jogada = new JogadaEscopa();
                     ArrayList<Carta> cartasDaJogada = new ArrayList();
-
                     cartasDaJogada.add(jogadorAtual.getMao().get(indexMao));
-
                     for (Integer i : indexMesa) {
                         cartasDaJogada.add(mesa.getCarta(i));
                     }
-
                     jogada.setCartas(cartasDaJogada);
                     jogada.setExecutante(jogadorAtual);
-
                     valida = mesa.tratarJogada(jogada);
                 }
-
                 if (!valida) {
                     //AQUI DESCARTA A CARTA
-
                     maoClicado.setBorder(new LineBorder(new java.awt.Color(135, 136, 32), 2, true));
-
                     int livre = mesa.nextPosicaoLivre();
                     mesa.addCartaMesa(jogadorAtual.getMao().get(getIndexMaoClicado()));
-
                     jogadorAtual.getMao().remove(getIndexMaoClicado());
-
 
                     JLabel pos = labelsMesa.get(livre);
                     pos.setIcon(maoClicado.getIcon());
@@ -563,7 +551,6 @@ public class AtorJogador extends javax.swing.JFrame {
 
     private ArrayList<Integer> getIndexMesaClicado() {
         ArrayList<Integer> index = new ArrayList();
-
         for (JLabel m : mesaClicado) {
             for (int i = 0; i < this.labelsMesa.size(); i++) {
                 if (m == labelsMesa.get(i)) {
@@ -571,9 +558,7 @@ public class AtorJogador extends javax.swing.JFrame {
                 }
             }
         }
-
         return index;
-
     }
 
     private int getIndexMaoClicado() {
@@ -619,7 +604,6 @@ public class AtorJogador extends javax.swing.JFrame {
                 }
                 break;
         }
-
         return index;
     }
 
@@ -702,7 +686,7 @@ public class AtorJogador extends javax.swing.JFrame {
     private void jIniciarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIniciarButtonActionPerformed
         iniciarPartida();
     }//GEN-LAST:event_jIniciarButtonActionPerformed
-
+    //netbeans gerou e não sabemos de onde veio...
     private void temp(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_temp
     }//GEN-LAST:event_temp
 

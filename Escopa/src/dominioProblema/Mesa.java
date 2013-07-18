@@ -38,7 +38,7 @@ public class Mesa implements Jogada {
 
         for (int i = 0; i < 4; i++) {
             cartaBaralho = (int) (baralho.size() - 1);
-            cartasMesa.add(baralho.get(cartaBaralho)); // vai adicionando os 4 slots da mesa
+            cartasMesa.add(baralho.get(cartaBaralho)); 
             baralho.remove(cartaBaralho);
         }
     }
@@ -74,8 +74,8 @@ public class Mesa implements Jogada {
             pontuacao += jogada.getCartas().get(i).getNumero();
         }
 
-        if (pontuacao == 15) { //jogada valida
-            executante.getMorto().add(jogada.getCartas().get(0)); //carta da mao
+        if (pontuacao == 15) { 
+            executante.getMorto().add(jogada.getCartas().get(0)); 
             executante.getMao().remove(jogada.getCartas().get(0));
             for (int j = 1; j < interacao; j++) {
                 executante.getMorto().add(jogada.getCartas().get(j));
@@ -87,7 +87,6 @@ public class Mesa implements Jogada {
             }
             return true;
         }
-        //caso jogada nao seja valida
         return false;
     }
 
@@ -216,7 +215,7 @@ public class Mesa implements Jogada {
             } else {
                 todos7 = 0;
             }
-            if (maioria7) { //maioria dos 7
+            if (maioria7) { 
                 jog.setPontuacao(1);
                 maioria7 = false;
             }
